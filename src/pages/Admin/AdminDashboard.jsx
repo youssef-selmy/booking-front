@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Table, TableData, TableLink, TableRow } from "../../components/Table";
-import { FiExternalLink } from "react-icons/fi";
+import Table from "../../components/Table/Table";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([
@@ -12,18 +11,13 @@ const AdminDashboard = () => {
   ]);
   return (
     <main className="p-5">
-      <Table head={["Name", "Location", "State", "Details"]} smallArr={[4]}>
-        {data.map((ele, idx) => (
-          <TableRow rowNum={idx + 1} key={idx}>
-            <TableData>{ele.name}</TableData>
-            <TableData>{ele.location}</TableData>
-            <TableData>{ele.state}</TableData>
-            <TableLink link={ele.id}>
-              <FiExternalLink />
-            </TableLink>
-          </TableRow>
-        ))}
-      </Table>
+      <Table
+        head={["Name", "Location", "State"]}
+        smallArr={[4]}
+        dataKeys={["name", "location", "state"]}
+        testData={data}
+        view={{ name: "Details", key: "id" }}
+      />
     </main>
   );
 };

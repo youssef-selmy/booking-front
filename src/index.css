@@ -6,3 +6,7 @@ body {
     font-family: "Afacad", sans-serif;
     color: #333;
 }
+
+.custom-scroll {
+    scrollbar-width: thin;
+}

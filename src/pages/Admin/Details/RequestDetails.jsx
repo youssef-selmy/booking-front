@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import HotelInfo from "./components/HotelInfo";
 import Licenses from "./components/Licenses";
-import Subscription from "./components/Subscription";
 import Payment from "./components/Payment";
 
 const RequestDetails = () => {
