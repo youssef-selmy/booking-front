@@ -17,7 +17,7 @@ const Login = () => {
         <h1 className="text-center text-2xl font-medium">Welcom Back</h1>
         <div className="flex gap-5">
           <Input
-            title="UserName"
+            title="Email"
             value={userName}
             setValue={setUserName}
             required
@@ -30,12 +30,20 @@ const Login = () => {
             required
           />
         </div>
-        <Link
-          to="/auth/register"
+        <div className="flex justify-between w-full">
+          <Link
+            to="/auth/register"
+            className="text-stone-700 hover:underline w-fit"
+          >
+            Create new account
+          </Link>
+          <Link
+          to="/auth/forget-password"
           className="text-stone-700 hover:underline w-fit"
         >
-          Create new account
+          Forget Password
         </Link>
+        </div>
         <Button onClick={print} full disabled={!userName || !password}>
           Login
         </Button>
