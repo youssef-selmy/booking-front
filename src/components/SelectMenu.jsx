@@ -28,7 +28,7 @@ const SelectMenu = ({
   }, []);
 
   return (
-    <div ref={menuRef} className="relative w-[220px] border border-[#ddd] rounded p-2">
+    <div ref={menuRef} className="relative w-[220px] mt-[10px] border border-[#ddd] rounded p-2">
       <div
         className="cursor-pointer hover:border-[#333] duration-300"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -49,7 +49,7 @@ const SelectMenu = ({
 
 const Menu = ({ options = [], setValue, setShowMenu }) => {
   return (
-    <div className="absolute border border-[#ddd] w-full left-0 top-10 bg-white">
+    <div className="absolute z-50 border border-[#ddd] w-full left-0 top-10 bg-white">
       {options.length === 0 && <p className="p-2">No Options</p>}
       {options.map((ele, idx) => (
         <p

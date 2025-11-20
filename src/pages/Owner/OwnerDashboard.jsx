@@ -60,6 +60,28 @@ const Rooms = () => {
       revenu: 512,
     },
     {
+      title: "Standurd",
+      categories: [
+        { name: "Single", number: 10 },
+        { name: "Double", number: 10 },
+        { name: "Family", number: 10 },
+      ],
+      total: 30,
+      totalOccubied: 12,
+      revenu: 512,
+    },
+    {
+      title: "Standurd",
+      categories: [
+        { name: "Single", number: 10 },
+        { name: "Double", number: 10 },
+        { name: "Family", number: 10 },
+      ],
+      total: 30,
+      totalOccubied: 12,
+      revenu: 512,
+    },
+    {
       title: "Dulex",
       categories: [
             { name: "Single", number: 10 },
@@ -144,7 +166,7 @@ const Users = () => {
       <Table
         head={["User", "Role"]}
         dataKeys={["user", "role"]}
-        testData={temp}
+        data={temp}
       />
     </Card>
   );
@@ -181,7 +203,7 @@ const Arrivals = () => {
       <Table
         head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}
         dataKeys={["number", "name", "bookednights", "total", "paid"]}
-        testData={testData}
+        data={testData}
       />
     </Card>
   );
@@ -218,7 +240,7 @@ const Departures = () => {
       <Table
         head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}
         dataKeys={["number", "name", "bookednights", "total", "paid"]}
-        testData={testData}
+        data={testData}
       />
     </Card>
   );

@@ -2,40 +2,50 @@ import TableData from "./TableData";
 import TableLink from "./TableLink";
 import TableRow from "./TableRow";
 import { FiExternalLink } from "react-icons/fi";
+import { MdEditCalendar } from "react-icons/md";
+import { BsTrash } from "react-icons/bs";
 
-const TableContent = ({ loading, data, dataKeys, view }) => {
+const TableContent = ({
+  data,
+  dataKeys,
+  view,
+  edit,
+  setEditItem,
+  remove,
+  setMode,
+}) => {
   console.log(data);
   return (
     <tbody className="w-full">
-      {data.length <= 0 && (
-        <>
-          <EmptyRow dataKeys={dataKeys} rowNum={1} />
-          <EmptyRow dataKeys={dataKeys} rowNum={2} />
-          <EmptyRow dataKeys={dataKeys} rowNum={1} />
-          <EmptyRow dataKeys={dataKeys} rowNum={2} />
-          <EmptyRow dataKeys={dataKeys} rowNum={1} />
-        </>
-      )}
-      {!loading &&
-        data.map((ele, idx) => (
-          <TableRow key={idx} rowNum={idx + 1}>
-            {dataKeys.map((e, i) => (
-              <TableData key={i}>{ele[e]}</TableData>
-            ))}
-            {view && <TableLink link={ele[view.key]}><FiExternalLink /></TableLink>}
-          </TableRow>
-        ))}
-    </tbody>
-  );
-};
-
-const EmptyRow = ({ dataKeys, rowNum }) => {
-  return (
-    <TableRow rowNum={rowNum}>
-      {dataKeys.map((ele, idx) => (
-        <TableData key={idx}>-</TableData>
+      {data.map((ele, idx) => (
+        <TableRow key={idx} rowNum={idx + 1}>
+          {dataKeys.map((e, i) => (
+            <TableData key={i}>{ele[e]}</TableData>
+          ))}
+          {view && (
+            <TableLink link={ele[view.key]}>
+              <FiExternalLink />
+            </TableLink>
+          )}
+          {edit && (
+            <TableData>
+              <MdEditCalendar
+                className="w-full cursor-pointer"
+                onClick={() => {
+                  setEditItem(ele);
+                  setMode("Edit");
+                }}
+              />
+            </TableData>
+          )}
+          {remove && (
+            <TableData>
+              <BsTrash />
+            </TableData>
+          )}
+        </TableRow>
       ))}
-    </TableRow>
+    </tbody>
   );
 };
 

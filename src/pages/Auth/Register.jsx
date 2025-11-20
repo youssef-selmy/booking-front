@@ -3,29 +3,74 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import FileInput from "../../components/FileInput";
+import axios from "axios";
+import { domain } from "../../../globals";
 
 const Register = () => {
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [totalRooms, setTotalRooms] = useState('');
-  const [totalOwners, setTotalOwners] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [hotelName, setHotelName] = useState("");
+  const [location, setLocation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [totalRooms, setTotalRooms] = useState("");
+  const [totalOwners, setTotalOwners] = useState("");
+  const [services, setServices] = useState("");
   const [commercialRegister, setCommercialRegister] = useState();
   const [taxCard, setTaxCard] = useState();
   const [licensing, setLicensing] = useState();
 
-  const isValid = userName.length !== 0 && password.length !== 0 && name.length !== 0 && location.length !== 0 && phoneNumber.length !== 0 && email.length !== 0 && totalRooms.length !== 0 && totalOwners.length !== 0 && commercialRegister && taxCard && licensing;
+  const isValid =
+    userName.length !== 0 &&
+    password.length !== 0 &&
+    hotelName.length !== 0 &&
+    location.length !== 0 &&
+    phoneNumber.length !== 0 &&
+    email.length !== 0 &&
+    totalRooms.length !== 0 &&
+    totalOwners.length !== 0 &&
+    services.length !== 0 &&
+    commercialRegister &&
+    taxCard &&
+    licensing;
 
-  function print() {
-    console.log(commercialRegister);
-    console.log(taxCard);
-    console.log(licensing);
+  async function handleRegister() {
+    const fromdata = new FormData();
+
+    if (!isValid) return;
+
+    fromdata.append("userName", userName);
+    fromdata.append("password", password);
+    fromdata.append("hotelName", hotelName);
+    fromdata.append("location", location);
+    fromdata.append("phoneNumber", phoneNumber);
+    fromdata.append("email", email);
+    fromdata.append("totalRooms", totalRooms);
+    fromdata.append("totalOnwers", totalOwners);
+    fromdata.append("services", services);
+    fromdata.append("CommercialRegister", commercialRegister);
+    fromdata.append("taxCard", taxCard);
+    fromdata.append("Licensing", licensing);
+
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`${domain}/auth/signup`, fromdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  console.log(isValid)
+  console.log(isValid);
 
   return (
     <main className="h-screen flex justify-center items-center">
@@ -33,27 +78,86 @@ const Register = () => {
         <h1 className="text-center text-2xl font-medium">Create new account</h1>
 
         <Container title="Login Info">
-          <Input title="UserName" required value={userName} setValue={setUserName} />
-          <Input title="Password" required value={password} setValue={setPassword} />
+          <Input
+            title="User Name"
+            required
+            value={userName}
+            setValue={setUserName}
+          />
+          <Input title="Email" required value={email} setValue={setEmail} />
+          <Input
+            title="Password"
+            required
+            value={password}
+            setValue={setPassword}
+          />
         </Container>
 
         <Container title="Hotel Info">
-          <Input title="Name" required value={name} setValue={setName} />
-          <Input title="Location" required value={location} setValue={setLocation} />
-          <Input title="Phone Number" required value={phoneNumber} setValue={setPhoneNumber} />
-          <Input title="Email" required value={email} setValue={setEmail} />
-          <Input title="Total Rooms" required value={totalRooms} setValue={setTotalRooms} />
-          <Input title="Total Owners" required value={totalOwners} setValue={setTotalOwners} />
+          <Input
+            title="Hotel Name"
+            required
+            value={hotelName}
+            setValue={setHotelName}
+          />
+          <Input
+            title="Location"
+            required
+            value={location}
+            setValue={setLocation}
+          />
+          <Input
+            title="Phone Number"
+            required
+            value={phoneNumber}
+            setValue={setPhoneNumber}
+          />
+          <Input
+            title="Total Rooms"
+            required
+            value={totalRooms}
+            setValue={setTotalRooms}
+          />
+          <Input
+            title="Total Owners"
+            required
+            value={totalOwners}
+            setValue={setTotalOwners}
+          />
+          <Input
+            title="Services"
+            required
+            value={services}
+            setValue={setServices}
+          />
         </Container>
 
         <Container title="Licenses">
-          <FileInput type="file" title="Commercial register" required value={commercialRegister} setValue={setCommercialRegister} />
-          <FileInput type="file" title="Tax Card" required value={taxCard} setValue={setTaxCard} />
-          <FileInput type="file" title="Licensing" required value={licensing} setValue={setLicensing} />
+          <FileInput
+            type="file"
+            title="Commercial register"
+            required
+            value={commercialRegister}
+            setValue={setCommercialRegister}
+          />
+          <FileInput
+            type="file"
+            title="Tax Card"
+            required
+            value={taxCard}
+            setValue={setTaxCard}
+          />
+          <FileInput
+            type="file"
+            title="Licensing"
+            required
+            value={licensing}
+            setValue={setLicensing}
+          />
         </Container>
 
-        <Button onClick={print} full disabled={!isValid}>
-          Login
+        <Button onClick={handleRegister} full disabled={!isValid || loading}>
+          Send Request
         </Button>
       </Card>
     </main>

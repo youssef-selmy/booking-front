@@ -15,7 +15,7 @@ const AdminDashboard = () => {
         head={["Name", "Location", "State"]}
         smallArr={[4]}
         dataKeys={["name", "location", "state"]}
-        testData={data}
+        data={data}
         view={{ name: "Details", key: "id" }}
       />
     </main>
