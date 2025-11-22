@@ -1,14 +1,19 @@
 import TableFoot from "./TableFoot";
 import TableContent from "./TableContent";
 import TableData from "./TableData";
+import { FiFilter } from "react-icons/fi";
+import Button from "../Button";
 
 const Table = ({
   head = [],
   smallArr = [],
   dataKeys = [],
   data = [],
-  isPagenated = false,
-  pagenationData,
+  showFilters = false,
+  showAdd = false,
+  setMode,
+  setEditItem,
+  pagenationData = null,
   next,
   prev,
   loading = false,
@@ -20,6 +25,14 @@ const Table = ({
   return (
     <div className="flex flex-col gap-5">
       <div>
+        {(showFilters || showAdd) && (
+          <div className="bg-white border border-[#ddd] border-b-0 flex flex-row-reverse p-2 gap-2">
+            {showFilters && <Button fit className="px-4 py-3" onClick={() => setMode("Filters")}>
+              <FiFilter />
+            </Button>}
+            {showAdd && <Button onClick={() => setMode("Add")}>Add</Button>}
+          </div>
+        )}
         <table className="w-full bg-white border border-[#ddd] rounded-2xl">
           <thead className="w-full bg-[#333] text-white font-medium text-lg">
             <tr>
@@ -41,6 +54,8 @@ const Table = ({
               view={view}
               edit={edit}
               remove={remove}
+              setMode={setMode}
+              setEditItem={setEditItem}
             />
           )}
         </table>
@@ -49,7 +64,7 @@ const Table = ({
             Loading...
           </div>
         )}
-        {isPagenated && (
+        {pagenationData !== null && (
           <TableFoot pagenationData={pagenationData} next={next} prev={prev} />
         )}
       </div>

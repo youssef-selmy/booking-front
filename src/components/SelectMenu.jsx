@@ -17,7 +17,6 @@ const SelectMenu = ({
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-        console.log("first")
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMenu(false);
       }
@@ -28,7 +27,10 @@ const SelectMenu = ({
   }, []);
 
   return (
-    <div ref={menuRef} className="relative w-[220px] mt-[10px] border border-[#ddd] rounded p-2">
+    <div
+      ref={menuRef}
+      className="relative w-[220px] mt-[10px] border border-[#ddd] rounded p-2"
+    >
       <div
         className="cursor-pointer hover:border-[#333] duration-300"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -42,7 +44,9 @@ const SelectMenu = ({
         <p>{value?.name || "Not Selected"}</p>
       </div>
 
-      {showMenu && <Menu options={options} setValue={setValue} setShowMenu={setShowMenu} />}
+      {showMenu && (
+        <Menu options={options} setValue={setValue} setShowMenu={setShowMenu} />
+      )}
     </div>
   );
 };
@@ -60,7 +64,9 @@ const Menu = ({ options = [], setValue, setShowMenu }) => {
           }}
           className={`p-2 cursor-pointer hover:bg-[#eee] duration-300 ${
             idx % 2 === 0 ? "bg-white" : "bg-[#f5f5f5]"
-          } border-b border-[#ddd] ${idx + 1 === options.length && "border-b-0"}`}
+          } border-b border-[#ddd] ${
+            idx + 1 === options.length && "border-b-0"
+          }`}
         >
           {ele.name}
         </p>

@@ -14,7 +14,6 @@ const TableContent = ({
   remove,
   setMode,
 }) => {
-  console.log(data);
   return (
     <tbody className="w-full">
       {data.map((ele, idx) => (
