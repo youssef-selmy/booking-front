@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 const SidBar = ({data = []}) => {
   return (
-    <div className='w-[200px] min-h-full bg-white flex flex-col border-r border-[#ddd]'>
+    <div className='w-[200px] pt-[70px] min-h-full bg-white flex flex-col border-r border-[#ddd]'>
       {data.map((ele, idx) => (
         <NavLink className={({isActive}) => [
           'border-b border-[#ddd] p-3 duration-300',

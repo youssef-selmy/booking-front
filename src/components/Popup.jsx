@@ -1,7 +1,11 @@
 import { FaXmark } from "react-icons/fa6";
 
-export default function Popup({ open, onClose, title, children }) {
+export default function Popup({ open, setMode, title, children }) {
   if (!open) return null;
+
+  function onClose() {
+    setMode(null);
+  }
 
   return (
     <div
@@ -14,7 +18,10 @@ export default function Popup({ open, onClose, title, children }) {
       >
         <div className="p-4 flex justify-between border-b border-[#ddd]">
           <p className="text-xl">{title}</p>
-          <button className="bg-red-400 hover:bg-red-500 duration-300 text-white px-[5px] cursor-pointer flex justify-center items-center rounded" onClick={onClose}>
+          <button
+            className="bg-red-400 hover:bg-red-500 duration-300 text-white px-[5px] cursor-pointer flex justify-center items-center rounded"
+            onClick={onClose}
+          >
             <FaXmark />
           </button>
         </div>

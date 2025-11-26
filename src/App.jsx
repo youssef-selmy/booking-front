@@ -1,4 +1,9 @@
-import { createBrowserRouter, Link, Navigate, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Link,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import FrontDesk from "./pages/FrontDesk/FrontDesk";
@@ -14,9 +19,13 @@ import OwnerRooms from "./pages/Owner/Rooms/OwnerRooms";
 import Managment from "./pages/Owner/Rooms/Managment";
 import Type from "./pages/Owner/Rooms/Type";
 import Services from "./pages/Owner/Rooms/Services";
-import Pricing from "./pages/Owner/Rooms/Pricing";
+import Pricing from "./pages/Owner/Rooms/Pricing/Pricing";
 import Package from "./pages/Owner/Rooms/Package";
 import Category from "./pages/Owner/Rooms/Category";
+import CategoryPricing from "./pages/Owner/Rooms/Pricing/CategoryPricing";
+import ViewPricing from "./pages/Owner/Rooms/Pricing/ViewPricing";
+import TypePricing from "./pages/Owner/Rooms/Pricing/TypePricing";
+import FloorPricing from "./pages/Owner/Rooms/Pricing/FloorPricing";
 
 const router = createBrowserRouter([
   {
@@ -66,7 +75,17 @@ const router = createBrowserRouter([
           { path: "type", element: <Type /> },
           { path: "category", element: <Category /> },
           { path: "package", element: <Package /> },
-          { path: "pricing", element: <Pricing /> },
+          {
+            path: "pricing",
+            element: <Pricing />,
+            children: [
+              { index: true, element: <Navigate to="category" replace /> },
+              { path: "category", element: <CategoryPricing /> },
+              { path: "type", element: <TypePricing /> },
+              { path: "view", element: <ViewPricing /> },
+              { path: "floor", element: <FloorPricing /> },
+            ],
+          },
           { path: "services", element: <Services /> },
         ],
       },

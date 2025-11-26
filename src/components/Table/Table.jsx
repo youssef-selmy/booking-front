@@ -23,7 +23,7 @@ const Table = ({
   reserve = null,
 }) => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 w-full">
       <div>
         {(showFilters || showAdd) && (
           <div className="bg-white border border-[#ddd] border-b-0 flex flex-row-reverse p-2 gap-2">

@@ -1,32 +1,30 @@
-import React, { useState } from 'react'
-import Input from '../../../components/Input';
-import Popup from '../../../components/Popup';
-import Table from '../../../components/Table/Table';
-import Section from '../../../components/Section';
+import React, { useState } from "react";
+import Popup from "../../../../components/Popup";
+import Input from "../../../../components/Input";
+import Table from "../../../../components/Table/Table";
+import Section from "../../../../components/Section";
 
-const Services = () => {
-    const [data, setData] = useState([
-    { name: "Test", price: 10 },
-    { name: "Test", price: 10 },
-    { name: "Test", price: 10 },
+const CategoryPricing = () => {
+  const [data, setData] = useState([
+    { name: "Single", price: 10 },
+    { name: "Double", price: 10 },
+    { name: "Family Suit", price: 10 },
   ]);
   const [editItem, setEditItem] = useState(null);
   const [mode, setMode] = useState(null);
 
   return (
     <>
-      <Section extraPadding classname="p-5 w-full">
-        <Table
-          head={["Name", "Price"]}
-          dataKeys={['name', 'price']}
-          data={data}
-          edit={true}
-          setEditItem={setEditItem}
-          setMode={setMode}
-          showFilters
-          showAdd
-        />
-      </Section>
+      <Table
+        head={["Name", "Price"]}
+        dataKeys={["name", "price"]}
+        data={data}
+        edit={true}
+        setEditItem={setEditItem}
+        setMode={setMode}
+        showFilters
+        showAdd
+      />
       <Filters mode={mode} setMode={setMode} />
       <Add mode={mode} setMode={setMode} />
       <Edit mode={mode} setMode={setMode} />
@@ -61,4 +59,4 @@ const Edit = ({ mode, setMode, editItem }) => {
   );
 };
 
-export default Services
+export default CategoryPricing;

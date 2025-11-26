@@ -4,7 +4,7 @@ import SidBar from "../../../components/SidBar";
 
 const OwnerRooms = () => {
   return (
-    <Section classname='flex'>
+    <Section disapleTopPadding classname='flex'>
       <SidBar
         data={[
           { name: "Managment", link: "managment" },

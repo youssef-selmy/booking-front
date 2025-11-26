@@ -29,12 +29,6 @@ const Users = () => {
   ]);
   const [mode, setMode] = useState(null);
   const [editItem, setEditItem] = useState(null);
-  console.log(mode);
-
-  function onClose() {
-    console.log("first");
-    setMode(null);
-  }
 
   return (
     <>
@@ -50,16 +44,16 @@ const Users = () => {
           showAdd={true}
         />
       </Section>
-      <Filters mode={mode} onClose={onClose} />
-      <Add mode={mode} onClose={onClose} />
-      <Edit mode={mode} onClose={onClose} editItem={editItem} />
+      <Filters mode={mode} setMode={setMode} />
+      <Add mode={mode} setMode={setMode} />
+      <Edit mode={mode} setMode={setMode} editItem={editItem} />
     </>
   );
 };
 
-const Filters = ({ mode, onClose }) => {
+const Filters = ({ mode, setMode }) => {
   return (
-    <Popup title={mode} onClose={onClose} open={mode === "Filters"}>
+    <Popup title={mode} setMode={setMode} open={mode === "Filters"}>
       <Input title="UserName" />
       <Input title="Email" />
       <Input title="Password" />
@@ -68,9 +62,9 @@ const Filters = ({ mode, onClose }) => {
   );
 };
 
-const Add = ({ mode, onClose }) => {
+const Add = ({ mode, setMode }) => {
   return (
-    <Popup title={mode} onClose={onClose} open={mode === "Add"}>
+    <Popup title={mode} setMode={setMode} open={mode === "Add"}>
       <Input title="UserName" />
       <Input title="Email" />
       <Input title="Password" />
@@ -79,9 +73,9 @@ const Add = ({ mode, onClose }) => {
   );
 };
 
-const Edit = ({ mode, editItem, onClose }) => {
+const Edit = ({ mode, editItem, setMode }) => {
   return (
-    <Popup title={mode} onClose={onClose} open={mode === "Edit"}>
+    <Popup title={mode} setMode={setMode} open={mode === "Edit"}>
       <Input title="UserName" value={editItem?.userName} />
       <Input title="Email" value={editItem?.email} />
       <Input title="Password" value={editItem?.password} />
