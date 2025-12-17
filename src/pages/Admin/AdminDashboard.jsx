@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Table from "../../components/Table/Table";
+import TableRow from "../../components/Table/TableRow";
+import TableData from "../../components/Table/TableData";
+import TableLink from "../../components/Table/TableLink";
+import { IoIosLink } from "react-icons/io";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([
@@ -11,13 +15,18 @@ const AdminDashboard = () => {
   ]);
   return (
     <main className="p-5">
-      <Table
-        head={["Name", "Location", "State"]}
-        smallArr={[4]}
-        dataKeys={["name", "location", "state"]}
-        data={data}
-        view={{ name: "Details", key: "id" }}
-      />
+      <Table head={["Name", "Location", "State", "Details"]} smallArr={["Details"]}>
+        {data.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.name}</TableData>
+            <TableData>{ele.location}</TableData>
+            <TableData>{ele.state}</TableData>
+            <TableLink link={ele.id}>
+              <IoIosLink />
+            </TableLink>
+          </TableRow>
+        ))}
+      </Table>
     </main>
   );
 };

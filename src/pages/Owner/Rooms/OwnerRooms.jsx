@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Section from "../../../components/Section";
-import SidBar from "../../../components/SidBar";
+import SidBar from "../../../components/SideBar";
 
 const OwnerRooms = () => {
   return (

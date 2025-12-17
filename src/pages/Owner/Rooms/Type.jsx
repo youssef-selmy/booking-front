@@ -4,6 +4,9 @@ import Table from "../../../components/Table/Table";
 import Popup from "../../../components/Popup";
 import Input from "../../../components/Input";
 import SelectMenu from "../../../components/SelectMenu";
+import TableRow from "../../../components/Table/TableRow";
+import TableData from "../../../components/Table/TableData";
+import TableEdit from "../../../components/Table/TableEdit";
 
 const Type = () => {
   const [data, setData] = useState([
@@ -18,15 +21,18 @@ const Type = () => {
     <>
       <Section extraPadding classname="p-5 w-full">
         <Table
-          head={["Name"]}
-          dataKeys={['name']}
-          data={data}
-          edit={true}
-          setEditItem={setEditItem}
+          head={["Name", "Edit"]}
           setMode={setMode}
           showFilters
           showAdd
-        />
+        >
+          {data.map((ele,idx) => (
+            <TableRow key={idx} rowNum={idx}>
+              <TableData>{ele.name}</TableData>
+              <TableEdit setEditItem={() => setEditItem(ele)} setMode={setMode} />
+            </TableRow>
+          ))}
+        </Table>
       </Section>
       <Filters mode={mode} setMode={setMode} />
       <Add mode={mode} setMode={setMode} />

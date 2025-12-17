@@ -5,59 +5,45 @@ import { FiFilter } from "react-icons/fi";
 import Button from "../Button";
 
 const Table = ({
+  children,
   head = [],
   smallArr = [],
-  dataKeys = [],
-  data = [],
   showFilters = false,
   showAdd = false,
   setMode,
-  setEditItem,
   pagenationData = null,
   next,
   prev,
-  loading = false,
-  view = null,
-  edit = null,
-  remove = null,
-  reserve = null,
+  loading = false
 }) => {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div>
         {(showFilters || showAdd) && (
           <div className="bg-white border border-[#ddd] border-b-0 flex flex-row-reverse p-2 gap-2">
-            {showFilters && <Button fit className="px-4 py-3" onClick={() => setMode("Filters")}>
-              <FiFilter />
-            </Button>}
-            {showAdd && <Button onClick={() => setMode("Add")}>Add</Button>}
+            {showFilters && (
+              <Button
+                fit
+                className="px-4 py-3"
+                onClick={() => setMode("Filters")}
+              >
+                <FiFilter />
+              </Button>
+            )}
+            {showAdd && <Button onClick={() => setMode("Add")}>Create</Button>}
           </div>
         )}
         <table className="w-full bg-white border border-[#ddd] rounded-2xl">
           <thead className="w-full bg-[#333] text-white font-medium text-lg">
             <tr>
               {head.map((ele, idx) => (
-                <TableData key={idx} small={smallArr.includes(idx + 1)}>
+                <TableData key={idx} small={smallArr.includes(ele)}>
                   {ele}
                 </TableData>
               ))}
-              {view && <TableData small>{view.name}</TableData>}
-              {edit && <TableData small>Edit</TableData>}
-              {remove && <TableData small>Delete</TableData>}
-              {reserve && <TableData small>Reserve</TableData>}
             </tr>
           </thead>
-          {!loading && (
-            <TableContent
-              data={data}
-              dataKeys={dataKeys}
-              view={view}
-              edit={edit}
-              remove={remove}
-              setMode={setMode}
-              setEditItem={setEditItem}
-            />
-          )}
+          {!loading && <tbody className="w-full">{children}</tbody>}
         </table>
         {loading && (
           <div className="bg-white border border-[#ddd] border-t-0 p-5 flex justify-center items-center">

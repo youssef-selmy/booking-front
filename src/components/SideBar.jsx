@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-const SidBar = ({data = []}) => {
+const SideBar = ({data = []}) => {
   return (
     <div className='w-[200px] pt-[70px] min-h-full bg-white flex flex-col border-r border-[#ddd]'>
       {data.map((ele, idx) => (
@@ -14,4 +14,4 @@ const SidBar = ({data = []}) => {
   )
 }
 
-export default SidBar
+export default SideBar

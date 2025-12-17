@@ -26,6 +26,20 @@ import CategoryPricing from "./pages/Owner/Rooms/Pricing/CategoryPricing";
 import ViewPricing from "./pages/Owner/Rooms/Pricing/ViewPricing";
 import TypePricing from "./pages/Owner/Rooms/Pricing/TypePricing";
 import FloorPricing from "./pages/Owner/Rooms/Pricing/FloorPricing";
+import Booking from "./pages/FrontDesk/Sections/Booking/Booking";
+import FrontOffice from "./pages/FrontDesk/Sections/FrontOffice/FrontOffice";
+import Inventory from "./pages/FrontDesk/Sections/Inventory/Inventory";
+import Finance from "./pages/FrontDesk/Sections/Finance/Finance";
+import Miscellaneous from "./pages/FrontDesk/Sections/Miscellaneous/Miscellaneous";
+import Reports from "./pages/FrontDesk/Sections/Reports/Reports";
+import ManageReservation from "./pages/FrontDesk/Sections/Booking/ManageReservation";
+import CreatePosting from "./pages/FrontDesk/Sections/Booking/CreatePosting/CreatePosting";
+import Availability from "./pages/FrontDesk/Sections/Booking/Availability";
+import RoomDiary from "./pages/FrontDesk/Sections/Booking/RoomDiary";
+import Arrival from "./pages/FrontDesk/Sections/FrontOffice/Arrival";
+import Departure from "./pages/FrontDesk/Sections/FrontOffice/Departure";
+import InHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
+import NoShow from "./pages/FrontDesk/Sections/FrontOffice/NoShow";
 
 const router = createBrowserRouter([
   {
@@ -91,7 +105,45 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/front-desk", element: <FrontDesk /> },
+  {
+    path: "/front-desk",
+    element: <FrontDesk />,
+    children: [
+      { index: true, element: <Navigate to="booking" replace /> },
+      {
+        path: "booking",
+        element: <Booking />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="manage-reservation" replace />,
+          },
+          { path: "manage-reservation", element: <ManageReservation /> },
+          { path: "create-posting", element: <CreatePosting /> },
+          { path: "availability", element: <Availability /> },
+          { path: "room-diary", element: <RoomDiary /> },
+        ],
+      },
+      {
+        path: "front-office",
+        element: <FrontOffice />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="arrival" replace />,
+          },
+          { path: "arrival", element: <Arrival /> },
+          { path: "departure", element: <Departure /> },
+          { path: "in-house", element: <InHouse /> },
+          { path: "no-show", element: <NoShow /> },
+        ],
+      },
+      { path: "inventory", element: <Inventory /> },
+      { path: "finance", element: <Finance /> },
+      { path: "miscellaneous", element: <Miscellaneous /> },
+      { path: "reports", element: <Reports /> },
+    ],
+  },
   { path: "*", element: <NotFound /> },
 ]);
 

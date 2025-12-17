@@ -6,14 +6,16 @@ import { MdEditCalendar } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 
 const TableContent = ({
-  data,
+  data = [],
   dataKeys,
-  view,
-  edit,
+  view = false,
+  edit = false,
+  reserve,
   setEditItem,
-  remove,
+  remove = false,
   setMode,
 }) => {
+  console.log(view?.customeUrl)
   return (
     <tbody className="w-full">
       {data.map((ele, idx) => (
@@ -22,7 +24,7 @@ const TableContent = ({
             <TableData key={i}>{ele[e]}</TableData>
           ))}
           {view && (
-            <TableLink link={ele[view.key]}>
+            <TableLink isCustome={view?.customeUrl && true} link={view?.cutomeUrl ? view.customeUrl + '/' + ele[view.key] : ele[view.key]}>
               <FiExternalLink />
             </TableLink>
           )}
@@ -42,6 +44,7 @@ const TableContent = ({
               <BsTrash />
             </TableData>
           )}
+          {reserve && <TableLink link=''><FiExternalLink /></TableLink>}
         </TableRow>
       ))}
     </tbody>

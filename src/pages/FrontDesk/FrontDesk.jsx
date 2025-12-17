@@ -1,8 +1,13 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import FrontDeskNav from './FrontDeskNav'
 
 const FrontDesk = () => {
   return (
-    <div>FrontDesk</div>
+    <main>
+      <FrontDeskNav />
+      <Outlet />
+    </main>
   )
 }
 

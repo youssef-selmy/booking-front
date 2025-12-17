@@ -2,6 +2,8 @@ import { useState } from "react";
 import Card from "../../components/Card";
 import Section from "../../components/Section";
 import Table from "../../components/Table/Table";
+import TableData from "../../components/Table/TableData";
+import TableRow from "../../components/Table/TableRow";
 
 const OwnerDashboard = () => {
   return (
@@ -84,11 +86,11 @@ const Rooms = () => {
     {
       title: "Dulex",
       categories: [
-            { name: "Single", number: 10 },
-            { name: "Double", number: 10 },
-            { name: "Family", number: 10 },
-            { name: "Family", number: 10 },
-          ],
+        { name: "Single", number: 10 },
+        { name: "Double", number: 10 },
+        { name: "Family", number: 10 },
+        { name: "Family", number: 10 },
+      ],
       total: 30,
       totalOccubied: 12,
       revenu: 512,
@@ -96,10 +98,10 @@ const Rooms = () => {
     {
       title: "Suit",
       categories: [
-            { name: "Single", number: 10 },
-            { name: "Double", number: 10 },
-            { name: "Family", number: 10 },
-          ],
+        { name: "Single", number: 10 },
+        { name: "Double", number: 10 },
+        { name: "Family", number: 10 },
+      ],
       total: 30,
       totalOccubied: 12,
       revenu: 512,
@@ -110,7 +112,14 @@ const Rooms = () => {
       <h2 className="text-3xl font-medium mb-4">Rooms</h2>
       <div className="flex gap-5 overflow-x-auto custom-scroll">
         {data.map((ele, idx) => (
-          <RoomTypeCard key={idx} title={ele.title} categories={ele.categories} total={ele.total} totalOccubied={ele.totalOccubied} revenu={ele.revenu} />
+          <RoomTypeCard
+            key={idx}
+            title={ele.title}
+            categories={ele.categories}
+            total={ele.total}
+            totalOccubied={ele.totalOccubied}
+            revenu={ele.revenu}
+          />
         ))}
       </div>
     </Card>
@@ -163,11 +172,14 @@ const Users = () => {
   return (
     <Card className="w-full">
       <h2 className="text-3xl font-medium mb-4">Users</h2>
-      <Table
-        head={["User", "Role"]}
-        dataKeys={["user", "role"]}
-        data={temp}
-      />
+      <Table head={["User", "Role"]}>
+        {temp.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.user}</TableData>
+            <TableData>{ele.role}</TableData>
+          </TableRow>
+        ))}
+      </Table>
     </Card>
   );
 };
@@ -200,11 +212,17 @@ const Arrivals = () => {
   return (
     <Card className="w-[50%]">
       <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
-      <Table
-        head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}
-        dataKeys={["number", "name", "bookednights", "total", "paid"]}
-        data={testData}
-      />
+      <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
+        {testData.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.number}</TableData>
+            <TableData>{ele.name}</TableData>
+            <TableData>{ele.bookednights}</TableData>
+            <TableData>{ele.paid}</TableData>
+            <TableData>{ele.total}</TableData>
+          </TableRow>
+        ))}
+      </Table>
     </Card>
   );
 };
@@ -236,12 +254,18 @@ const Departures = () => {
 
   return (
     <Card className="w-[50%]">
-      <h2 className="text-3xl font-medium mb-4">Today’s Departure</h2>
-      <Table
-        head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}
-        dataKeys={["number", "name", "bookednights", "total", "paid"]}
-        data={testData}
-      />
+      <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
+      <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
+        {testData.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.number}</TableData>
+            <TableData>{ele.name}</TableData>
+            <TableData>{ele.bookednights}</TableData>
+            <TableData>{ele.paid}</TableData>
+            <TableData>{ele.total}</TableData>
+          </TableRow>
+        ))}
+      </Table>
     </Card>
   );
 };

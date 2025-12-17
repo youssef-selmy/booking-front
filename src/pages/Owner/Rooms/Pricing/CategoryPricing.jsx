@@ -3,6 +3,9 @@ import Popup from "../../../../components/Popup";
 import Input from "../../../../components/Input";
 import Table from "../../../../components/Table/Table";
 import Section from "../../../../components/Section";
+import TableRow from "../../../../components/Table/TableRow";
+import TableData from "../../../../components/Table/TableData";
+import TableEdit from "../../../../components/Table/TableEdit";
 
 const CategoryPricing = () => {
   const [data, setData] = useState([
@@ -16,15 +19,19 @@ const CategoryPricing = () => {
   return (
     <>
       <Table
-        head={["Name", "Price"]}
-        dataKeys={["name", "price"]}
-        data={data}
-        edit={true}
-        setEditItem={setEditItem}
+        head={["Name", "Price", "Edit"]}
         setMode={setMode}
         showFilters
         showAdd
-      />
+      >
+        {data.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.name}</TableData>
+            <TableData>{ele.price}</TableData>
+            <TableEdit setEditItem={() => setEditItem(ele)} setMode={setMode} />
+          </TableRow>
+        ))}
+      </Table>
       <Filters mode={mode} setMode={setMode} />
       <Add mode={mode} setMode={setMode} />
       <Edit mode={mode} setMode={setMode} />
