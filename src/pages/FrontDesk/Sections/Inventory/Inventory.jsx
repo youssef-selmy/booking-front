@@ -4,10 +4,8 @@ import SideBar from "../../../../components/SideBar";
 import { Outlet } from "react-router-dom";
 
 const data = [
-  { name: "Create Posting", link: "create-posting" },
-  { name: "Manage Reservation", link: "manage-reservation" },
-  { name: "Availability", link: "availability" },
-  { name: "Room Diary", link: "room-diary" },
+  { name: "Out of Service", link: "out-of-service" },
+  { name: "House Keeping Board", link: "house-keeping-board" },
 ]
 
 const Inventory = () => {

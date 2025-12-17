@@ -40,6 +40,8 @@ import Arrival from "./pages/FrontDesk/Sections/FrontOffice/Arrival";
 import Departure from "./pages/FrontDesk/Sections/FrontOffice/Departure";
 import InHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
 import NoShow from "./pages/FrontDesk/Sections/FrontOffice/NoShow";
+import OutOfService from "./pages/FrontDesk/Sections/Inventory/OutOfService";
+import HouseKeepingBoard from "./pages/FrontDesk/Sections/Inventory/HouseKeepingBoard";
 
 const router = createBrowserRouter([
   {
@@ -138,7 +140,15 @@ const router = createBrowserRouter([
           { path: "no-show", element: <NoShow /> },
         ],
       },
-      { path: "inventory", element: <Inventory /> },
+      {
+        path: "inventory",
+        element: <Inventory />,
+        children: [
+          { index: true, element: <Navigate to="out-of-service" replace /> },
+          { path: "out-of-service", element: <OutOfService /> },
+          { path: "house-keeping-board", element: <HouseKeepingBoard /> },
+        ],
+      },
       { path: "finance", element: <Finance /> },
       { path: "miscellaneous", element: <Miscellaneous /> },
       { path: "reports", element: <Reports /> },
