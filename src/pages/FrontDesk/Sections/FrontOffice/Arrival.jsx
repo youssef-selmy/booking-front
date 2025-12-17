@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
+import TableRow from "../../../../components/Table/TableRow";
+import TableData from "../../../../components/Table/TableData";
+import TableLink from "../../../../components/Table/TableLink";
+import { HiLink } from "react-icons/hi2";
 
 const Arrival = () => {
   const [data, setData] = useState([
@@ -14,13 +18,21 @@ const Arrival = () => {
     },
   ]);
   return (
-    <Section extraPadding classname='w-full px-5'>
-      <Table
-        head={["Name", "Email", "Room", "Nights", "Arrival Date"]}
-        data={data}
-        dataKeys={["name", "email", "room", "nights", "arrivalDate"]}
-        view={{name: 'Details', key: 'id', customeUrl: '/front-desk/booking/manage-reservation'}}
-      />
+    <Section extraPadding classname="w-full px-5">
+      <Table head={["Name", "Email", "Room", "Nights", "Arrival Date", "Details"]}>
+        {data.map((ele, idx) => (
+          <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.name}</TableData>
+            <TableData>{ele.email}</TableData>
+            <TableData>{ele.room}</TableData>
+            <TableData>{ele.nights}</TableData>
+            <TableData>{ele.arrivalDate}</TableData>
+            <TableLink link={`/front-desk/booking/manage-reservation/${ele.id}`}>
+              <HiLink />
+            </TableLink>
+          </TableRow>
+        ))}
+      </Table>
     </Section>
   );
 };

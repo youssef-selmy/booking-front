@@ -58,7 +58,7 @@ const Content = ({ data = [] }) => {
   return (
     <div>
       {data.map((ele, idx) => (
-        <div className="flex border-b border-[#ddd] last:border-b-0">
+        <div className="flex border-b border-[#ddd] last:border-b-0" key={idx}>
           <div className="w-[10%] flex items-center justify-center p-3 border-[#ddd] border-r">
             <p>{ele.number}</p>
           </div>
