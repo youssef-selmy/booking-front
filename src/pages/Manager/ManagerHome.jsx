@@ -5,12 +5,12 @@ import { BsBuildingGear } from "react-icons/bs";
 
 
 
-const OwnerHome = () => {
+const ManagerHome = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="flex gap-5 max-w-[420px] flex-wrap justify-center items-center">
         <OptionCard url="front-desk" title="Front Office" Icon={CgScreen} />
-        <OptionCard url="owner/dashboard" title="Managment" Icon={BsBuildingGear} />
+        <OptionCard url="manager/dashboard" title="Managment" Icon={BsBuildingGear} />
         <OptionCard url="sub-details" title="Subscription" Icon={IoWalletOutline} />
         <OptionCard url="logout" title="Logout" Icon={IoLogOutOutline} />
       </div>
@@ -30,4 +30,4 @@ const OptionCard = ({ url, title, Icon }) => {
   );
 };
 
-export default OwnerHome;
+export default ManagerHome;

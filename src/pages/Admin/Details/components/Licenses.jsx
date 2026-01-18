@@ -7,12 +7,12 @@ const Licenses = ({ data }) => {
     <Card className="flex flex-col gap-5">
       <h2 className="font-medium text-xl">Licenses</h2>
       <InputContainer>
-        <Input title="Commercial register" readOnly value={data.name} />
-        <Input title="Tax card" readOnly value={data.location} />
+        <a href={data.commercialRegister}>commercialRegister</a>
+        <a href={data.taxCard}>taxCard</a>
       </InputContainer>
-      <Input title="Licensing" readOnly value={data.location} />
+      <a href={data.licensing}>licensing</a>
     </Card>
   );
 };
 
-export default Licenses
+export default Licenses;

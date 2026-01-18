@@ -3,11 +3,12 @@ import Input from "../../../../components/Input";
 import InputContainer from "../../../../components/InputContainer";
 
 const HotelInfo = ({ data }) => {
+  console.log(data)
   return (
     <Card className="flex flex-col gap-5 w-fit">
       <h2 className="font-medium text-xl">Hotel Info</h2>
       <InputContainer>
-        <Input title="Name" readOnly value={data.name} />
+        <Input title="Name" readOnly value={data.hotelName} />
         <Input title="Location" readOnly value={data.location} />
       </InputContainer>
       <InputContainer>

@@ -6,10 +6,9 @@ import SelectMenu from "../../components/SelectMenu";
 import Popup from "../../components/Popup";
 import TableRow from "../../components/Table/TableRow";
 import TableData from "../../components/Table/TableData";
-import { MdModeEdit } from "react-icons/md";
 import TableEdit from "../../components/Table/TableEdit";
 
-const Users = () => {
+const ManagerUsers = () => {
   const [data, setData] = useState([
     {
       userName: "mahmoud",
@@ -113,4 +112,4 @@ const Edit = ({ mode, setMode, editItem }) => {
   );
 };
 
-export default Users;
+export default ManagerUsers;

@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
-import OwnerNav from "./OwnerNav";
+import OwnerNav from "./ManagerNav";
 
-const Owner = () => {
+const Manager = () => {
   const location = useLocation();
-  const showNav = location.pathname !== "/owner";
+  const showNav = location.pathname !== "/manager";
   return (
     <main className="w-full min-h-screen">
       {showNav && <OwnerNav />}
@@ -12,4 +12,4 @@ const Owner = () => {
   );
 };
 
-export default Owner;
+export default Manager;

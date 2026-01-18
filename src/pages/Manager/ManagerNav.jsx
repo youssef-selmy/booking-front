@@ -8,7 +8,7 @@ const pages = [
   { name: "Reports", url: "reports" },
 ];
 
-const OwnerNav = () => {
+const ManagerNav = () => {
   return (
     <header className="w-full h-[70px] border-b border-[#ddd] flex fixed bg-white">
       {pages.map((ele, idx) => (
@@ -29,7 +29,7 @@ const OwnerNav = () => {
         </NavLink>
       ))}
       <Link
-        to="/owner"
+        to="/manager"
         className="w-[350px] flex justify-center items-center bg-[#333] text-white"
       >
         <IoIosLogOut size={25} />
@@ -38,4 +38,4 @@ const OwnerNav = () => {
   );
 };
 
-export default OwnerNav;
+export default ManagerNav;

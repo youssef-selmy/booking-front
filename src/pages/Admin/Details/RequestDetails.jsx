@@ -1,28 +1,38 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HotelInfo from "./components/HotelInfo";
 import Licenses from "./components/Licenses";
 import Payment from "./components/Payment";
+import api from "../../../../api/axios";
 
 const RequestDetails = () => {
   const { id } = useParams();
-  const [data, setData] = useState({
-    name: "Hilton",
-    location: "Alex",
-    phoneNumber: "+20103320434",
-    email: "temp@test.com",
-    totalRooms: 1,
-    totalOwners: 1,
-  });
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get(`hotels/${id}`);
+      setData(data.data);
+      console.log(data.data);
+      setLoading(false);
+    };
+    handle();
+  }, []);
+
   return (
     <main className="p-5">
-      <div className="flex gap-5 w-fit m-auto mb-5">
-        <HotelInfo data={data} />
-        <Licenses data={data} />
-      </div>
-      <div className="flex gap-5 w-fit m-auto">
-        <Payment data={data} />
-      </div>
+      {!loading && (
+        <>
+          <div className="flex gap-5 w-fit m-auto mb-5">
+            <HotelInfo data={data} />
+            <Licenses data={data} />
+          </div>
+          <div className="flex gap-5 w-fit m-auto">
+            <Payment data={data} id={id} />
+          </div>
+        </>
+      )}
     </main>
   );
 };

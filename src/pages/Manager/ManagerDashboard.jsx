@@ -5,7 +5,7 @@ import Table from "../../components/Table/Table";
 import TableData from "../../components/Table/TableData";
 import TableRow from "../../components/Table/TableRow";
 
-const OwnerDashboard = () => {
+const ManagerDashboard = () => {
   return (
     <Section classname="p-5 pt-[90px] flex flex-col gap-5">
       <Overview />
@@ -270,4 +270,4 @@ const Departures = () => {
   );
 };
 
-export default OwnerDashboard;
+export default ManagerDashboard;

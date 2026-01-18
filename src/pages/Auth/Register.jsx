@@ -42,14 +42,14 @@ const Register = () => {
     if (!isValid) return;
 
     fromdata.append("userName", userName);
-    fromdata.append("password", password);
     fromdata.append("hotelName", hotelName);
     fromdata.append("location", location);
-    fromdata.append("phoneNumber", phoneNumber);
-    fromdata.append("email", email);
     fromdata.append("totalRooms", totalRooms);
     fromdata.append("totalOnwers", totalOwners);
     fromdata.append("services", services);
+    fromdata.append("email", email);
+    fromdata.append("password", password);
+    fromdata.append("phoneNumber", phoneNumber);
     fromdata.append("CommercialRegister", commercialRegister);
     fromdata.append("taxCard", taxCard);
     fromdata.append("Licensing", licensing);

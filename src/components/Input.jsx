@@ -6,6 +6,7 @@ const Input = ({
   title,
   readOnly = false,
   required = false,
+  errorMessage = null
 }) => {
   return (
     <label className="relative mt-[10px]">
@@ -22,7 +23,9 @@ const Input = ({
         onChange={e => setValue(e.target.value)}
         placeholder={placeholder}
         readOnly={readOnly}
+        required={required}
       />
+      {errorMessage && <p className="text-sm pl-2 pt-1 text-red-600 font-medium">{errorMessage}</p>}
     </label>
   );
 };

@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Section from "../../../components/Section";
 import SidBar from "../../../components/SideBar";
 
-const OwnerRooms = () => {
+const ManagerRooms = () => {
   return (
     <Section disapleTopPadding classname='flex'>
       <SidBar
@@ -20,4 +20,4 @@ const OwnerRooms = () => {
   );
 };
 
-export default OwnerRooms;
+export default ManagerRooms;
