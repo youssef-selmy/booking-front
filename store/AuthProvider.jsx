@@ -10,7 +10,7 @@ const AuthContext = createContext({
   isAuthenticated: false,
   loading: true,
   isAdmin: false,
-  isOwner: false,
+  isManager: false,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
     const decoded = jwtDecode(jwt);
 
     return {
-      // role: decoded.role,
       role: decoded.Role,
       exp: decoded.exp * 1000,
     };
@@ -36,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
       if (Date.now() < data.exp) {
         setToken(saved);
-        setRole(saved.role);
+        setRole(data.role);
       } else {
         localStorage.removeItem("token");
       }
@@ -78,7 +77,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         isAuthenticated: !!token,
         isAdmin: !!token && role === "admin",
-        isOwner: !!token && role === "manager",
+        isManager: !!token && role === "manager",
       }}
     >
       {children}

@@ -45,6 +45,7 @@ import HouseKeepingBoard from "./pages/FrontDesk/Sections/Inventory/HouseKeeping
 import AdminAuth from "./components/AdminAuth";
 import ManagerAuth from "./components/ManagerAuth";
 import RootLayout from "./pages/RootLayout";
+import NotAuthorized from "./pages/NotAuthorized";
 
 const router = createBrowserRouter([
   {
@@ -52,19 +53,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (
-          <div className="flex gap-5 p-5">
-            <Link to="owner" className="underline">
-              Owner
-            </Link>
-            <Link to="admin" className="underline">
-              Admin
-            </Link>
-            <Link to="auth/login" className="underline">
-              Login
-            </Link>
-          </div>
-        ),
+        element: <Navigate to='/auth/login' replace />
       },
       {
         path: "/auth",
@@ -183,6 +172,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "not-authorized", element: <NotAuthorized /> },
   { path: "*", element: <NotFound /> },
 ]);
 

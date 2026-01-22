@@ -20,7 +20,7 @@ const Login = () => {
         login(data.token);
         console.log(data);
         return;
-      } else if (role === "owner") {
+      } else if (role === "manager") {
         const creds = { email: "test@test.com", password: "test123" };
         const { data } = await axios.post(`${domain}/auth/login`, creds);
         login(data.token);
@@ -66,7 +66,7 @@ const Login = () => {
         </Button>
         <div className="flex gap-5">
           <button className="bg-slate-300 px-5 py-2 cursor-pointer rounded" onClick={() => handleLogin("admin")}>Admin Login</button>
-          <button className="bg-slate-300 px-5 py-2 cursor-pointer rounded" onClick={() => handleLogin("owner")}>Owner Login</button>
+          <button className="bg-slate-300 px-5 py-2 cursor-pointer rounded" onClick={() => handleLogin("manager")}>Manager Login</button>
         </div>
       </Card>
     </main>

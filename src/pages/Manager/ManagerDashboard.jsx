@@ -165,7 +165,7 @@ const RoomTypeCard = ({
 
 const Users = () => {
   const [temp, setTemp] = useState([
-    { user: "Ali Ahmed", role: "Owner" },
+    { user: "Ali Ahmed", role: "Manager" },
     { user: "Hamed Mamdouh", role: "Front Desk" },
     { user: "Ahmed Sameh", role: "Front Desk" },
   ]);

@@ -3,9 +3,9 @@ import { useAuth } from "../../store/AuthProvider";
 import { Navigate } from "react-router-dom";
 
 const ManagerAuth = ({ children }) => {
-  const { isOwner, loading } = useAuth();
+  const { isManager, loading } = useAuth();
   if (loading) return null;
-  return isOwner ? children : <Navigate to="/not-found" replace />;
+  return isManager ? children : <Navigate to="/not-authorized" replace />;
 };
 
 export default ManagerAuth;
