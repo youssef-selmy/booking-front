@@ -17,13 +17,13 @@ const TableFoot = ({ pagenationData, next, prev }) => {
       <div>
         <span>{pagenationData.currentPage}</span>
         <span className="text-[#aaa] font-medium">
-          /{pagenationData.totalPages}
+          /{pagenationData.numberOfPages}
         </span>
       </div>
       <div
         onClick={next}
         className={`p-2 ${
-          pagenationData.currentPage === pagenationData.totalPages
+          pagenationData.currentPage === pagenationData.numberOfPages
             ? "bg-[#888] cursor-not-allowed"
             : "bg-[#333] cursor-pointer hover:bg-[#444] duration-300"
         } text-white rounded`}

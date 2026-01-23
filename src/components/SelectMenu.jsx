@@ -29,7 +29,7 @@ const SelectMenu = ({
   return (
     <div
       ref={menuRef}
-      className="relative w-[220px] mt-[10px] border border-[#ddd] rounded p-2"
+      className="relative w-[220px] h-fit mt-[10px] border border-[#ddd] rounded p-2"
     >
       <div
         className="cursor-pointer hover:border-[#333] duration-300"

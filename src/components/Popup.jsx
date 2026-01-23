@@ -1,6 +1,7 @@
 import { FaXmark } from "react-icons/fa6";
+import ErrorsBlock from "./ErrorsBlock";
 
-export default function Popup({ open, setMode, title, children }) {
+export default function Popup({ open, setMode, title, globalErrors, children }) {
   if (!open) return null;
 
   function onClose() {
@@ -25,6 +26,7 @@ export default function Popup({ open, setMode, title, children }) {
             <FaXmark />
           </button>
         </div>
+        <ErrorsBlock globalErrors={globalErrors} />
         <div className="p-5 flex gap-5 flex-wrap">{children}</div>
       </div>
     </div>

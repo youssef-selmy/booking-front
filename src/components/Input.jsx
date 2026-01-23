@@ -25,7 +25,7 @@ const Input = ({
         readOnly={readOnly}
         required={required}
       />
-      {errorMessage && <p className="text-sm pl-2 pt-1 text-red-600 font-medium">{errorMessage}</p>}
+      {errorMessage && <p className="text-xs pl-2 pt-1 text-red-600 font-medium">{errorMessage}</p>}
     </label>
   );
 };

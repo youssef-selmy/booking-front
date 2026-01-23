@@ -14,7 +14,7 @@ import Register from "./pages/Auth/Register";
 import Complete from "./pages/Auth/Complete";
 import RequestDetails from "./pages/Admin/Details/RequestDetails";
 import ManagerDashboard from "./pages/Manager/ManagerDashboard";
-import ManagerUsers from "./pages/Manager/ManagerUsers";
+import ManagerUsers from "./pages/Manager/ManagerUsers/ManagerUsers";
 import ManagerRooms from "./pages/Manager/Rooms/ManagerRooms";
 import Managment from "./pages/Manager/Rooms/Managment";
 import Type from "./pages/Manager/Rooms/Type";
