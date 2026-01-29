@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useValidation from "../../../../api/useValidatoin";
-import useApi from "../../../../api/useApi";
+import useValidation from "../../../../hooks/useValidatoin";
+import useApi from "../../../../hooks/useApi";
 import api from "../../../../api/axios";
 import Popup from "../../../components/Popup";
 import Input from "../../../components/Input";

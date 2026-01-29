@@ -8,37 +8,23 @@ import api from "../../../../api/axios";
 import AddPopup from "./AddPopup";
 import EditPopup from "./EditPopup";
 import FiltersPopup from "./FiltersPopup";
+import useTable from "../../../../hooks/useTable";
 
 const ManagerUsers = () => {
-  const [data, setData] = useState([]);
-  const [paginationData, setPaginationData] = useState(null);
-  const [mode, setMode] = useState(null);
-  const [editItem, setEditItem] = useState(null);
-
-  useEffect(() => {
-    const handleGet = async () => {
-      if (editItem != null) return;
-      const { data } = await api.get(
-        `users?page=${paginationData === null ? 1 : paginationData.currentPage}`,
-      );
-      console.log(data);
-      setData(data.data);
-      setPaginationData(data.paginationResult);
-    };
-    handleGet();
-  }, [editItem]);
-
-  async function next() {
-    if (paginationData === null) return;
-    if (paginationData.currentPage + 1 >= paginationData.numberOfPages) return;
-
-    const { data } = await api.get(
-      `users?page=${paginationData.currentPage + 1}`,
-    );
-    console.log(data);
-    setData(data.data);
-    setPaginationData(data.paginationResult);
-  }
+  const {
+    data,
+    setData,
+    mode,
+    setMode,
+    editItem,
+    setEditItem,
+    paginationData,
+    setFilters,
+    next,
+    prev,
+    loading,
+    globalErrors
+  } = useTable("users");
 
   return (
     <>
@@ -50,6 +36,9 @@ const ManagerUsers = () => {
           showFilters={true}
           showAdd={true}
           pagenationData={paginationData}
+          next={next}
+          prev={prev}
+          loading={loading}
         >
           {data.map((ele, idx) => (
             <TableRow key={idx} rowNum={idx}>
@@ -64,8 +53,17 @@ const ManagerUsers = () => {
           ))}
         </Table>
       </Section>
-      <FiltersPopup mode={mode} setMode={setMode} />
-      <AddPopup mode={mode} setMode={setMode} setData={setData} />
+      {mode === "Filters" && (
+        <FiltersPopup mode={mode} setMode={setMode} setFilters={setFilters} />
+      )}
+      {mode === "Add" && (
+        <AddPopup
+          mode={mode}
+          setMode={setMode}
+          setData={setData}
+          dataLength={data.length}
+        />
+      )}
       {mode === "Edit" && (
         <EditPopup
           mode={mode}

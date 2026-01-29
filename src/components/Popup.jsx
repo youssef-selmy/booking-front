@@ -1,9 +1,7 @@
 import { FaXmark } from "react-icons/fa6";
 import ErrorsBlock from "./ErrorsBlock";
 
-export default function Popup({ open, setMode, title, globalErrors, children }) {
-  if (!open) return null;
-
+export default function Popup({ setMode, title, globalErrors, children }) {
   function onClose() {
     setMode(null);
   }

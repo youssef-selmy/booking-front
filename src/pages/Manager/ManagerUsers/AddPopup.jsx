@@ -1,13 +1,13 @@
 import { useState } from "react";
-import useValidation from "../../../../api/useValidatoin";
-import useApi from "../../../../api/useApi";
+import useValidation from "../../../../hooks/useValidatoin";
+import useApi from "../../../../hooks/useApi";
 import Popup from "../../../components/Popup";
 import Input from "../../../components/Input";
 import SelectMenu from "../../../components/SelectMenu";
 import Button from "../../../components/Button";
 import api from "../../../../api/axios";
 
-const AddPopup = ({ mode, setMode, setData }) => {
+const AddPopup = ({ mode, setMode, setData, dataLength }) => {
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -32,7 +32,20 @@ const AddPopup = ({ mode, setMode, setData }) => {
       role: role.name,
     });
     if (ok) {
-      setData((prev) => [...prev, data.data]);
+      if (dataLength >= 10) {
+        setData(prev => {
+          const copy = [...prev]
+          copy.pop()
+          copy.unshift(data.data)
+          return copy;
+        })
+      } else {
+        setData((prev) => [...prev, data.data]);
+      }
+      setUserName('')
+      setEmail('')
+      setPassword('')
+      setRole('');
       setMode(null);
     }
   };
@@ -40,7 +53,6 @@ const AddPopup = ({ mode, setMode, setData }) => {
     <Popup
       title={mode}
       setMode={setMode}
-      open={mode === "Add"}
       globalErrors={globalErrors}
     >
       <Input title="UserName" value={userName} setValue={setUserName} />
@@ -76,4 +88,4 @@ const AddPopup = ({ mode, setMode, setData }) => {
   );
 };
 
-export default AddPopup
+export default AddPopup;

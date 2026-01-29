@@ -47,11 +47,11 @@ const Table = ({
         </table>
         {loading && (
           <div className="bg-white border border-[#ddd] border-t-0 p-5 flex justify-center items-center">
-            Loading...
+            <span className="loader"></span>
           </div>
         )}
         {pagenationData !== null && (
-          <TableFoot pagenationData={pagenationData} next={next} prev={prev} />
+          <TableFoot pagenationData={pagenationData} next={next} prev={prev} loading={loading} />
         )}
       </div>
     </div>
