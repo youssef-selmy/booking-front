@@ -6,39 +6,10 @@ import Input from "../../../components/Input";
 import TableRow from "../../../components/Table/TableRow";
 import TableData from "../../../components/Table/TableData";
 import TableEdit from "../../../components/Table/TableEdit";
+import useTable from "../../../../hooks/useTable";
 
 const Managment = () => {
-  const [data, setData] = useState([
-    {
-      roomNumber: "001",
-      floor: "1",
-      type: "Single",
-      category: "Standard",
-      view: "Sea",
-      maxAdult: "2",
-      maxChildren: "0",
-    },
-    {
-      roomNumber: "002",
-      floor: "1",
-      type: "Double",
-      category: "Delux",
-      view: "Garden",
-      maxAdult: "2",
-      maxChildren: "2",
-    },
-    {
-      roomNumber: "003",
-      floor: "1",
-      type: "Double",
-      category: "Delux",
-      view: "Garden",
-      maxAdult: "3",
-      maxChildren: "0",
-    },
-  ]);
-  const [editItem, setEditItem] = useState(null);
-  const [mode, setMode] = useState(null);
+  const { data, mode, setMode } = useTable("rooms");
 
   return (
     <>
@@ -65,8 +36,8 @@ const Managment = () => {
               <TableData>{ele.type}</TableData>
               <TableData>{ele.category}</TableData>
               <TableData>{ele.view}</TableData>
-              <TableData>{ele.maxAdult}</TableData>
-              <TableData>{ele.maxChildren}</TableData>
+              <TableData>{ele.maxGuests}</TableData>
+              <TableData>{ele.MaxChildren}</TableData>
               <TableEdit
                 setEditItem={() => setEditItem(ele)}
                 setMode={setMode}
@@ -75,9 +46,9 @@ const Managment = () => {
           ))}
         </Table>
       </Section>
-      <Filters mode={mode} setMode={setMode} />
-      <Add mode={mode} setMode={setMode} />
-      <Edit mode={mode} setMode={setMode} editItem={editItem} />
+      {mode === "Filters" && <Filters mode={mode} setMode={setMode} />}
+      {mode === "Add" && <Add mode={mode} setMode={setMode} />}
+      {mode === "Edit" && <Edit mode={mode} setMode={setMode} editItem={editItem} />}
     </>
   );
 };
@@ -98,7 +69,7 @@ const Filters = ({ mode, setMode }) => {
 
 const Add = ({ mode, setMode }) => {
   return (
-    <Popup title={mode} open={mode === "Add"} setMode={setMode}>
+    <Popup title={mode} setMode={setMode}>
       <Input title="Room No." />
       <Input title="Floor" />
       <Input title="Type" />
@@ -116,7 +87,7 @@ const Edit = ({ mode, setMode, editItem }) => {
     setItem(editItem);
   }, [editItem]);
   return (
-    <Popup title={mode} open={mode === "Edit"} setMode={setMode}>
+    <Popup title={mode} setMode={setMode}>
       <Input
         title="Room No."
         value={item?.roomNumber}
