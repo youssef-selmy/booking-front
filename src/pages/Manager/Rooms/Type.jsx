@@ -23,6 +23,7 @@ const Type = () => {
     paginationData,
     next,
     prev,
+    filters,
     setFilters,
   } = useTable("roomType");
 
@@ -51,7 +52,12 @@ const Type = () => {
         </Table>
       </Section>
       {mode === "Filters" && (
-        <Filters mode={mode} setMode={setMode} setFilters={setFilters} />
+        <Filters
+          mode={mode}
+          setMode={setMode}
+          filters={filters}
+          setFilters={setFilters}
+        />
       )}
       {mode === "Add" && (
         <Add
@@ -73,8 +79,8 @@ const Type = () => {
   );
 };
 
-const Filters = ({ mode, setMode, setFilters }) => {
-  const [name, setName] = useState("");
+const Filters = ({ mode, setMode, filters, setFilters }) => {
+  const [name, setName] = useState(filters?.name || "");
   return (
     <Popup title={mode} setMode={setMode}>
       <div className="flex">

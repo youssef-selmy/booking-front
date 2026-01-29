@@ -23,6 +23,7 @@ const Package = () => {
     paginationData,
     next,
     prev,
+    filters,
     setFilters,
   } = useTable("packages");
 
@@ -52,7 +53,12 @@ const Package = () => {
         </Table>
       </Section>
       {mode === "Filters" && (
-        <Filters mode={mode} setMode={setMode} setFilters={setFilters} />
+        <Filters
+          mode={mode}
+          setMode={setMode}
+          filters={filters}
+          setFilters={setFilters}
+        />
       )}
       {mode === "Add" && (
         <Add
@@ -74,9 +80,9 @@ const Package = () => {
   );
 };
 
-const Filters = ({ mode, setMode, setFilters }) => {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState();
+const Filters = ({ mode, setMode, setFilters, filters }) => {
+  const [name, setName] = useState(filters?.name || "");
+  const [price, setPrice] = useState(filters?.price || "");
   return (
     <Popup title={mode} setMode={setMode}>
       <div className="flex gap-5">
@@ -88,7 +94,7 @@ const Filters = ({ mode, setMode, setFilters }) => {
         onClick={() => {
           const obj = {};
           if (name) obj.name = name;
-          if(price >= 0) obj.price = price
+          if (price >= 0 && price !== "") obj.price = price;
           setFilters(obj);
           setMode(null);
         }}
@@ -129,7 +135,11 @@ const Add = ({ mode, setMode, setData, dataLength }) => {
         <Input title="Name" value={name} setValue={setName} />
         <Input title="Price" value={price} setValue={setPrice} />
       </div>
-      <Button disabled={loading || !name || price < 0} onClick={handleCreate} full>
+      <Button
+        disabled={loading || !name || price < 0}
+        onClick={handleCreate}
+        full
+      >
         Create
       </Button>
     </Popup>
@@ -172,7 +182,11 @@ const Edit = ({ mode, setMode, editItem, setEditItem }) => {
       <Button
         full
         onClick={handleUpdate}
-        disabled={loading || !name || (editItem.name === name && editItem.price === price)}
+        disabled={
+          loading ||
+          !name ||
+          (editItem.name === name && editItem.price === price)
+        }
       >
         Update
       </Button>
