@@ -1,7 +1,8 @@
 import axios from "axios";
+import { domain } from "../globals";
 
 const api = axios.create({
-  baseURL: "http://72.60.34.197:8000/api/v1", // your .NET API base url
+  baseURL: domain,
 });
 
 api.interceptors.request.use(
