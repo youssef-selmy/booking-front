@@ -19,13 +19,8 @@ import ManagerRooms from "./pages/Manager/Rooms/ManagerRooms";
 import Managment from "./pages/Manager/Rooms/Managment";
 import Type from "./pages/Manager/Rooms/Type";
 import Services from "./pages/Manager/Rooms/Services";
-import Pricing from "./pages/Manager/Rooms/Pricing/Pricing";
 import Package from "./pages/Manager/Rooms/Package";
 import Category from "./pages/Manager/Rooms/Category";
-import CategoryPricing from "./pages/Manager/Rooms/Pricing/CategoryPricing";
-import ViewPricing from "./pages/Manager/Rooms/Pricing/ViewPricing";
-import TypePricing from "./pages/Manager/Rooms/Pricing/TypePricing";
-import FloorPricing from "./pages/Manager/Rooms/Pricing/FloorPricing";
 import Booking from "./pages/FrontDesk/Sections/Booking/Booking";
 import FrontOffice from "./pages/FrontDesk/Sections/FrontOffice/FrontOffice";
 import Inventory from "./pages/FrontDesk/Sections/Inventory/Inventory";
@@ -104,17 +99,6 @@ const router = createBrowserRouter([
               { path: "type", element: <Type /> },
               { path: "category", element: <Category /> },
               { path: "package", element: <Package /> },
-              {
-                path: "pricing",
-                element: <Pricing />,
-                children: [
-                  { index: true, element: <Navigate to="category" replace /> },
-                  { path: "category", element: <CategoryPricing /> },
-                  { path: "type", element: <TypePricing /> },
-                  { path: "view", element: <ViewPricing /> },
-                  { path: "floor", element: <FloorPricing /> },
-                ],
-              },
               { path: "services", element: <Services /> },
             ],
           },

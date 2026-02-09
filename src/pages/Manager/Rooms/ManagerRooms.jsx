@@ -11,7 +11,6 @@ const ManagerRooms = () => {
           { name: "Type", link: "type" },
           { name: "Category", link: "category" },
           { name: "Package", link: "package" },
-          { name: "Pricing", link: "pricing" },
           { name: "Services", link: "services" },
         ]}
       />
