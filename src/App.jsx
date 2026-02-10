@@ -63,17 +63,17 @@ const router = createBrowserRouter([
           {
             index: true,
             element: (
-              <AdminAuth>
+              // <AdminAuth>
                 <AdminDashboard />
-              </AdminAuth>
+              // </AdminAuth>
             ),
           },
           {
             path: ":id",
             element: (
-              <AdminAuth>
+              // <AdminAuth>
                 <RequestDetails />
-              </AdminAuth>
+              // </AdminAuth>
             ),
           },
         ],
@@ -81,9 +81,9 @@ const router = createBrowserRouter([
       {
         path: "/manager",
         element: (
-          <ManagerAuth>
+          // <ManagerAuth>
             <Manager />
-          </ManagerAuth>
+          // </ManagerAuth>
         ),
         children: [
           { index: true, element: <ManagerHome /> },
