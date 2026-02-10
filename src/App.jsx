@@ -25,7 +25,6 @@ import Booking from "./pages/FrontDesk/Sections/Booking/Booking";
 import FrontOffice from "./pages/FrontDesk/Sections/FrontOffice/FrontOffice";
 import Inventory from "./pages/FrontDesk/Sections/Inventory/Inventory";
 import Finance from "./pages/FrontDesk/Sections/Finance/Finance";
-import Miscellaneous from "./pages/FrontDesk/Sections/Miscellaneous/Miscellaneous";
 import Reports from "./pages/FrontDesk/Sections/Reports/Reports";
 import ManageReservation from "./pages/FrontDesk/Sections/Booking/ManageReservation";
 import CreatePosting from "./pages/FrontDesk/Sections/Booking/CreatePosting/CreatePosting";
@@ -150,7 +149,6 @@ const router = createBrowserRouter([
             ],
           },
           { path: "finance", element: <Finance /> },
-          { path: "miscellaneous", element: <Miscellaneous /> },
           { path: "reports", element: <Reports /> },
         ],
       },
