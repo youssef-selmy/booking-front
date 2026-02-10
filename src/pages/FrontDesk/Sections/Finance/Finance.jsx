@@ -4,10 +4,9 @@ import SideBar from "../../../../components/SideBar";
 import { Outlet } from "react-router-dom";
 
 const data = [
-  { name: "Create Posting", link: "create-posting" },
-  { name: "Manage Reservation", link: "manage-reservation" },
-  { name: "Availability", link: "availability" },
-  { name: "Room Diary", link: "room-diary" },
+  { name: "Folio History", link: "folio-history" },
+  { name: "Casher Report", link: "casher-report" },
+  { name: "Currency Calulator", link: "currency-calulator" },
 ];
 
 const Finance = () => {

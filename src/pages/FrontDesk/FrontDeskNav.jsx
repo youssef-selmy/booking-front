@@ -5,7 +5,6 @@ const pages = [
   { name: "Front Office", url: "front-office" },
   { name: "Inventory", url: "inventory" },
   { name: "Finance", url: "finance" },
-  { name: "Miscellaneous", url: "miscellaneous" },
   { name: "Reports", url: "reports" },
 ];
 

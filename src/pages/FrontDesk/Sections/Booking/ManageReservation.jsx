@@ -54,7 +54,7 @@ const ManageReservation = () => {
           </TableRow>
         ))}
       </Table>
-      <Filters mode={mode} setMode={setMode} />
+      {/* <Filters mode={mode} setMode={setMode} /> */}
     </Section>
   );
 };
