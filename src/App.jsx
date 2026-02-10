@@ -16,7 +16,7 @@ import RequestDetails from "./pages/Admin/Details/RequestDetails";
 import ManagerDashboard from "./pages/Manager/ManagerDashboard";
 import ManagerUsers from "./pages/Manager/ManagerUsers/ManagerUsers";
 import ManagerRooms from "./pages/Manager/Rooms/ManagerRooms";
-import Managment from "./pages/Manager/Rooms/Managment";
+import Managment from "./pages/Manager/Rooms/Managment/Managment";
 import Type from "./pages/Manager/Rooms/Type";
 import Services from "./pages/Manager/Rooms/Services";
 import Package from "./pages/Manager/Rooms/Package";
