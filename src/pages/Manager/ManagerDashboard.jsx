@@ -1,37 +1,72 @@
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Card from "../../components/Card";
 import Section from "../../components/Section";
 import Table from "../../components/Table/Table";
 import TableData from "../../components/Table/TableData";
 import TableRow from "../../components/Table/TableRow";
+import api from "../../../api/axios";
 
 const ManagerDashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [overView, setOverView] = useState();
+  const [rooms, setRooms] = useState();
+  const [arrivals, setArrivals] = useState();
+  const [departures, setDepartures] = useState();
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get("dashboard/overview");
+      setOverView({
+        arrival: data.arrival,
+        departure: data.departure,
+        inHouse: data.inHouse,
+        avilableRooms: data.avilableRooms,
+        occupiedRooms: data.occupiedRooms,
+      });
+      setArrivals(data.arrivals);
+      setRooms(data.rooms);
+      setDepartures(data.departuers);
+      setLoading(false);
+    };
+    handle();
+  }, []);
+
   return (
     <Section classname="p-5 pt-[90px] flex flex-col gap-5">
-      <Overview />
+      <Overview data={overView} loading={loading} />
+      <Rooms data={rooms} loading={loading} />
       <div className="flex gap-5">
-        <Rooms />
-        <Users />
-      </div>
-      <div className="flex gap-5">
-        <Arrivals />
-        <Departures />
+        <Arrivals data={arrivals} loading={loading} />
+        <Departures data={departures} loading={loading} />
       </div>
     </Section>
   );
 };
 
-const Overview = () => {
+const Overview = ({ data, loading }) => {
   return (
     <Card>
       <h2 className="text-3xl font-medium mb-4">OverView</h2>
-      <div className="flex justify-between gap-5 px-5">
-        <OverviewField title="Today's" name="Arrival" number={23} />
-        <OverviewField title="Today's" name="Departure" number={30} />
-        <OverviewField title="Total" name="In House" number={60} />
-        <OverviewField title="Total" name="Avilable Rooms" number={10} />
-        <OverviewField title="Total" name="Occupied Rooms" number={20} />
-      </div>
+      {!loading && <div className="flex justify-between gap-5 px-5">
+        <OverviewField title="Today's" name="Arrival" number={data?.arrival} />
+        <OverviewField
+          title="Today's"
+          name="Departure"
+          number={data?.departure}
+        />
+        <OverviewField title="Total" name="In House" number={data?.inHouse} />
+        <OverviewField
+          title="Total"
+          name="Avilable Rooms"
+          number={data?.avilableRooms}
+        />
+        <OverviewField
+          title="Total"
+          name="Occupied Rooms"
+          number={data?.occupiedRooms}
+        />
+      </div>}
+      {loading && <p>Loading...</p>}
     </Card>
   );
 };
@@ -48,108 +83,43 @@ const OverviewField = ({ title, name, number }) => {
   );
 };
 
-const Rooms = () => {
-  const [data, setData] = useState([
-    {
-      title: "Standurd",
-      categories: [
-        { name: "Single", number: 10 },
-        { name: "Double", number: 10 },
-        { name: "Family", number: 10 },
-      ],
-      total: 30,
-      totalOccubied: 12,
-      revenu: 512,
-    },
-    {
-      title: "Standurd",
-      categories: [
-        { name: "Single", number: 10 },
-        { name: "Double", number: 10 },
-        { name: "Family", number: 10 },
-      ],
-      total: 30,
-      totalOccubied: 12,
-      revenu: 512,
-    },
-    {
-      title: "Standurd",
-      categories: [
-        { name: "Single", number: 10 },
-        { name: "Double", number: 10 },
-        { name: "Family", number: 10 },
-      ],
-      total: 30,
-      totalOccubied: 12,
-      revenu: 512,
-    },
-    {
-      title: "Dulex",
-      categories: [
-        { name: "Single", number: 10 },
-        { name: "Double", number: 10 },
-        { name: "Family", number: 10 },
-        { name: "Family", number: 10 },
-      ],
-      total: 30,
-      totalOccubied: 12,
-      revenu: 512,
-    },
-    {
-      title: "Suit",
-      categories: [
-        { name: "Single", number: 10 },
-        { name: "Double", number: 10 },
-        { name: "Family", number: 10 },
-      ],
-      total: 30,
-      totalOccubied: 12,
-      revenu: 512,
-    },
-  ]);
+const Rooms = ({ data, loading }) => {
   return (
     <Card className="min-w-[60%]">
       <h2 className="text-3xl font-medium mb-4">Rooms</h2>
-      <div className="flex gap-5 overflow-x-auto custom-scroll">
-        {data.map((ele, idx) => (
+      {!loading && <div className="flex gap-5 overflow-x-auto custom-scroll">
+        {data?.map((ele, idx) => (
           <RoomTypeCard
             key={idx}
-            title={ele.title}
-            categories={ele.categories}
-            total={ele.total}
-            totalOccubied={ele.totalOccubied}
-            revenu={ele.revenu}
+            title={ele.name}
+            types={ele.types}
+            // total={ele.total}
+            // totalOccubied={ele.totalOccubied}
+            // revenu={ele.revenu}
           />
         ))}
-      </div>
+      </div>}
+      {loading && <p>Loading...</p>}
     </Card>
   );
 };
 
-const RoomTypeCard = ({
-  title,
-  categories = [],
-  total,
-  totalOccubied,
-  revenu,
-}) => {
+const RoomTypeCard = ({ title, types = [], total, totalOccubied, revenu }) => {
   return (
     <Card className="w-[250px] min-w-[250px]">
       <h3 className="text-2xl font-medium mb-2">{title}</h3>
       <div className="my-5 h-[122px] overflow-y-auto custom-scroll">
-        {categories.map((ele, idx) => (
-          <>
+        {types.map((ele, idx) => (
+          <Fragment key={idx}>
             <div key={idx} className="flex justify-between font-medium my-2">
               <p>{ele.name}</p>
-              <p>{ele.number}</p>
+              <p>{ele.value}</p>
             </div>
-            {idx + 1 !== categories.length && (
-              <p className="h-[1px] bg-[#ddd]"></p>
-            )}
-          </>
+            {idx + 1 !== types.length && <p className="h-[1px] bg-[#ddd]"></p>}
+          </Fragment>
         ))}
       </div>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <div className="flex items-center">
           <p className="text-xl font-medium">{totalOccubied}</p>
           <p className="text-[#aaa]">/{total}</p>
@@ -158,62 +128,17 @@ const RoomTypeCard = ({
           <p className="text-xl font-medium text-blue-800">${revenu}</p>
           <p className="text-[#aaa]">/day</p>
         </div>
-      </div>
+      </div> */}
     </Card>
   );
 };
 
-const Users = () => {
-  const [temp, setTemp] = useState([
-    { user: "Ali Ahmed", role: "Manager" },
-    { user: "Hamed Mamdouh", role: "Front Desk" },
-    { user: "Ahmed Sameh", role: "Front Desk" },
-  ]);
-  return (
-    <Card className="w-full">
-      <h2 className="text-3xl font-medium mb-4">Users</h2>
-      <Table head={["User", "Role"]}>
-        {temp.map((ele, idx) => (
-          <TableRow key={idx} rowNum={idx}>
-            <TableData>{ele.user}</TableData>
-            <TableData>{ele.role}</TableData>
-          </TableRow>
-        ))}
-      </Table>
-    </Card>
-  );
-};
-
-const Arrivals = () => {
-  const [testData, setTestData] = useState([
-    {
-      number: "1",
-      name: "Test Name",
-      bookednights: "3",
-      total: "5200",
-      paid: "1200",
-    },
-    {
-      number: "2",
-      name: "Test Name",
-      bookednights: "5",
-      total: "6000",
-      paid: "2500",
-    },
-    {
-      number: "3",
-      name: "Test Name",
-      bookednights: "2",
-      total: "1400",
-      paid: "1400",
-    },
-  ]);
-
+const Arrivals = ({ data, loading }) => {
   return (
     <Card className="w-[50%]">
       <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
-      <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
-        {testData.map((ele, idx) => (
+      {!loading && <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
+        {data?.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.number}</TableData>
             <TableData>{ele.name}</TableData>
@@ -222,41 +147,18 @@ const Arrivals = () => {
             <TableData>{ele.total}</TableData>
           </TableRow>
         ))}
-      </Table>
+      </Table>}
+      {loading && <p>Loading...</p>}
     </Card>
   );
 };
 
-const Departures = () => {
-  const [testData, setTestData] = useState([
-    {
-      number: "1",
-      name: "Test Name",
-      bookednights: "3",
-      total: "5200",
-      paid: "1200",
-    },
-    {
-      number: "2",
-      name: "Test Name",
-      bookednights: "5",
-      total: "6000",
-      paid: "2500",
-    },
-    {
-      number: "3",
-      name: "Test Name",
-      bookednights: "2",
-      total: "1400",
-      paid: "1400",
-    },
-  ]);
-
+const Departures = ({ data, loading }) => {
   return (
     <Card className="w-[50%]">
       <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
-      <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
-        {testData.map((ele, idx) => (
+      {!loading && <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
+        {data?.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.number}</TableData>
             <TableData>{ele.name}</TableData>
@@ -265,7 +167,8 @@ const Departures = () => {
             <TableData>{ele.total}</TableData>
           </TableRow>
         ))}
-      </Table>
+      </Table>}
+      {loading && <p>Loading...</p>}
     </Card>
   );
 };
