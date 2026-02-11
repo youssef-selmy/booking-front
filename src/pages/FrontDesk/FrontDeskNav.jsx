@@ -10,7 +10,7 @@ const pages = [
 
 const FrontDeskNav = () => {
   return (
-    <header className="w-full h-[70px] border-b border-[#ddd] flex fixed bg-white">
+    <header className="w-full h-[70px] border-b border-[#ddd] flex fixed bg-white z-10">
       {pages.map((ele, idx) => (
         <NavLink
           key={idx}
