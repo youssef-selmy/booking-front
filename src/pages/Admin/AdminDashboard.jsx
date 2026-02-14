@@ -7,22 +7,29 @@ import { IoIosLink } from "react-icons/io";
 import axios from "axios";
 import { domain } from "../../../globals";
 import api from "../../../api/axios";
+import useTable from "../../../hooks/useTable";
 
 const AdminDashboard = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const handle = async () => {
-      const { data } = await api.get("/hotels");
-      setData(data.data);
-    };
-    handle();
-  }, []);
+  // const [data, setData] = useState([]);
+  // const [pagenationData, setPagenationData] = useState()
+  const { data, loading, paginationData, next, prev } = useTable("/hotels");
+console.log(paginationData)
+  // useEffect(() => {
+  //   const handle = async () => {
+  //     const { data } = await api.get("/hotels");
+  //     setData(data.data);
+  //   };
+  //   handle();
+  // }, []);
   return (
     <main className="p-5">
       <Table
         head={["Name", "Location", "State", "Details"]}
         smallArr={["Details"]}
+        pagenationData={paginationData}
+        next={next}
+        prev={prev}
+        loading={loading}
       >
         {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>

@@ -5,9 +5,11 @@ import Card from "../../components/Card";
 import FileInput from "../../components/FileInput";
 import axios from "axios";
 import { domain } from "../../../globals";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -63,6 +65,7 @@ const Register = () => {
       });
 
       console.log(data);
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     } finally {

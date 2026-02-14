@@ -19,7 +19,7 @@ const Arrival = () => {
   ]);
   return (
     <Section extraPadding classname="w-full px-5">
-      <Table head={["Name", "Email", "Room", "Nights", "Arrival Date", "Details"]}>
+      <Table head={["Main Guest Name", "Email", "Room", "Nights", "Arrival Date", "Details"]}>
         {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.name}</TableData>
