@@ -40,6 +40,12 @@ import AdminAuth from "./components/AdminAuth";
 import ManagerAuth from "./components/ManagerAuth";
 import RootLayout from "./pages/RootLayout";
 import NotAuthorized from "./pages/NotAuthorized";
+import ReservationDetails from "./pages/FrontDesk/ReservationDetails/ReservationDetails";
+import MainInfo from "./pages/FrontDesk/ReservationDetails/MainInfo";
+import Rooms from "./pages/FrontDesk/ReservationDetails/Rooms";
+import Payments from "./pages/FrontDesk/ReservationDetails/Payments";
+import Alerts from "./pages/FrontDesk/ReservationDetails/Alerts";
+import ReservationServices from "./pages/FrontDesk/ReservationDetails/ReservationServices";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +53,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to='/auth/login' replace />
+        element: <Navigate to="/auth/login" replace />,
       },
       {
         path: "/auth",
@@ -64,7 +70,7 @@ const router = createBrowserRouter([
             index: true,
             element: (
               // <AdminAuth>
-                <AdminDashboard />
+              <AdminDashboard />
               // </AdminAuth>
             ),
           },
@@ -72,7 +78,7 @@ const router = createBrowserRouter([
             path: ":id",
             element: (
               // <AdminAuth>
-                <RequestDetails />
+              <RequestDetails />
               // </AdminAuth>
             ),
           },
@@ -82,7 +88,7 @@ const router = createBrowserRouter([
         path: "/manager",
         element: (
           // <ManagerAuth>
-            <Manager />
+          <Manager />
           // </ManagerAuth>
         ),
         children: [
@@ -108,6 +114,18 @@ const router = createBrowserRouter([
         element: <FrontDesk />,
         children: [
           { index: true, element: <Navigate to="booking" replace /> },
+          {
+            path: "reservation/:id",
+            element: <ReservationDetails />,
+            children: [
+              { index: true, element: <Navigate to="main-info" /> },
+              { path: "main-info", element: <MainInfo /> },
+              { path: "rooms", element: <Rooms /> },
+              { path: "services", element: <ReservationServices /> },
+              { path: "payments", element: <Payments /> },
+              { path: "alerts", element: <Alerts /> },
+            ],
+          },
           {
             path: "booking",
             element: <Booking />,
