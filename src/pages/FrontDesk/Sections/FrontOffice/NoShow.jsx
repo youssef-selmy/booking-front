@@ -28,29 +28,31 @@ const NoShow = () => {
   return (
     <Section extraPadding classname="w-full px-5">
       <Table
-        loading={loading}
         head={[
           "Confirmation Number",
           "Main Guest Name",
-          "Departure Date",
+          "Rooms Count",
           "Reserved Nights",
-          "Remaining",
+          "Total",
+          "Paid",
+          "Arrive Date",
           "Details",
         ]}
       >
         {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
-            <TableData>{ele.reservationId}</TableData>
-            <TableData>{ele.name}</TableData>
-            <TableData>{ele.checkoutDate?.split("T")[0]}</TableData>
-            <TableData>{ele.nights}</TableData>
-            <TableData>{ele.remaining}</TableData>
-            <TableData>
-              <HiLink
-                onClick={() => handleCheckIn(ele.confirmationNumber)}
-                className="w-full cursor-pointer"
-              />
-            </TableData>
+            <TableData>{ele.confirmationNumber}</TableData>
+            <TableData>{ele.mainGuestName}</TableData>
+            <TableData>{ele.roomsCount}</TableData>
+            <TableData>{ele.reservedNights}</TableData>
+            <TableData>{ele.total}</TableData>
+            <TableData>{ele.paid}</TableData>
+            <TableData>{ele.arriveDate?.split("T")[0]}</TableData>
+            <TableLink
+              link={`/front-desk/reservation/${ele.confirmationNumber}`}
+            >
+              <HiLink />
+            </TableLink>
           </TableRow>
         ))}
       </Table>
