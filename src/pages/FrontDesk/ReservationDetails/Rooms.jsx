@@ -9,8 +9,13 @@ import TableRow from "../../../components/Table/TableRow";
 import TableData from "../../../components/Table/TableData";
 import { IoMdAdd } from "react-icons/io";
 import Section from "../../../components/Section";
+import { useOutletContext } from "react-router-dom";
+import { BiTrash } from "react-icons/bi";
+import Button from "../../../components/Button";
 
-const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
+const Rooms = () => {
+  const { data, id } = useOutletContext();
+  const [selectedRooms, setSelectedRooms] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
 
@@ -20,30 +25,89 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
+    if (!data || categoryOptions.length === 0 || typeOptions.length === 0)
+      return;
+    const newData = data.rooms.map((e) => ({
+      category: categoryOptions.find((o) => o.name === e.room?.category),
+      type: typeOptions.find((o) => o.name === e.room?.type),
+      package: e.package,
+      perDay: e.perDay,
+      roomNumber: e.room?.roomNumber,
+      floor: e.room?.floor,
+      view: e.room?.view,
+      room: e._id,
+      _id: e._id,
+    }));
+    setSelectedRooms(newData);
+  }, [data, categoryOptions, typeOptions]);
+
+  useEffect(() => {
+    const handle = async () => {
+      const [categoriesRes, typesRes] = await Promise.all([
+        api.get("roomCategory?all=true"),
+        api.get("roomType?all=true"),
+      ]);
+      setCategoryOptions([
+        { name: "All", _id: 0, ignore: true },
+        ...categoriesRes.data.data,
+      ]);
+      setTypeOptions([
+        { name: "All", _id: 0, ignore: true },
+        ...typesRes.data.data,
+      ]);
+    };
+    handle();
+  }, [data]);
+
+  const handleSave = async () => {
+    let stop = false;
+    selectedRooms.forEach((e) => {
+      if (!e.perDay || e.perDay === "") {
+        setErrors([`Room ${e.roomNumber}: price per night is required`]);
+        stop = true;
+        return;
+      }
+    });
+    if (stop) return;
+    const d = selectedRooms.map((e) => ({
+      package: e.package?._id,
+      perDay: e.perDay,
+      room: e._id,
+    }));
+    // return;
+    const newData = {
+      rooms: d,
+    };
+    try {
+      setLoading(true);
+      const res = await api.put(`reservation/${id}`, newData);
+    } catch (error) {
+      setErrors([error.response.data.message]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     const handle = async () => {
       setErrors([]);
-      console.log("Call");
-      if (!reserveDate || !reserveDate.checkIn || !reserveDate.checkOut) return;
-      console.log("Call Pass");
+      if (!data?.checkIn || !data?.checkOut) return;
       setLoading(true);
-      let queries = `?checkIn=${reserveDate.checkIn}&checkOut=${reserveDate.checkOut}`;
+      let queries = `?checkIn=${data.checkIn}&checkOut=${data.checkOut}`;
       if (roomFilters)
         for (const [key, value] of Object.entries(roomFilters))
           if (value) queries += `&${key}=${value}`;
-      console.log(queries);
       try {
         const { data } = await api.get(`reservation/available/rooms${queries}`);
-        console.log(data);
         setAvilableRooms(data.data);
       } catch (error) {
-        console.log(error.response.data.message);
         setErrors([error.response.data.message]);
       } finally {
         setLoading(false);
       }
     };
     handle();
-  }, [roomFilters, reserveDate]);
+  }, [roomFilters, data]);
 
   const handleAdd = (roomNumber) => {
     const isExist = selectedRooms.some((e) => e.roomNumber === roomNumber);
@@ -80,7 +144,6 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
   const handleRoomPackage = (roomNumber, Package) => {
     const isExist = selectedRooms.some((e) => e.roomNumber === roomNumber);
     if (!isExist) return;
-    console.log(Package);
     setSelectedRooms((prev) => {
       const copy = [...prev];
 
@@ -95,24 +158,6 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
       return copy;
     });
   };
-
-  useEffect(() => {
-    const handle = async () => {
-      const [categoriesRes, typesRes] = await Promise.all([
-        api.get("roomCategory?all=true"),
-        api.get("roomType?all=true"),
-      ]);
-      setCategoryOptions([
-        { name: "All", _id: 0, ignore: true },
-        ...categoriesRes.data.data,
-      ]);
-      setTypeOptions([
-        { name: "All", _id: 0, ignore: true },
-        ...typesRes.data.data,
-      ]);
-    };
-    handle();
-  }, []);
 
   return (
     <Section extraPadding>
@@ -137,6 +182,14 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
           handleRoomPackage={handleRoomPackage}
         />
       </Card>
+      <Button
+        full
+        className="my-5 text-xl"
+        disabled={loading || selectedRooms.length === 0}
+        onClick={handleSave}
+      >
+        Save
+      </Button>
     </Section>
   );
 };
@@ -321,8 +374,8 @@ const RoomField = ({
         <div className="flex gap-3 flex-wrap">
           <Input title="Floor" value={room.floor} readOnly />
           <Input title="View" value={room.view} readOnly />
-          <Input title="Category" value={room.category.name} readOnly />
-          <Input title="Type" value={room.type.name} readOnly />
+          <Input title="Category" value={room.category?.name} readOnly />
+          <Input title="Type" value={room.type?.name} readOnly />
         </div>
         <div className="flex flex-wrap gap-3">
           <SelectMenu

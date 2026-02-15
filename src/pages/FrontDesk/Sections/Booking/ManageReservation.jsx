@@ -11,6 +11,7 @@ import useTable from "../../../../../hooks/useTable";
 
 const ManageReservation = () => {
   const { data, mode, setMode } = useTable("reservation");
+  console.log(data)
 
   return (
     <Section extraPadding classname="px-5 w-full">
@@ -30,12 +31,12 @@ const ManageReservation = () => {
         {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
-            <TableData>{ele.name}</TableData>
+            <TableData>{ele.mainGuestName}</TableData>
             <TableData>{ele.travelAgent}</TableData>
-            <TableData>{ele.roomType}</TableData>
-            <TableData>{ele.package}</TableData>
-            <TableData>{ele.package}</TableData>
-            <TableLink link={ele.id}>
+            <TableData>{ele.roomsCount}</TableData>
+            <TableData>{ele.arriveDate?.split('T')[0]}</TableData>
+            <TableData>{ele.reservedNights}</TableData>
+            <TableLink link={`/front-desk/reservation/${ele.confirmationNumber}`}>
               <HiLink />
             </TableLink>
           </TableRow>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Section from "../../../components/Section";
 import Card from "../../../components/Card";
 import Input from "../../../components/Input";
@@ -8,27 +8,118 @@ import TableRow from "../../../components/Table/TableRow";
 import TableData from "../../../components/Table/TableData";
 import { useState } from "react";
 import { BiTrash } from "react-icons/bi";
+import { useOutletContext } from "react-router-dom";
+import api from "../../../../api/axios";
+import ErrorsBlock from "../../../components/ErrorsBlock";
 
 const Payments = () => {
+  const { data, id } = useOutletContext();
   const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState({
+    paid: 0,
+    total: 0,
+    remaining: 0,
+    services: 0,
+    totalRooms: 0,
+  });
+
+  const handleSave = async () => {
+    setErrors([]);
+    const newData = { payments };
+    console.log(newData);
+    try {
+      setLoading(true);
+      const res = await api.put(`reservation/${id}`, newData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      setErrors([error.response.data.message]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log(payments);
+
+  useEffect(() => {
+    if (!data) return;
+    setPayments(
+      data.payments.map((e) => ({ ...e, date: e.date.split("T")[0] })),
+    );
+  },[data])
+
+  useEffect(() => {
+    if (!data) return;
+    console.log('call')
+
+    const services = data.services.reduce((sum, current) => {
+      return sum + current.price;
+    }, 0);
+    const paid = payments.reduce((sum, current) => {
+      return sum + current.amount;
+    }, 0);
+    const totalRooms = data.rooms.reduce((sum, current) => {
+      return sum + +current.perDay * +current.nights;
+    }, 0);
+    console.log("t", totalRooms);
+
+    setPaymentDetails({
+      paid,
+      total: totalRooms + services,
+      remaining: totalRooms + services - paid,
+      services,
+      totalRooms,
+    });
+  }, [data, payments.length]);
+
   const handleAdd = (data) => {
-    data.date = new Date().toLocaleDateString("en-GB").split("/").join("-");
+    data.date = new Date().toISOString().split("T")[0];
     console.log(data);
     setPayments((prev) => [...prev, data]);
   };
-  const handleDelete = (idx) => {};
+  const handleDelete = (idx) => {
+    setPayments((prev) => prev.filter((e, i) => i !== idx));
+  };
   return (
     <Section extraPadding classname="flex flex-col gap-5">
+      <ErrorsBlock globalErrors={errors} />
       <div className="flex gap-5">
         <Card className="flex gap-5 w-full">
-          <Input title="Total Services" readOnly />
-          <Input title="Total Rooms Price" readOnly />
+          <Input
+            type="number"
+            value={paymentDetails.services}
+            title="Total Services"
+            readOnly
+          />
+          <Input
+            type="number"
+            value={paymentDetails.totalRooms}
+            title="Total Rooms Price"
+            readOnly
+          />
         </Card>
 
         <Card className="flex gap-5 w-full">
-          <Input title="Total" readOnly />
-          <Input title="Paid" readOnly />
-          <Input title="Remaining" readOnly />
+          <Input
+            type="number"
+            value={paymentDetails.total}
+            title="Total"
+            readOnly
+          />
+          <Input
+            type="number"
+            value={paymentDetails.paid}
+            title="Paid"
+            readOnly
+          />
+          <Input
+            type="number"
+            value={paymentDetails.remaining}
+            title="Remaining"
+            readOnly
+          />
         </Card>
       </div>
       <PayTable
@@ -36,6 +127,9 @@ const Payments = () => {
         handleAdd={handleAdd}
         handleDelete={handleDelete}
       />
+      <Button disabled={loading} onClick={handleSave}>
+        Save
+      </Button>
     </Section>
   );
 };
@@ -48,7 +142,7 @@ const PayTable = ({ payments = [], handleAdd, handleDelete }) => {
         <Input
           title="Amount"
           value={payment?.amount}
-          setValue={(v) => setPayment((e) => ({ ...e, amount: v }))}
+          setValue={(v) => setPayment((e) => ({ ...e, amount: +v }))}
         />
         <Input
           title="Method"

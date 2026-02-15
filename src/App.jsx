@@ -118,7 +118,7 @@ const router = createBrowserRouter([
             path: "reservation/:id",
             element: <ReservationDetails />,
             children: [
-              { index: true, element: <Navigate to="main-info" /> },
+              { index: true, element: <Navigate to="main-info" replace /> },
               { path: "main-info", element: <MainInfo /> },
               { path: "rooms", element: <Rooms /> },
               { path: "services", element: <ReservationServices /> },

@@ -1,9 +1,9 @@
-import React from "react";
-import Section from "../../../components/Section";
+import { useEffect, useState } from "react";
 import SideBar from "../../../components/SideBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import api from "../../../../api/axios";
 
-const data = [
+const sideData = [
   { name: "Main Info", link: "main-info" },
   { name: "Rooms", link: "rooms" },
   { name: "Services", link: "services" },
@@ -12,11 +12,29 @@ const data = [
 ];
 
 const ReservationDetails = () => {
+  const { id } = useParams();
+  // const [rooms, setRooms] = useState([]);
+  // const [mainGuest, setMainGuest] = useState();
+  // const [additionalGuests, setAdditionalGuests] = useState([]);
+  // const [payments, setPayments] = useState([]);
+  // const [services, setServices] = useState([]);
+  // const [dates,setDates] = useState();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get(`reservation/${id}`);
+      console.log(data.data);
+      setData(data.data);
+    };
+    handle();
+  }, []);
+
   return (
     <main className="w-full h-full flex">
-      <SideBar data={data} />
+      <SideBar data={sideData} />
       <div className="px-5 w-full">
-        <Outlet />
+        <Outlet context={{ data, id }} />
       </div>
     </main>
   );

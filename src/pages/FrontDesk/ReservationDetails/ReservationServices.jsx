@@ -9,10 +9,35 @@ import Table from "../../../components/Table/Table";
 import TableRow from "../../../components/Table/TableRow";
 import TableData from "../../../components/Table/TableData";
 import { BiTrash } from "react-icons/bi";
+import ErrorsBlock from "../../../components/ErrorsBlock";
+import { useOutletContext } from "react-router-dom";
 
 const ReservationServices = () => {
+  const { data, id } = useOutletContext();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (!data) return;
+    setServices(data.services);
+  }, [data]);
+
+  const handleSave = async () => {
+    setErrors([]);
+    const newData = { services };
+    console.log(newData);
+    try {
+      setLoading(true);
+      const res = await api.put(`reservation/${id}`, newData);
+      console.log(res);
+    } catch (error) {
+      console.log(error.response.data.message);
+      setErrors([error.response.data.message]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAdd = (ele) => {
     setServices((prev) => [...prev, ele]);
@@ -22,12 +47,14 @@ const ReservationServices = () => {
   };
   return (
     <Section extraPadding classname="flex flex-col gap-5">
+      <ErrorsBlock globalErrors={errors} />
       <TopCard handleAdd={handleAdd} />
       <DataTable
         loading={loading}
         services={services}
         handleDelete={handleDelete}
       />
+      <Button disabled={loading} onClick={handleSave}>Save</Button>
     </Section>
   );
 };
