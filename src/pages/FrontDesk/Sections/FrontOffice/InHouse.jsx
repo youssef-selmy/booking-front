@@ -1,45 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
 import TableRow from "../../../../components/Table/TableRow";
 import TableData from "../../../../components/Table/TableData";
 import TableLink from "../../../../components/Table/TableLink";
 import { HiLink } from "react-icons/hi2";
+import ErrorsBlock from "../../../../components/ErrorsBlock";
 const InHouse = () => {
-  const [data, setData] = useState([
-    {
-      id: "123",
-      name: "Michel",
-      room: "211",
-      nights: 2,
-      remaining: 1500,
-      checkoutDate: "27-11-2025",
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    const handle = async () => {
+      try {
+        const { data } = await api.get(`front-office/inhouse`);
+        setData(data.data);
+      } catch (error) {
+        setErrors(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handle();
+  }, []);
+
   return (
     <Section extraPadding classname="w-full px-5">
       <Table
+        loading={loading}
         head={[
-          "Name",
-          "Room",
-          "Nights",
+          "Confirmation Number",
+          "Main Guest Name",
+          "Departure Date",
+          "Reserved Nights",
           "Remaining",
-          "Checkout Date",
           "Details",
         ]}
       >
         {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
+            <TableData>{ele.reservationId}</TableData>
             <TableData>{ele.name}</TableData>
-            <TableData>{ele.room}</TableData>
+            <TableData>{ele.checkoutDate?.split("T")[0]}</TableData>
             <TableData>{ele.nights}</TableData>
             <TableData>{ele.remaining}</TableData>
-            <TableData>{ele.checkoutDate}</TableData>
-            <TableLink
-              link={`/front-desk/booking/manage-reservation/${ele.id}`}
-            >
-              <HiLink />
-            </TableLink>
+            <TableData>
+              <HiLink
+                onClick={() => handleCheckIn(ele.confirmationNumber)}
+                className="w-full cursor-pointer"
+              />
+            </TableData>
           </TableRow>
         ))}
       </Table>
