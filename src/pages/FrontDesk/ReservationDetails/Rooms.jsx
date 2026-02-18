@@ -27,6 +27,7 @@ const Rooms = () => {
   useEffect(() => {
     if (!data || categoryOptions.length === 0 || typeOptions.length === 0)
       return;
+    console.log(data)
     const newData = data.rooms.map((e) => ({
       category: categoryOptions.find((o) => o.name === e.room?.category),
       type: typeOptions.find((o) => o.name === e.room?.type),

@@ -53,6 +53,7 @@ const Payments = () => {
   useEffect(() => {
     if (!data) return;
     console.log('call')
+    console.log(data)
 
     const services = data.services.reduce((sum, current) => {
       return sum + current.price;
@@ -63,14 +64,17 @@ const Payments = () => {
     const totalRooms = data.rooms.reduce((sum, current) => {
       return sum + +current.perDay * +current.nights;
     }, 0);
-    console.log("t", totalRooms);
+    const totalPackages = data.rooms.reduce((sum, current) => {
+      return sum + (current.package?.price ?? 0)
+    }, 0);
 
     setPaymentDetails({
       paid,
-      total: totalRooms + services,
-      remaining: totalRooms + services - paid,
+      total: totalRooms + services + totalPackages,
+      remaining: totalRooms + services + totalPackages - paid,
       services,
       totalRooms,
+      totalPackages
     });
   }, [data, payments.length]);
 
@@ -86,7 +90,7 @@ const Payments = () => {
     <Section extraPadding classname="flex flex-col gap-5">
       <ErrorsBlock globalErrors={errors} />
       <div className="flex gap-5">
-        <Card className="flex gap-5 w-full">
+        <Card className="flex gap-5">
           <Input
             type="number"
             value={paymentDetails.services}
@@ -99,9 +103,15 @@ const Payments = () => {
             title="Total Rooms Price"
             readOnly
           />
+          <Input
+            type="number"
+            value={paymentDetails.totalPackages}
+            title="Total Packages Price"
+            readOnly
+          />
         </Card>
 
-        <Card className="flex gap-5 w-full">
+        <Card className="flex gap-5">
           <Input
             type="number"
             value={paymentDetails.total}

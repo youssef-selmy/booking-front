@@ -1,32 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap");
 
 @import "tailwindcss";
 
 body {
-    font-family: "Afacad", sans-serif;
-    color: #333;
+  font-family: "Afacad", sans-serif;
+  color: #333;
 }
 
 .custom-scroll {
-    scrollbar-width: thin;
+  scrollbar-width: thin;
 }
 
 .loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #999;
-    border-bottom-color: #333;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
+  width: 48px;
+  height: 48px;
+  border: 5px solid #999;
+  border-bottom-color: #333;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  img {
+    display: initial;
+  }
+}

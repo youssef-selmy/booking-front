@@ -9,6 +9,7 @@ const sideData = [
   { name: "Services", link: "services" },
   { name: "Payments", link: "payments" },
   { name: "Alerts", link: "alerts" },
+  { name: "Print", link: "print" },
 ];
 
 const ReservationDetails = () => {
