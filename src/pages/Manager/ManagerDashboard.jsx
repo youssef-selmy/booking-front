@@ -5,6 +5,7 @@ import Table from "../../components/Table/Table";
 import TableData from "../../components/Table/TableData";
 import TableRow from "../../components/Table/TableRow";
 import api from "../../../api/axios";
+import useTable from "../../../hooks/useTable";
 
 const ManagerDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -47,25 +48,31 @@ const Overview = ({ data, loading }) => {
   return (
     <Card>
       <h2 className="text-3xl font-medium mb-4">OverView</h2>
-      {!loading && <div className="flex justify-between gap-5 px-5">
-        <OverviewField title="Today's" name="Arrival" number={data?.arrival} />
-        <OverviewField
-          title="Today's"
-          name="Departure"
-          number={data?.departure}
-        />
-        <OverviewField title="Total" name="In House" number={data?.inHouse} />
-        <OverviewField
-          title="Total"
-          name="Avilable Rooms"
-          number={data?.avilableRooms}
-        />
-        <OverviewField
-          title="Total"
-          name="Occupied Rooms"
-          number={data?.occupiedRooms}
-        />
-      </div>}
+      {!loading && (
+        <div className="flex justify-between gap-5 px-5">
+          <OverviewField
+            title="Today's"
+            name="Arrival"
+            number={data?.arrival}
+          />
+          <OverviewField
+            title="Today's"
+            name="Departure"
+            number={data?.departure}
+          />
+          <OverviewField title="Total" name="In House" number={data?.inHouse} />
+          <OverviewField
+            title="Total"
+            name="Avilable Rooms"
+            number={data?.avilableRooms}
+          />
+          <OverviewField
+            title="Total"
+            name="Occupied Rooms"
+            number={data?.occupiedRooms}
+          />
+        </div>
+      )}
       {loading && <p>Loading...</p>}
     </Card>
   );
@@ -87,18 +94,20 @@ const Rooms = ({ data, loading }) => {
   return (
     <Card className="min-w-[60%]">
       <h2 className="text-3xl font-medium mb-4">Rooms</h2>
-      {!loading && <div className="flex gap-5 overflow-x-auto custom-scroll">
-        {data?.map((ele, idx) => (
-          <RoomTypeCard
-            key={idx}
-            title={ele.name}
-            types={ele.types}
-            // total={ele.total}
-            // totalOccubied={ele.totalOccubied}
-            // revenu={ele.revenu}
-          />
-        ))}
-      </div>}
+      {!loading && (
+        <div className="flex gap-5 overflow-x-auto custom-scroll">
+          {data?.map((ele, idx) => (
+            <RoomTypeCard
+              key={idx}
+              title={ele.name}
+              types={ele.types}
+              // total={ele.total}
+              // totalOccubied={ele.totalOccubied}
+              // revenu={ele.revenu}
+            />
+          ))}
+        </div>
+      )}
       {loading && <p>Loading...</p>}
     </Card>
   );
@@ -133,42 +142,64 @@ const RoomTypeCard = ({ title, types = [], total, totalOccubied, revenu }) => {
   );
 };
 
-const Arrivals = ({ data, loading }) => {
+const Arrivals = () => {
+  const { data, loading } = useTable("front-office/arrivals");
   return (
     <Card className="w-[50%]">
       <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
-      {!loading && <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
-        {data?.map((ele, idx) => (
+      <Table
+        loading={loading}
+        head={[
+          "Confirmation Number",
+          "Main Guest Name",
+          "Travel Agent",
+          "Rooms Count",
+          "Arrive Date",
+          "Reserved Nights",
+        ]}
+      >
+        {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
-            <TableData>{ele.number}</TableData>
-            <TableData>{ele.name}</TableData>
-            <TableData>{ele.bookednights}</TableData>
-            <TableData>{ele.paid}</TableData>
-            <TableData>{ele.total}</TableData>
+            <TableData>{ele.confirmationNumber}</TableData>
+            <TableData>{ele.mainGuestName}</TableData>
+            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.roomsCount}</TableData>
+            <TableData>{ele.arriveDate?.split("T")[0]}</TableData>
+            <TableData>{ele.reservedNights}</TableData>
           </TableRow>
         ))}
-      </Table>}
-      {loading && <p>Loading...</p>}
+      </Table>
     </Card>
   );
 };
 
-const Departures = ({ data, loading }) => {
+const Departures = () => {
+  const { data, loading } = useTable("front-office/departures");
   return (
     <Card className="w-[50%]">
       <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
-      {!loading && <Table head={["Room No.", "Name", "Booked Nights", "Total", "Paid"]}>
-        {data?.map((ele, idx) => (
+      <Table
+        loading={loading}
+        head={[
+          "Confirmation Number",
+          "Main Guest Name",
+          "Travel Agent",
+          "Rooms Count",
+          "Departure Date",
+          "Reserved Nights",
+        ]}
+      >
+        {data.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
-            <TableData>{ele.number}</TableData>
-            <TableData>{ele.name}</TableData>
-            <TableData>{ele.bookednights}</TableData>
-            <TableData>{ele.paid}</TableData>
-            <TableData>{ele.total}</TableData>
+            <TableData>{ele.confirmationNumber}</TableData>
+            <TableData>{ele.mainGuestName}</TableData>
+            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.roomsCount}</TableData>
+            <TableData>{ele.departureDate?.split("T")[0]}</TableData>
+            <TableData>{ele.reservedNights}</TableData>
           </TableRow>
         ))}
-      </Table>}
-      {loading && <p>Loading...</p>}
+      </Table>
     </Card>
   );
 };
