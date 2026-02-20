@@ -47,6 +47,7 @@ import Payments from "./pages/FrontDesk/ReservationDetails/Payments";
 import Alerts from "./pages/FrontDesk/ReservationDetails/Alerts";
 import ReservationServices from "./pages/FrontDesk/ReservationDetails/ReservationServices";
 import Print from "./pages/FrontDesk/ReservationDetails/Print";
+import TravelAgents from "./pages/Manager/TravelAgents/TravelAgents";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +97,7 @@ const router = createBrowserRouter([
           { index: true, element: <ManagerHome /> },
           { path: "dashboard", element: <ManagerDashboard /> },
           { path: "users", element: <ManagerUsers /> },
+          { path: "travel-agents", element: <TravelAgents /> },
           {
             path: "rooms",
             element: <ManagerRooms />,
