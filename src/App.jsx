@@ -49,6 +49,10 @@ import TravelAgents from "./pages/Manager/TravelAgents/TravelAgents";
 import Casher from "./pages/FrontDesk/Sections/Finance/Casher";
 import FolioHistory from "./pages/FrontDesk/Sections/Finance/FolioHistory";
 import AuthLayer from "./components/AuthLayer";
+import Subscription from "./pages/Manager/Subscription";
+import ForgetPassword from "./pages/Auth/ForgetPassword";
+import Verify from "./pages/Auth/Verify";
+import Reset from "./pages/Auth/Reset";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +68,9 @@ const router = createBrowserRouter([
           { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
           { path: "Complete", element: <Complete /> },
+          { path: "forget-password", element: <ForgetPassword /> },
+          { path: "verify/:email", element: <Verify /> },
+          { path: "reset/:email", element: <Reset /> },
         ],
       },
       {
@@ -87,6 +94,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: "subscription", element: <Subscription /> },
       {
         path: "/manager",
         element: (
@@ -116,7 +124,7 @@ const router = createBrowserRouter([
       {
         path: "/front-desk",
         element: (
-          <AuthLayer roles={['manager', 'front desk']}>
+          <AuthLayer roles={["manager", "front desk"]}>
             <FrontDesk />
           </AuthLayer>
         ),

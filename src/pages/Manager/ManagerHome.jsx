@@ -16,7 +16,7 @@ const ManagerHome = () => {
           Icon={BsBuildingGear}
         />
         <OptionCard
-          url="sub-details"
+          url="subscription"
           title="Subscription"
           Icon={IoWalletOutline}
         />
