@@ -36,8 +36,6 @@ import InHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
 import NoShow from "./pages/FrontDesk/Sections/FrontOffice/NoShow";
 import OutOfService from "./pages/FrontDesk/Sections/Inventory/OutOfService";
 import HouseKeepingBoard from "./pages/FrontDesk/Sections/Inventory/HouseKeepingBoard";
-import AdminAuth from "./components/AdminAuth";
-import ManagerAuth from "./components/ManagerAuth";
 import RootLayout from "./pages/RootLayout";
 import NotAuthorized from "./pages/NotAuthorized";
 import ReservationDetails from "./pages/FrontDesk/ReservationDetails/ReservationDetails";
@@ -50,6 +48,7 @@ import Print from "./pages/FrontDesk/ReservationDetails/Print";
 import TravelAgents from "./pages/Manager/TravelAgents/TravelAgents";
 import Casher from "./pages/FrontDesk/Sections/Finance/Casher";
 import FolioHistory from "./pages/FrontDesk/Sections/Finance/FolioHistory";
+import AuthLayer from "./components/AuthLayer";
 
 const router = createBrowserRouter([
   {
@@ -73,17 +72,17 @@ const router = createBrowserRouter([
           {
             index: true,
             element: (
-              // <AdminAuth>
-              <AdminDashboard />
-              // </AdminAuth>
+              <AuthLayer roles={["admin"]}>
+                <AdminDashboard />
+              </AuthLayer>
             ),
           },
           {
             path: ":id",
             element: (
-              // <AdminAuth>
-              <RequestDetails />
-              // </AdminAuth>
+              <AuthLayer roles={["admin"]}>
+                <RequestDetails />
+              </AuthLayer>
             ),
           },
         ],
@@ -91,9 +90,9 @@ const router = createBrowserRouter([
       {
         path: "/manager",
         element: (
-          // <ManagerAuth>
-          <Manager />
-          // </ManagerAuth>
+          <AuthLayer roles={["manager"]}>
+            <Manager />
+          </AuthLayer>
         ),
         children: [
           { index: true, element: <ManagerHome /> },
@@ -116,7 +115,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/front-desk",
-        element: <FrontDesk />,
+        element: (
+          <AuthLayer roles={['manager', 'front desk']}>
+            <FrontDesk />
+          </AuthLayer>
+        ),
         children: [
           { index: true, element: <Navigate to="booking" replace /> },
           {

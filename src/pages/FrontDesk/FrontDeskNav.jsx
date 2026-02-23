@@ -1,4 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../../store/AuthProvider";
+import { IoIosLogOut } from "react-icons/io";
 
 const pages = [
   { name: "Booking", url: "booking" },
@@ -9,6 +11,7 @@ const pages = [
 ];
 
 const FrontDeskNav = () => {
+  const { isManager, logout } = useAuth();
   return (
     <header className="w-full h-[70px] border-b border-[#ddd] flex fixed bg-white z-10">
       {pages.map((ele, idx) => (
@@ -27,6 +30,22 @@ const FrontDeskNav = () => {
           {ele.name}
         </NavLink>
       ))}
+      {isManager && (
+        <Link
+          to="/manager"
+          className="w-[350px] flex justify-center items-center bg-[#333] text-white"
+        >
+          <IoIosLogOut size={25} />
+        </Link>
+      )}
+      {!isManager && (
+        <button
+          onClick={logout}
+          className="w-[350px] flex justify-center items-center bg-[#333] text-white"
+        >
+          <IoIosLogOut size={25} />
+        </button>
+      )}
     </header>
   );
 };

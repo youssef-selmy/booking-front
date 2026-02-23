@@ -162,7 +162,7 @@ const Arrivals = () => {
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
-            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.travelAgent?.name ?? "-"}</TableData>
             <TableData>{ele.roomsCount}</TableData>
             <TableData>{ele.arriveDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
@@ -177,7 +177,7 @@ const Departures = () => {
   const { data, loading } = useTable("front-office/departures");
   return (
     <Card className="w-[50%]">
-      <h2 className="text-3xl font-medium mb-4">Today’s Arrival</h2>
+      <h2 className="text-3xl font-medium mb-4">Today’s Departures</h2>
       <Table
         loading={loading}
         head={[
@@ -193,7 +193,7 @@ const Departures = () => {
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
-            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.travelAgent?.name ?? "-"}</TableData>
             <TableData>{ele.roomsCount}</TableData>
             <TableData>{ele.departureDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
