@@ -53,6 +53,7 @@ import Subscription from "./pages/Manager/Subscription";
 import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Verify from "./pages/Auth/Verify";
 import Reset from "./pages/Auth/Reset";
+import CurrencyCalculator from "./pages/FrontDesk/Sections/Inventory/CurrencyCalculator";
 
 const router = createBrowserRouter([
   {
@@ -94,7 +95,7 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "subscription", element: <Subscription /> },
+      { path: "/subscription", element: <Subscription /> },
       {
         path: "/manager",
         element: (
@@ -190,6 +191,7 @@ const router = createBrowserRouter([
               { index: true, element: <Navigate to="folio-history" replace /> },
               { path: "folio-history", element: <FolioHistory /> },
               { path: "casher", element: <Casher /> },
+              { path: "currency-calulator", element: <CurrencyCalculator /> },
             ],
           },
           { path: "reports", element: <Reports /> },
