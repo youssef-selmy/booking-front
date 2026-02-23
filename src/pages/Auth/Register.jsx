@@ -6,9 +6,11 @@ import FileInput from "../../components/FileInput";
 import axios from "axios";
 import { domain } from "../../../globals";
 import { useNavigate } from "react-router-dom";
+import TermsAndConditions from '../../assets/TermsAndConditions.pdf'
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
@@ -70,7 +72,6 @@ const Register = () => {
       setLoading(false);
     }
   }
-
 
   return (
     <main className="h-screen flex justify-center items-center">
@@ -156,7 +157,27 @@ const Register = () => {
           />
         </Container>
 
-        <Button onClick={handleRegister} full disabled={!isValid || loading}>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={() => setAgreed(!agreed)}
+            className="w-5 h-5 accent-blue-600"
+          />
+          <span className="text-gray-700 text-base">
+            I have read and agree to the{" "}
+            <a
+              href={TermsAndConditions}
+              download
+              className="underline text-blue-600 hover:text-blue-800 cursor-pointer"
+            >
+              Terms & Conditions
+            </a>
+            .
+          </span>
+        </label>
+
+        <Button onClick={handleRegister} full disabled={!agreed || !isValid || loading}>
           Send Request
         </Button>
       </Card>
