@@ -21,6 +21,8 @@ const Payment = ({ data, id }) => {
   const handleUpdate = async () => {
     const { data } = await api.put(`hotels/${id}`, {
       isActiveSubscription: state.value,
+      paid,
+      subscriptionCost: cost
     });
     console.log(data);
   };
