@@ -63,7 +63,7 @@ const Departure = () => {
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
-            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.travelAgent?.name ?? "-"}</TableData>
             <TableData>{ele.roomsCount}</TableData>
             <TableData>{ele.departureDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
