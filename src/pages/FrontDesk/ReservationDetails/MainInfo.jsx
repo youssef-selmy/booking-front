@@ -10,12 +10,14 @@ import Section from "../../../components/Section";
 import { useOutletContext } from "react-router-dom";
 import api from "../../../../api/axios";
 import ErrorsBlock from "../../../components/ErrorsBlock";
+import SelectMenu from "../../../components/SelectMenu";
 
 const MainInfo = () => {
   const { data, id } = useOutletContext();
   const [mainInfo, setMainInfo] = useState();
   const [date, setDate] = useState();
   const [additionalGuests, setAdditionalGuests] = useState([]);
+  const [travelAgent, setTravelAgent] = useState();
   const [erros, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,15 +29,17 @@ const MainInfo = () => {
       checkOut: data.checkOut.split("T")[0],
     });
     setAdditionalGuests(data.additionalGuests);
+    setTravelAgent(data.travelAgent);
   }, [data]);
 
   const handleSave = async () => {
-    setErrors([])
+    setErrors([]);
     const newData = {
       mainGuest: mainInfo,
       additionalGuests,
       checkIn: date.checkIn,
       checkOut: date.checkOut,
+      travelAgent: travelAgent?._id
     };
     console.log(newData);
     try {
@@ -44,7 +48,7 @@ const MainInfo = () => {
       console.log(res);
     } catch (error) {
       console.log(error.response.data.message);
-      setErrors([error.response.data.message])
+      setErrors([error.response.data.message]);
     } finally {
       setLoading(false);
     }
@@ -58,6 +62,8 @@ const MainInfo = () => {
         setMainInfo={setMainInfo}
         date={date}
         setDate={setDate}
+        travelAgent={travelAgent}
+        setTravelAgent={setTravelAgent}
       />
       <CompanyInfo
         companyInfo={additionalGuests}
@@ -70,7 +76,24 @@ const MainInfo = () => {
   );
 };
 
-const MainGuestInfo = ({ mainInfo, setMainInfo, date, setDate }) => {
+const MainGuestInfo = ({
+  mainInfo,
+  travelAgent,
+  setTravelAgent,
+  setMainInfo,
+  date,
+  setDate,
+}) => {
+  const [travelAgentOptions, setTravelAgentOptions] = useState([]);
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get("travel-agents");
+      console.log(data);
+      setTravelAgentOptions(data.data);
+    };
+    handle();
+  }, []);
   return (
     <Card className="w-full">
       <h2 className="text-2xl font-medium">Main Info</h2>
@@ -113,6 +136,12 @@ const MainGuestInfo = ({ mainInfo, setMainInfo, date, setDate }) => {
           title="Dparture At"
           value={date?.checkOut}
           setValue={(v) => setDate((e) => ({ ...e, checkOut: v }))}
+        />
+        <SelectMenu
+          title="Travel Agent"
+          options={travelAgentOptions}
+          value={travelAgent}
+          setValue={setTravelAgent}
         />
       </div>
     </Card>

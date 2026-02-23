@@ -27,7 +27,7 @@ const Rooms = () => {
   useEffect(() => {
     if (!data || categoryOptions.length === 0 || typeOptions.length === 0)
       return;
-    console.log(data)
+    console.log(data);
     const newData = data.rooms.map((e) => ({
       category: categoryOptions.find((o) => o.name === e.room?.category),
       type: typeOptions.find((o) => o.name === e.room?.type),
@@ -61,29 +61,29 @@ const Rooms = () => {
   }, [data]);
 
   const handleSave = async () => {
-    let stop = false;
-    selectedRooms.forEach((e) => {
+    const hasError = selectedRooms.some((e) => {
       if (!e.perDay || e.perDay === "") {
         setErrors([`Room ${e.roomNumber}: price per night is required`]);
-        stop = true;
-        return;
+        return true; // stop iteration
       }
+      return false;
     });
-    if (stop) return;
+
+    if (hasError) return;
+
     const d = selectedRooms.map((e) => ({
       package: e.package?._id,
       perDay: e.perDay,
       room: e._id,
     }));
-    // return;
-    const newData = {
-      rooms: d,
-    };
+
+    const newData = { rooms: d };
+
     try {
       setLoading(true);
-      const res = await api.put(`reservation/${id}`, newData);
+      await api.put(`reservation/${id}`, newData);
     } catch (error) {
-      setErrors([error.response.data.message]);
+      setErrors([error?.response?.data?.message || "Something went wrong"]);
     } finally {
       setLoading(false);
     }

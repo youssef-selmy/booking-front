@@ -48,6 +48,8 @@ import Alerts from "./pages/FrontDesk/ReservationDetails/Alerts";
 import ReservationServices from "./pages/FrontDesk/ReservationDetails/ReservationServices";
 import Print from "./pages/FrontDesk/ReservationDetails/Print";
 import TravelAgents from "./pages/Manager/TravelAgents/TravelAgents";
+import Casher from "./pages/FrontDesk/Sections/Finance/Casher";
+import FolioHistory from "./pages/FrontDesk/Sections/Finance/FolioHistory";
 
 const router = createBrowserRouter([
   {
@@ -170,7 +172,15 @@ const router = createBrowserRouter([
               { path: "house-keeping-board", element: <HouseKeepingBoard /> },
             ],
           },
-          { path: "finance", element: <Finance /> },
+          {
+            path: "finance",
+            element: <Finance />,
+            children: [
+              { index: true, element: <Navigate to="folio-history" replace /> },
+              { path: "folio-history", element: <FolioHistory /> },
+              { path: "casher", element: <Casher /> },
+            ],
+          },
           { path: "reports", element: <Reports /> },
         ],
       },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
 import Popup from "../../../../components/Popup";
@@ -8,10 +8,13 @@ import TableData from "../../../../components/Table/TableData";
 import TableLink from "../../../../components/Table/TableLink";
 import { HiLink } from "react-icons/hi2";
 import useTable from "../../../../../hooks/useTable";
+import SelectMenu from "../../../../components/SelectMenu";
+import api from "../../../../../api/axios";
+import Button from "../../../../components/Button";
 
 const ManageReservation = () => {
-  const { data, mode, setMode } = useTable("reservation");
-  console.log(data)
+  const { data, mode, setMode, setFilters } = useTable("reservation");
+  console.log(data);
 
   return (
     <Section extraPadding classname="px-5 w-full">
@@ -32,31 +35,77 @@ const ManageReservation = () => {
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
-            <TableData>{ele.travelAgent}</TableData>
+            <TableData>{ele.travelAgent.name}</TableData>
             <TableData>{ele.roomsCount}</TableData>
-            <TableData>{ele.arriveDate?.split('T')[0]}</TableData>
+            <TableData>{ele.arriveDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
-            <TableLink link={`/front-desk/reservation/${ele.confirmationNumber}`}>
+            <TableLink
+              link={`/front-desk/reservation/${ele.confirmationNumber}`}
+            >
               <HiLink />
             </TableLink>
           </TableRow>
         ))}
       </Table>
-      {mode === "Filters" && <Filters setMode={setMode} />}
+      {mode === "Filters" && (
+        <Filters applyFilters={setFilters} setMode={setMode} />
+      )}
     </Section>
   );
 };
 
-const Filters = ({ setMode }) => {
+const Filters = ({ setMode, applyFilters }) => {
+  const [filters, setFilters] = useState({});
+  const [travelAgentOptions, setTravelAgentOptions] = useState([]);
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get("travel-agents");
+      console.log(data);
+      setTravelAgentOptions([
+        { id: 0, name: "All", ignore: true },
+        ...data.data,
+      ]);
+    };
+    handle();
+  }, []);
+
+  const saveFilters = () => {
+    applyFilters(filters);
+  };
+
   return (
     <Popup setMode={setMode} title="Filters">
-      <Input title="Room Number" />
-      <Input title="First Name" />
-      <Input title="Last Name" />
-      <Input title="Travel Agent" />
       <Input title="Confirmation Number" />
-      <Input title="Arrive At" />
-      <Input title="Departure At" />
+      <Input title="Guest Name" />
+      <SelectMenu
+        title="Travel Agent"
+        options={travelAgentOptions}
+        value={travelAgentOptions.find((e) => e._id === filters.travelAgent)}
+        setValue={(v) => {
+          if (v.ignore) {
+            setFilters((o) => {
+              const { travelAgent, ...rest } = o;
+              return rest;
+            });
+          } else setFilters((o) => ({ ...o, travelAgent: v._id }));
+        }}
+      />
+      <Input
+        type="date"
+        title="Arrive At"
+        value={filters?.toDate}
+        setValue={(v) => setFilters((o) => ({ ...o, arriveAt: v }))}
+      />
+      <Input
+        type="date"
+        title="Departure At"
+        value={filters?.toDate}
+        setValue={(v) => setFilters((o) => ({ ...o, departureAt: v }))}
+      />
+      <Button full onClick={applyFilters}>
+        Filter
+      </Button>
     </Popup>
   );
 };

@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../../../../components/Card";
 import Input from "../../../../../components/Input";
+import SelectMenu from "../../../../../components/SelectMenu";
+import api from "../../../../../../api/axios";
 
-const MainInfo = ({ mainInfo, setMainInfo, date, setDate }) => {
+const MainInfo = ({
+  mainInfo,
+  setMainInfo,
+  date,
+  setDate,
+  travelAgent,
+  setTravelAgent,
+}) => {
+  const [travelAgentOptions, setTravelAgentOptions] = useState([]);
+
+  useEffect(() => {
+    const handle = async () => {
+      const { data } = await api.get("travel-agents");
+      console.log(data);
+      setTravelAgentOptions(data.data);
+    };
+    handle();
+  }, []);
   return (
     <Card className="w-full">
       <h2 className="text-2xl font-medium">Main Info</h2>
@@ -45,6 +64,12 @@ const MainInfo = ({ mainInfo, setMainInfo, date, setDate }) => {
           title="Dparture At"
           value={date?.checkOut}
           setValue={(v) => setDate((e) => ({ ...e, checkOut: v }))}
+        />
+         <SelectMenu
+          title="Travel Agent"
+          options={travelAgentOptions}
+          value={travelAgent}
+          setValue={setTravelAgent}
         />
       </div>
     </Card>

@@ -17,6 +17,7 @@ const CreatePosting = () => {
     nationality: "",
     idNumber: "",
   });
+  const [travelAgent, setTravelAgent] = useState();
   const [reserveDate, setReserveDate] = useState({ checkIn: "", checkOut: "" });
   const [companyInfo, setCompanyInfo] = useState([]);
   const [rooms, setRooms] = useState();
@@ -51,6 +52,7 @@ const CreatePosting = () => {
       rooms,
       checkIn,
       checkOut,
+      travelAgent: travelAgent._id
     };
     if (payment.paid) reservationData.payments = payments;
     console.log(reservationData);
@@ -134,6 +136,8 @@ const CreatePosting = () => {
         setMainInfo={setMainInfo}
         date={reserveDate}
         setDate={setReserveDate}
+        travelAgent={travelAgent}
+        setTravelAgent={setTravelAgent}
       />
       <CompanyInfo companyInfo={companyInfo} setCompanyInfo={setCompanyInfo} />
       <Rooms
@@ -147,7 +151,9 @@ const CreatePosting = () => {
       <Button
         className="p-4 text-xl"
         disabled={
-          loading || selectedRooms.length <= 0 || (payment.paid && !payment.method)
+          loading ||
+          selectedRooms.length <= 0 ||
+          (payment.paid && !payment.method)
         }
         onClick={createReservation}
       >
