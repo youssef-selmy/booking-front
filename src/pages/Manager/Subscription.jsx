@@ -17,7 +17,6 @@ const Subscription = () => {
       const hotelId = decoded.hotel;
 
       const { data } = await api.get(`hotels/${hotelId}`);
-      console.log(data);
       setData(data.data);
     };
 

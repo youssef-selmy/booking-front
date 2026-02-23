@@ -24,7 +24,6 @@ const ForgetPassword = () => {
       const res = await api.post("auth/forgotPassword", { email });
       navigate(`/auth/verify/email=${email}`);
     } catch (error) {
-        console.log(error)
       setErrors([error.response.data.message]);
     }
   };

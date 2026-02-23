@@ -27,7 +27,6 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
       role: role.name,
     };
     if (email !== editItem.email) {
-        console.log('email Changed')
       const isValid = validateEmail(email);
       if (!isValid) return;
       formData.email = email;

@@ -9,14 +9,12 @@ import api from "../../../../../api/axios";
 
 const HouseKeepingBoard = () => {
   const { data, setData, loading } = useTable("inventory/house-keeping");
-  console.log(data);
 
   const handleFinish = async (id) => {
     try {
       const res = await api.patch(`inventory/finish/${id}`);
       setData((prev) => prev.filter((e) => e._id !== id));
     } catch (error) {
-      console.log(error);
     }
   };
   return (

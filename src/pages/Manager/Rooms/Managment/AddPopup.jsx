@@ -42,13 +42,11 @@ const AddPopup = ({ mode, setMode, setData }) => {
     };
     try {
       const res = await request(dataObj);
-      console.log(res);
       if (res.ok) {
         setData((prev) => [...prev, res.data.data]);
         setMode(null);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -63,7 +61,6 @@ const AddPopup = ({ mode, setMode, setData }) => {
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("roomCategory?all=true");
-      console.log("Carigory", data);
       setCategoryOptions(data.data);
     };
     handle();

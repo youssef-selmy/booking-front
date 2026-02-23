@@ -22,7 +22,6 @@ const useTable = (path) => {
       }
 
       const { data } = await request();
-      console.log(data);
       setData(data.data);
       setPaginationData(data.paginationResult);
     };

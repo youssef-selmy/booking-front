@@ -14,7 +14,6 @@ import Button from "../../../../components/Button";
 
 const ManageReservation = () => {
   const { data, mode, setMode, setFilters } = useTable("reservation");
-  console.log(data);
 
   return (
     <Section extraPadding classname="px-5 w-full">
@@ -61,7 +60,6 @@ const Filters = ({ setMode, applyFilters }) => {
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("travel-agents");
-      console.log(data);
       setTravelAgentOptions([
         { id: 0, name: "All", ignore: true },
         ...data.data,

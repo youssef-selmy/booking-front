@@ -20,7 +20,6 @@ const Casher = () => {
         `reports/cashier?${new URLSearchParams(filters).toString()}`,
       );
       setData(data.summary);
-      console.log(data);
       setLoading(false);
     };
     handle();

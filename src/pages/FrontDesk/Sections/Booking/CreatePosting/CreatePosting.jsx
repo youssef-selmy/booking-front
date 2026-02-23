@@ -27,6 +27,7 @@ const CreatePosting = () => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [glopalErrors, setGlopalErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([])
 
   const createReservation = async () => {
     if (
@@ -36,7 +37,6 @@ const CreatePosting = () => {
     )
       return;
 
-    console.log("pass");
     const mainGuest = mainInfo;
     const additionalGuests = companyInfo;
     const rooms = selectedRooms.map((e) => ({
@@ -54,18 +54,17 @@ const CreatePosting = () => {
       rooms,
       checkIn,
       checkOut,
-      travelAgent: travelAgent?._id
+      travelAgent: travelAgent?._id,
     };
     if (payment.paid) reservationData.payments = payments;
-    console.log(reservationData);
 
     try {
       setLoading(true);
       const { data } = await api.post("reservation", reservationData);
-      console.log(data);
+
       navigate(`/front-desk/reservation/${data.data._id}/main-info`);
     } catch (error) {
-      console.log(error);
+      setErrors([error.response.data.message])
     } finally {
       setLoading(false);
     }
@@ -134,6 +133,7 @@ const CreatePosting = () => {
 
   return (
     <Section extraPadding classname="px-5 w-full flex flex-col gap-5 pb-5">
+      <ErrorsBlock globalErrors={errors} />
       <MainInfo
         mainInfo={mainInfo}
         setMainInfo={setMainInfo}

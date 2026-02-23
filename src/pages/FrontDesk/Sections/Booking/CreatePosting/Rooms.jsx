@@ -23,21 +23,16 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
   useEffect(() => {
     const handle = async () => {
       setErrors([]);
-      console.log("Call");
       if (!reserveDate || !reserveDate.checkIn || !reserveDate.checkOut) return;
-      console.log("Call Pass");
       setLoading(true);
       let queries = `?checkIn=${reserveDate.checkIn}&checkOut=${reserveDate.checkOut}`;
       if (roomFilters)
         for (const [key, value] of Object.entries(roomFilters))
           if (value) queries += `&${key}=${value}`;
-      console.log(queries);
       try {
         const { data } = await api.get(`reservation/available/rooms${queries}`);
-        console.log(data);
         setAvilableRooms(data.data);
       } catch (error) {
-        console.log(error.response.data.message)
         setErrors([error.response.data.message]);
       } finally {
         setLoading(false);
@@ -81,7 +76,6 @@ const Rooms = ({ selectedRooms = [], setSelectedRooms, reserveDate }) => {
   const handleRoomPackage = (roomNumber, Package) => {
     const isExist = selectedRooms.some((e) => e.roomNumber === roomNumber);
     if (!isExist) return;
-    console.log(Package);
     setSelectedRooms((prev) => {
       const copy = [...prev];
 

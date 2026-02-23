@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Card from "../../../../components/Card";
 import InputContainer from "../../../../components/InputContainer";
 import Input from "../../../../components/Input";
@@ -24,7 +24,6 @@ const Payment = ({ data, id }) => {
       paid,
       subscriptionCost: cost
     });
-    console.log(data);
   };
 
   return (

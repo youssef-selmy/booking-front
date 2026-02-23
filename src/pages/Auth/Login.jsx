@@ -21,13 +21,11 @@ const Login = () => {
         const creds = { email: "admin@gmail.com", password: "admin123456" };
         const { data } = await axios.post(`${domain}/auth/login`, creds);
         login(data.token);
-        console.log(data);
         return;
       } else if (role === "manager") {
         const creds = { email: "test123@gmail.com", password: "test123" };
         const { data } = await axios.post(`${domain}/auth/login`, creds);
         login(data.token);
-        console.log(data);
         return;
       }
     }

@@ -26,13 +26,10 @@ const ReservationServices = () => {
   const handleSave = async () => {
     setErrors([]);
     const newData = { services };
-    console.log(newData);
     try {
       setLoading(true);
       const res = await api.put(`reservation/${id}`, newData);
-      console.log(res);
     } catch (error) {
-      console.log(error.response.data.message);
       setErrors([error.response.data.message]);
     } finally {
       setLoading(false);
@@ -66,7 +63,6 @@ const TopCard = ({ handleAdd }) => {
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("services");
-      console.log(data);
       setServiceOptions(data.data);
     };
     handle();
@@ -95,7 +91,6 @@ const TopCard = ({ handleAdd }) => {
 };
 
 const DataTable = ({ loading, services = [], handleDelete }) => {
-  console.log(services);
   return (
     <Card>
       <Table head={["Name", "Price", "Delete"]} smallArr={["Delete"]}>

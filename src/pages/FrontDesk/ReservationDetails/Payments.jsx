@@ -28,20 +28,15 @@ const Payments = () => {
   const handleSave = async () => {
     setErrors([]);
     const newData = { payments };
-    console.log(newData);
     try {
       setLoading(true);
       const res = await api.put(`reservation/${id}`, newData);
-      console.log(res);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.data.message);
       setErrors([error.response.data.message]);
     } finally {
       setLoading(false);
     }
   };
-  console.log(payments);
 
   useEffect(() => {
     if (!data) return;
@@ -52,8 +47,6 @@ const Payments = () => {
 
   useEffect(() => {
     if (!data) return;
-    console.log('call')
-    console.log(data)
 
     const services = data.services.reduce((sum, current) => {
       return sum + current.price;
@@ -80,7 +73,6 @@ const Payments = () => {
 
   const handleAdd = (data) => {
     data.date = new Date().toISOString().split("T")[0];
-    console.log(data);
     setPayments((prev) => [...prev, data]);
   };
   const handleDelete = (idx) => {

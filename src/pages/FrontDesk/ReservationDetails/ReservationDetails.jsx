@@ -14,18 +14,11 @@ const sideData = [
 
 const ReservationDetails = () => {
   const { id } = useParams();
-  // const [rooms, setRooms] = useState([]);
-  // const [mainGuest, setMainGuest] = useState();
-  // const [additionalGuests, setAdditionalGuests] = useState([]);
-  // const [payments, setPayments] = useState([]);
-  // const [services, setServices] = useState([]);
-  // const [dates,setDates] = useState();
   const [data, setData] = useState();
 
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get(`reservation/${id}`);
-      console.log(data.data);
       setData(data.data);
     };
     handle();

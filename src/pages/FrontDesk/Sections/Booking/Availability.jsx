@@ -24,21 +24,16 @@ const Availability = () => {
   useEffect(() => {
     const handle = async () => {
       setErrors([]);
-      console.log("Call");
       if (!reservationDate?.checkIn || !reservationDate?.checkOut) return;
-      console.log("Call Pass");
       setLoading(true);
       let queries = `?checkIn=${reservationDate.checkIn}&checkOut=${reservationDate.checkOut}`;
       if (roomFilters)
         for (const [key, value] of Object.entries(roomFilters))
           if (value) queries += `&${key}=${value}`;
-      console.log(queries);
       try {
         const { data } = await api.get(`reservation/available/rooms${queries}`);
-        console.log(data);
         setAvilableRooms(data.data);
       } catch (error) {
-        console.log(error.response.data.message);
         setErrors([error.response.data.message]);
       } finally {
         setLoading(false);

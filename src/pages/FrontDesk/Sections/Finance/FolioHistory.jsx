@@ -19,7 +19,6 @@ const FolioHistory = () => {
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("travel-agents");
-      console.log(data);
       setTravelAgentOptions([
         { id: 0, name: "All", ignore: true },
         ...data.data,
@@ -37,7 +36,6 @@ const FolioHistory = () => {
       setData(data.data);
       setSummary(data.summary);
       setLoading(false);
-      console.log(data);
     };
     handle();
   }, [filters]);

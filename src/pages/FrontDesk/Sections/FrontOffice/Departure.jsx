@@ -17,10 +17,8 @@ const Departure = () => {
     const handle = async () => {
       try {
         const { data } = await api.get(`front-office/departures`);
-        console.log(data);
         setData(data.data);
       } catch (error) {
-        console.log(error);
         setErrors(error.response.data.message);
       } finally {
         setLoading(false);
@@ -36,7 +34,6 @@ const Departure = () => {
       const res = await api.patch(
         `front-office/${confirmationNumber}/check-out`,
       );
-      console.log(res);
       setData((prev) =>
         prev.filter((e) => e.confirmationNumber !== confirmationNumber),
       );

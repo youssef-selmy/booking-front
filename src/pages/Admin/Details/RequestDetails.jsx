@@ -14,7 +14,6 @@ const RequestDetails = () => {
     const handle = async () => {
       const { data } = await api.get(`hotels/${id}`);
       setData(data.data);
-      console.log(data.data);
       setLoading(false);
     };
     handle();

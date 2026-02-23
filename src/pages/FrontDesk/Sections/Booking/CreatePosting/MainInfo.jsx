@@ -17,7 +17,6 @@ const MainInfo = ({
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("travel-agents");
-      console.log(data);
       setTravelAgentOptions(data.data);
     };
     handle();

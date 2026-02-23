@@ -111,7 +111,6 @@ const Add = ({ mode, setMode, setData, dataLength }) => {
   const { globalErrors, loading, request } = useApi((payload) =>
     api.post("packages", payload),
   );
-  console.log(globalErrors);
   const handleCreate = async () => {
     const { data, ok } = await request({ name, price });
     if (ok) {

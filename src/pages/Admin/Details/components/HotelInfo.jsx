@@ -3,7 +3,6 @@ import Input from "../../../../components/Input";
 import InputContainer from "../../../../components/InputContainer";
 
 const HotelInfo = ({ data }) => {
-  console.log(data)
   return (
     <Card className="flex flex-col gap-5 w-fit">
       <h2 className="font-medium text-xl">Hotel Info</h2>

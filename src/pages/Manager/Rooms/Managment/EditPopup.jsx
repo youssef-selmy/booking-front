@@ -27,10 +27,8 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
       dataObj.category = categoriesRes.data.data.find(
         (o) => o.name === editItem?.category,
       );
-      console.log("category", dataObj.category);
 
       dataObj.type = typesRes.data.data.find((o) => o.name === editItem?.type);
-      console.log("type", dataObj.type);
       setCategoryOptions(categoriesRes.data.data);
       setTypeOptions(typesRes.data.data);
 
@@ -43,7 +41,6 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
   const HandleUpdate = async () => {
     let isValid = true;
     const data = { ...item, category: item.category._id, type: item.type._id };
-    console.log(data);
     for (const [key, val] of Object.entries(data)) {
       if (!val) {
         isValid = false;
@@ -57,7 +54,6 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
         setEditItem(null)
       }
     } catch (error) {
-      console.log(error);
     }
   };
 

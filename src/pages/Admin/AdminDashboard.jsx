@@ -1,26 +1,12 @@
-import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import TableRow from "../../components/Table/TableRow";
 import TableData from "../../components/Table/TableData";
 import TableLink from "../../components/Table/TableLink";
 import { IoIosLink } from "react-icons/io";
-import axios from "axios";
-import { domain } from "../../../globals";
-import api from "../../../api/axios";
 import useTable from "../../../hooks/useTable";
 
 const AdminDashboard = () => {
-  // const [data, setData] = useState([]);
-  // const [pagenationData, setPagenationData] = useState()
   const { data, loading, paginationData, next, prev } = useTable("/hotels");
-console.log(paginationData)
-  // useEffect(() => {
-  //   const handle = async () => {
-  //     const { data } = await api.get("/hotels");
-  //     setData(data.data);
-  //   };
-  //   handle();
-  // }, []);
   return (
     <main className="p-5">
       <Table

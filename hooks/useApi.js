@@ -11,7 +11,6 @@ const useApi = (apiFunc) => {
       const response = await apiFunc(...args);
       return { ok: true, data: response.data };
     } catch (error) {
-      console.log(error)
       const messages = error.response?.data?.errors?.map((ele) => ele.msg) || ["Something went wrong"];
       setGlobalErrors(messages);
       return { ok: false, errors: messages };

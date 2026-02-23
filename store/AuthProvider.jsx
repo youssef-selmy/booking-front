@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = (jwt) => {
     const data = parseToken(jwt);
-    console.log(data)
     localStorage.setItem("token", jwt);
     setToken(jwt);
     setRole(data.role);

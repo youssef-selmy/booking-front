@@ -64,16 +64,13 @@ const Register = () => {
         },
       });
 
-      console.log(data);
       navigate("/", { replace: true });
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
   }
 
-  console.log(isValid);
 
   return (
     <main className="h-screen flex justify-center items-center">

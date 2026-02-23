@@ -17,7 +17,6 @@ const FiltersPopup = ({ mode, setMode, filters, setFilters }) => {
   const [maxChildren, setMaxChildren] = useState(filters.MaxChildren || "");
 
   useEffect(() => {
-    console.log("first");
     const handle = async () => {
       const { data } = await api.get("roomType?all=true");
       setTypeOptions([{ _id: 0, name: "All" }, ...data.data]);
@@ -29,10 +28,8 @@ const FiltersPopup = ({ mode, setMode, filters, setFilters }) => {
 }, []);
 
 useEffect(() => {
-    console.log("sec");
     const handle = async () => {
         const { data } = await api.get("roomCategory?all=true");
-        console.log("Carigory", data);
         setCategoryOptions([{ _id: 0, name: "All" }, ...data.data]);
         if(category) {
           setType(data.data.find(e => e.name === category))

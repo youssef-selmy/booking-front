@@ -31,7 +31,6 @@ const Arrival = () => {
   const handleCheckIn = async (confirmationNumber) => {
     setLoading(true);
     const res = await api.patch(`front-office/${confirmationNumber}/check-in`);
-    console.log(res);
     setData((prev) =>
       prev.filter((e) => e.confirmationNumber !== confirmationNumber),
     );

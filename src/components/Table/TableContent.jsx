@@ -15,7 +15,6 @@ const TableContent = ({
   remove = false,
   setMode,
 }) => {
-  console.log(view?.customeUrl)
   return (
     <tbody className="w-full">
       {data.map((ele, idx) => (

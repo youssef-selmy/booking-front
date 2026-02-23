@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../../components/Card";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
@@ -39,15 +39,13 @@ const MainInfo = () => {
       additionalGuests,
       checkIn: date.checkIn,
       checkOut: date.checkOut,
-      travelAgent: travelAgent?._id
+      travelAgent: travelAgent?._id,
     };
-    console.log(newData);
+
     try {
       setLoading(true);
       const res = await api.put(`reservation/${id}`, newData);
-      console.log(res);
     } catch (error) {
-      console.log(error.response.data.message);
       setErrors([error.response.data.message]);
     } finally {
       setLoading(false);
@@ -89,7 +87,6 @@ const MainGuestInfo = ({
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("travel-agents");
-      console.log(data);
       setTravelAgentOptions(data.data);
     };
     handle();
