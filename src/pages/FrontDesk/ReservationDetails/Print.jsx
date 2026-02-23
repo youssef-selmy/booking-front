@@ -31,7 +31,7 @@ const Print = () => {
   return (
     <Section extraPadding>
       {rooms.length != 0 && <Button onClick={handleSave}>Download</Button>}
-      <div className="bg-white mt-5 border w-[40%] mb-5">
+      <div className="bg-white mt-5 border w-150 mb-5">
         <Details data={rooms} />
       </div>
     </Section>

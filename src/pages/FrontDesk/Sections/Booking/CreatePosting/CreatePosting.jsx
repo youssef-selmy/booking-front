@@ -8,8 +8,10 @@ import Payments from "./Payments";
 import Popup from "../../../../../components/Popup";
 import ErrorsBlock from "../../../../../components/ErrorsBlock";
 import api from "../../../../../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const CreatePosting = () => {
+  const navigate = useNavigate();
   const [mainInfo, setMainInfo] = useState({
     firstName: "",
     lastName: "",
@@ -52,7 +54,7 @@ const CreatePosting = () => {
       rooms,
       checkIn,
       checkOut,
-      travelAgent: travelAgent._id
+      travelAgent: travelAgent?._id
     };
     if (payment.paid) reservationData.payments = payments;
     console.log(reservationData);
@@ -61,6 +63,7 @@ const CreatePosting = () => {
       setLoading(true);
       const { data } = await api.post("reservation", reservationData);
       console.log(data);
+      navigate(`/front-desk/reservation/${data.data._id}/main-info`);
     } catch (error) {
       console.log(error);
     } finally {
