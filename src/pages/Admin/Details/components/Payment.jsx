@@ -14,15 +14,19 @@ const stateValues = [
 const Payment = ({ data, id }) => {
   const [cost, setCost] = useState(data.subscriptionCost);
   const [paid, setPaid] = useState(data.paid);
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
-  const [state, setState] = useState(stateValues.find(e => e.value === data.isActiveSubscription));
+  const [start, setStart] = useState(data.startAt);
+  const [end, setEnd] = useState(data.endAt);
+  const [state, setState] = useState(
+    stateValues.find((e) => e.value === data.isActiveSubscription),
+  );
 
   const handleUpdate = async () => {
     const { data } = await api.put(`hotels/${id}`, {
       isActiveSubscription: state.value,
       paid,
-      subscriptionCost: cost
+      subscriptionCost: cost,
+      startAt: start,
+      endAt: end,
     });
   };
 

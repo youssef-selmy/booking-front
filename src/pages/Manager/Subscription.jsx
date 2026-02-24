@@ -35,8 +35,8 @@ const Subscription = () => {
           <Input title="Paid" value={data.paid} readOnly />
         </div>
         <div className="flex gap-5">
-          <Input type="date" title="Starts At" value={data.endsAt} readOnly />
-          <Input type="date" title="Ends At" value={data.startsAt} readOnly />
+          <Input type="date" title="Starts At" value={data.startAt} readOnly />
+          <Input type="date" title="Ends At" value={data.endAt} readOnly />
         </div>
       </Card>
     </div>
