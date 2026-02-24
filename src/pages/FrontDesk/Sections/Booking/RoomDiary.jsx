@@ -82,6 +82,18 @@ const Head = ({ data }) => {
 };
 
 const Content = ({ data = [] }) => {
+  const getStatusColor = (status) => {
+    const statusMap = {
+      available: "bg-green-500 text-white",
+      reserved: "bg-blue-500 text-white",
+      occupied: "bg-yellow-500 text-white",
+      maintenance: "bg-red-500 text-white",
+      cleaning: "bg-purple-500 text-white",
+      blocked: "bg-gray-600 text-white",
+    };
+    return statusMap[status?.toLowerCase()] || "bg-gray-300 text-gray-700";
+  };
+
   return (
     <div>
       {data.map((ele, idx) => (
@@ -90,7 +102,10 @@ const Content = ({ data = [] }) => {
             <p>{ele.roomNumber}</p>
           </div>
           {ele.days.map((e, i) => (
-            <div key={i} className="w-[18%] flex items-center justify-center p-3 border-[#ddd] border-r">
+            <div
+              key={i}
+              className={`w-[18%] flex items-center justify-center p-3 border-[#ddd] border-r font-semibold ${getStatusColor(e.status)}`}
+            >
               {e.status}
             </div>
           ))}
