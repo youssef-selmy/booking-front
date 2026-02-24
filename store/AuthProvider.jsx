@@ -56,8 +56,11 @@ export const AuthProvider = ({ children }) => {
       navigate("/manager", { replace: true });
       return;
     }
-    if (data.role === "employee") {
+    if(data.role === "front_office"){
+      navigate("/front-desk", { replace: true });
+      return;
     }
+    logout();
   };
 
   const logout = () => {
