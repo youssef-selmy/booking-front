@@ -14,6 +14,11 @@ import Register from "./pages/Auth/Register";
 import Complete from "./pages/Auth/Complete";
 import RequestDetails from "./pages/Admin/Details/RequestDetails";
 import ManagerDashboard from "./pages/Manager/ManagerDashboard";
+import ManagerReports from "./pages/Manager/Reports/Reports";
+import ManagerFlash from "./pages/Manager/Reports/ManagerFlash";
+import RoomStatusReport from "./pages/Manager/Reports/RoomStatusReport";
+import FolioHistoryReport from "./pages/Manager/Reports/FolioHistoryReport";
+import CashierReport from "./pages/Manager/Reports/CashierReport";
 import ManagerUsers from "./pages/Manager/ManagerUsers/ManagerUsers";
 import ManagerRooms from "./pages/Manager/Rooms/ManagerRooms";
 import Managment from "./pages/Manager/Rooms/Managment/Managment";
@@ -26,13 +31,20 @@ import FrontOffice from "./pages/FrontDesk/Sections/FrontOffice/FrontOffice";
 import Inventory from "./pages/FrontDesk/Sections/Inventory/Inventory";
 import Finance from "./pages/FrontDesk/Sections/Finance/Finance";
 import Reports from "./pages/FrontDesk/Sections/Reports/Reports";
+import ExpectedArrivals from "./pages/FrontDesk/Sections/Reports/ExpectedArrivals";
+import InHouseReport from "./pages/FrontDesk/Sections/Reports/InHouse";
+import ReservationLedger from "./pages/FrontDesk/Sections/Reports/ReservationLedger";
+import NoShowCancel from "./pages/FrontDesk/Sections/Reports/NoShowCancel";
+import Police from "./pages/FrontDesk/Sections/Reports/Police";
+import RoomStatus from "./pages/FrontDesk/Sections/Reports/RoomStatus";
+import NightAudit from "./pages/FrontDesk/Sections/Reports/NightAudit";
 import ManageReservation from "./pages/FrontDesk/Sections/Booking/ManageReservation";
 import CreatePosting from "./pages/FrontDesk/Sections/Booking/CreatePosting/CreatePosting";
 import Availability from "./pages/FrontDesk/Sections/Booking/Availability";
 import RoomDiary from "./pages/FrontDesk/Sections/Booking/RoomDiary";
 import Arrival from "./pages/FrontDesk/Sections/FrontOffice/Arrival";
 import Departure from "./pages/FrontDesk/Sections/FrontOffice/Departure";
-import InHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
+import FrontOfficeInHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
 import NoShow from "./pages/FrontDesk/Sections/FrontOffice/NoShow";
 import OutOfService from "./pages/FrontDesk/Sections/Inventory/OutOfService";
 import HouseKeepingBoard from "./pages/FrontDesk/Sections/Inventory/HouseKeepingBoard";
@@ -108,6 +120,15 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <ManagerDashboard /> },
           { path: "users", element: <ManagerUsers /> },
           { path: "travel-agents", element: <TravelAgents /> },
+          { path: "reports", element: <ManagerReports /> ,
+            children: [
+              { index: true, element: <ManagerFlash /> },
+              { path: "manager-flash", element: <ManagerFlash /> },
+              { path: "room-status", element: <RoomStatusReport /> },
+              { path: "folio-history", element: <FolioHistoryReport /> },
+              { path: "cashier", element: <CashierReport /> },
+            ],
+          },
           {
             path: "rooms",
             element: <ManagerRooms />,
@@ -168,7 +189,7 @@ const router = createBrowserRouter([
               },
               { path: "arrival", element: <Arrival /> },
               { path: "departure", element: <Departure /> },
-              { path: "in-house", element: <InHouse /> },
+              { path: "in-house", element: <FrontOfficeInHouse /> },
               { path: "no-show", element: <NoShow /> },
             ],
           },
@@ -194,7 +215,20 @@ const router = createBrowserRouter([
               { path: "currency-calulator", element: <CurrencyCalculator /> },
             ],
           },
-          { path: "reports", element: <Reports /> },
+          {
+            path: "reports",
+            element: <Reports />,
+            children: [
+              { index: true, element: <ExpectedArrivals /> },
+              { path: "expected-arrivals", element: <ExpectedArrivals /> },
+              { path: "in-house", element: <InHouseReport /> },
+              { path: "reservation-ledger", element: <ReservationLedger /> },
+              { path: "no-show-cancel", element: <NoShowCancel /> },
+              { path: "police", element: <Police /> },
+              { path: "room-status", element: <RoomStatus /> },
+              { path: "night-audit", element: <NightAudit /> },
+            ],
+          },
         ],
       },
     ],

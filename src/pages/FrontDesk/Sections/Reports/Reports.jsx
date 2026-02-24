@@ -3,11 +3,15 @@ import Section from "../../../../components/Section";
 import SideBar from "../../../../components/SideBar";
 import { Outlet } from "react-router-dom";
 
+// front‑desk reports list – each entry corresponds to an endpoint in /api/reports
 const data = [
-  { name: "Create Posting", link: "create-posting" },
-  { name: "Manage Reservation", link: "manage-reservation" },
-  { name: "Availability", link: "availability" },
-  { name: "Room Diary", link: "room-diary" },
+  { name: "Expected Arrivals", link: "expected-arrivals" },
+  { name: "In House Guests", link: "in-house" },
+  { name: "Reservation Ledger", link: "reservation-ledger" },
+  { name: "No‑Show / Cancel", link: "no-show-cancel" },
+  { name: "Police Report", link: "police" },
+  { name: "Room Status", link: "room-status" },
+  { name: "Night Audit", link: "night-audit" },
 ];
 
 const Reports = () => {
