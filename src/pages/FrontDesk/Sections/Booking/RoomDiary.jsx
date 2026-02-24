@@ -9,7 +9,6 @@ const RoomDiary = () => {
   useEffect(() => {
     const handle = async () => {
       const { data } = await api.get("room-diary");
-      console.log(data);
       setBodyData(data.data);
       setHeadData({
         from: data.from.split("T")[0],

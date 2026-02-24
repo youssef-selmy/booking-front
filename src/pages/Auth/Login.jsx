@@ -15,20 +15,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([])
 
-  async function handleLogin(role) {
-    if (role) {
-      if (role === "admin") {
-        const creds = { email: "admin@gmail.com", password: "admin123456" };
-        const { data } = await axios.post(`${domain}/auth/login`, creds);
-        login(data.token);
-        return;
-      } else if (role === "manager") {
-        const creds = { email: "test123@gmail.com", password: "test123" };
-        const { data } = await axios.post(`${domain}/auth/login`, creds);
-        login(data.token);
-        return;
-      }
-    }
+  async function handleLogin() {
     const creds = { email, password };
     try {
       setErrors([]);
@@ -65,13 +52,13 @@ const Login = () => {
         <div className="flex justify-between w-full">
           <Link
             to="/auth/register"
-            className="text-stone-700 hover:underline w-fit"
+            className="text-stone-700 hover:underline w-fit underline"
           >
             Create new account
           </Link>
           <Link
             to="/auth/forget-password"
-            className="text-stone-700 hover:underline w-fit"
+            className="text-stone-700 hover:underline w-fit underline"
           >
             Forget Password
           </Link>
@@ -79,20 +66,6 @@ const Login = () => {
         <Button onClick={handleLogin} full disabled={loading || !email || !password}>
           Login
         </Button>
-        <div className="flex gap-5">
-          <button
-            className="bg-slate-300 px-5 py-2 cursor-pointer rounded"
-            onClick={() => handleLogin("admin")}
-          >
-            Admin Login
-          </button>
-          <button
-            className="bg-slate-300 px-5 py-2 cursor-pointer rounded"
-            onClick={() => handleLogin("manager")}
-          >
-            Manager Login
-          </button>
-        </div>
       </Card>
     </main>
   );

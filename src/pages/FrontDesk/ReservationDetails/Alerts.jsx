@@ -20,7 +20,6 @@ const Alerts = () => {
 
   useEffect(() => {
     if (!data || !data.alerts) return;
-    console.log(data.alerts)
     setAlerts(data.alerts);
   }, [data]);
 
