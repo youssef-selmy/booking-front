@@ -13,11 +13,25 @@ import api from "../../../../../api/axios";
 import Button from "../../../../components/Button";
 
 const ManageReservation = () => {
-  const { data, mode, setMode, setFilters } = useTable("reservation");
+  const {
+    data,
+    mode,
+    loading,
+    paginationData,
+    next,
+    prev,
+    setMode,
+    filters,
+    setFilters,
+  } = useTable("reservation");
 
   return (
     <Section extraPadding classname="px-5 w-full">
       <Table
+        pagenationData={paginationData}
+        loading={loading}
+        next={next}
+        prev={prev}
         head={[
           "Confirmation Number",
           "Main Guest Name",
@@ -47,14 +61,18 @@ const ManageReservation = () => {
         ))}
       </Table>
       {mode === "Filters" && (
-        <Filters applyFilters={setFilters} setMode={setMode} />
+        <Filters
+          setMainFilters={setFilters}
+          mainFilters={filters}
+          setMode={setMode}
+        />
       )}
     </Section>
   );
 };
 
-const Filters = ({ setMode, applyFilters }) => {
-  const [filters, setFilters] = useState({});
+const Filters = ({ setMode, mainFilters, setMainFilters }) => {
+  const [filters, setFilters] = useState(mainFilters);
   const [travelAgentOptions, setTravelAgentOptions] = useState([]);
 
   useEffect(() => {
@@ -69,13 +87,23 @@ const Filters = ({ setMode, applyFilters }) => {
   }, []);
 
   const saveFilters = () => {
-    applyFilters(filters);
+    console.log(filters);
+    setMainFilters(filters);
+    setMode(null);
   };
 
   return (
-    <Popup setMode={setMode} title="Filters">
-      <Input title="Confirmation Number" />
-      <Input title="Guest Name" />
+    <Popup title="Filters" setMode={setMode}>
+      <Input
+        title="Confirmation Number"
+        value={filters?.confirmationNumber}
+        setValue={(v) => setFilters((o) => ({ ...o, confirmationNumber: v }))}
+      />
+      <Input
+        title="Guest Name"
+        value={filters?.toDate}
+        setValue={(v) => setFilters((o) => ({ ...o, guest: v }))}
+      />
       <SelectMenu
         title="Travel Agent"
         options={travelAgentOptions}
@@ -101,7 +129,7 @@ const Filters = ({ setMode, applyFilters }) => {
         value={filters?.toDate}
         setValue={(v) => setFilters((o) => ({ ...o, departureAt: v }))}
       />
-      <Button full onClick={applyFilters}>
+      <Button full onClick={saveFilters}>
         Filter
       </Button>
     </Popup>

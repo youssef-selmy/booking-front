@@ -6,6 +6,7 @@ import TableData from "../../../../components/Table/TableData";
 import TableLink from "../../../../components/Table/TableLink";
 import { HiLink } from "react-icons/hi2";
 import ErrorsBlock from "../../../../components/ErrorsBlock";
+import api from "../../../../../api/axios";
 const InHouse = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,9 @@ const InHouse = () => {
 
   return (
     <Section extraPadding classname="w-full px-5">
+      <ErrorsBlock globalErrors={errors} />
       <Table
+        loading={loading}
         head={[
           "Confirmation Number",
           "Main Guest Name",

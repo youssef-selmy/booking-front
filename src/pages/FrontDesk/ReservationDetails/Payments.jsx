@@ -14,6 +14,7 @@ import ErrorsBlock from "../../../components/ErrorsBlock";
 
 const Payments = () => {
   const { data, id } = useOutletContext();
+  console.log(data)
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);

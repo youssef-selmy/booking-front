@@ -10,17 +10,13 @@ const useTable = (path) => {
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
   const { request, loading, globalErrors } = useApi((payload) =>
-    api.get(`${path}?page=${page}&limit=50&${new URLSearchParams(filters).toString()}`),
+    api.get(
+      `${path}?page=${page}${new URLSearchParams(filters).toString()}`,
+    ),
   );
 
   useEffect(() => {
     const handleGet = async () => {
-      if (editItem != null) return;
-      let filtersData = "";
-      for (const [key, value] of Object.entries(filters)) {
-        filtersData += `&${key}=${value}`;
-      }
-
       const { data } = await request();
       setData(data.data);
       setPaginationData(data.paginationResult);

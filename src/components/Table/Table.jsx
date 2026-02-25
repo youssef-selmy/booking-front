@@ -16,6 +16,7 @@ const Table = ({
   prev,
   loading = false
 }) => {
+  console.log('pagenationData', pagenationData)
   return (
     <div className="flex flex-col gap-5 w-full">
       <div>

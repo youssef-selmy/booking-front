@@ -13,7 +13,7 @@ import ErrorsBlock from "../../../components/ErrorsBlock";
 import { useOutletContext } from "react-router-dom";
 
 const ReservationServices = () => {
-  const { data, id } = useOutletContext();
+  const { data, setData, id } = useOutletContext();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -29,6 +29,7 @@ const ReservationServices = () => {
     try {
       setLoading(true);
       const res = await api.put(`reservation/${id}`, newData);
+      setData((prev) => ({ ...prev, services }));
     } catch (error) {
       setErrors([error.response.data.message]);
     } finally {
@@ -51,7 +52,9 @@ const ReservationServices = () => {
         services={services}
         handleDelete={handleDelete}
       />
-      <Button disabled={loading} onClick={handleSave}>Save</Button>
+      <Button disabled={loading} onClick={handleSave}>
+        Save
+      </Button>
     </Section>
   );
 };
@@ -93,7 +96,11 @@ const TopCard = ({ handleAdd }) => {
 const DataTable = ({ loading, services = [], handleDelete }) => {
   return (
     <Card>
-      <Table head={["Name", "Price", "Delete"]} smallArr={["Delete"]}>
+      <Table
+        loading={loading}
+        head={["Name", "Price", "Delete"]}
+        smallArr={["Delete"]}
+      >
         {services.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele?.name}</TableData>

@@ -28,7 +28,7 @@ const ReservationDetails = () => {
     <main className="w-full h-full flex">
       <SideBar data={sideData} />
       <div className="px-5 w-full">
-        <Outlet context={{ data, id }} />
+        <Outlet context={{ data, setData, id }} />
       </div>
     </main>
   );
