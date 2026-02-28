@@ -35,6 +35,7 @@ const ManagerDashboard = () => {
   return (
     <Section classname="p-5 pt-[90px] flex flex-col gap-5">
       <Overview data={overView} loading={loading} />
+
       <Rooms data={rooms} loading={loading} />
       <div className="flex gap-5">
         <Arrivals data={arrivals} loading={loading} />

@@ -19,35 +19,56 @@ const CurrencyCalculator = () => {
     { code: "CAD", name: "Canadian Dollar" },
   ];
 
-  const fetchRate = async () => {
-    if (!amount) return;
+const fetchRate = async () => {
+  const amt = parseFloat(amount);
 
-    try {
-      setLoading(true);
+  if (isNaN(amt) || amt <= 0) {
+    setRate(null);
+    setResult(null);
+    return;
+  }
 
-      const res = await fetch(
-        `https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`,
-      );
-      const data = await res.json();
+  if (from === to) {
+    setRate(1);
+    setResult(amt);
+    return;
+  }
 
-      if (!data || !data.result || !data.info) {
-        console.error("Invalid response from API", data);
-        setRate(null);
-        setResult(null);
-        return;
-      }
+  try {
+    setLoading(true);
 
-      setRate(data.info.rate);
-      setResult(data.result);
-    } catch (err) {
-      console.error("Error fetching rate:", err);
+    const res = await fetch(
+      `https://open.er-api.com/v6/latest/${from}`
+    );
+
+    const data = await res.json();
+
+    if (!data || data.result !== "success") {
+      console.error("API error:", data);
       setRate(null);
       setResult(null);
-    } finally {
-      setLoading(false);
+      return;
     }
-  };
 
+    const conversionRate = data.rates[to];
+
+    if (!conversionRate) {
+      setRate(null);
+      setResult(null);
+      return;
+    }
+
+    setRate(conversionRate);
+    setResult(amt * conversionRate);
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    setRate(null);
+    setResult(null);
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchRate();
   }, [from, to, amount]);
@@ -81,7 +102,16 @@ const CurrencyCalculator = () => {
               ))}
             </select>
 
-            <span className="text-xl font-semibold">→</span>
+            <button
+              onClick={() => {
+                setFrom(to);
+                setTo(from);
+              }}
+              className="text-xl font-semibold px-2"
+              title="swap"
+            >
+              ⥂
+            </button>
 
             <select
               value={to}

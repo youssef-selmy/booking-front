@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 const data = [
   { name: "Folio History", link: "folio-history" },
   { name: "Casher Report", link: "casher" },
-  { name: "Currency Calulator", link: "currency-calulator" },
+  { name: "Currency Converter", link: "currency-calculator" },
 ];
 
 const Finance = () => {

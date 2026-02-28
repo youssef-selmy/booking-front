@@ -5,23 +5,40 @@ import TableRow from "../../../components/Table/TableRow";
 import TableData from "../../../components/Table/TableData";
 import Section from "../../../components/Section";
 import Button from "../../../components/Button";
+import api from "../../../../api/axios";
 import html2pdf from "html2pdf.js";
 
 const Print = () => {
   const { data } = useOutletContext();
   const [rooms, setRooms] = useState([]);
+  const [termsText, setTermsText] = useState("");
 
   useEffect(() => {
     if (!data) return;
     setRooms(
-      data.rooms.map((e) => ({
-        arrival: data.checkIn.split("T")[0],
-        departure: data.checkOut.split("T")[0],
-        room: e.room.roomNumber,
-        total: e.perDay * e.nights + (e.package?.price ?? 0),
-      })),
+      data.rooms
+        .filter((e) => e.room && e.room.roomNumber)
+        .map((e) => ({
+          arrival: data.checkIn.split("T")[0],
+          departure: data.checkOut.split("T")[0],
+          room: e.room.roomNumber,
+          total: e.perDay * e.nights + (e.package?.price ?? 0),
+        })),
     );
   }, [data]);
+
+  // fetch terms from settings api once
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const { data } = await api.get("settings/terms");
+        setTermsText(data.data?.printTerms || "");
+      } catch (err) {
+        console.error("couldn't load terms", err);
+      }
+    };
+    fetchTerms();
+  }, []);
 
   const handleSave = async () => {
     const element = document.getElementById('contract');
@@ -32,19 +49,19 @@ const Print = () => {
     <Section extraPadding>
       {rooms.length != 0 && <Button onClick={handleSave}>Download</Button>}
       <div className="bg-white mt-5 border w-150 mb-5">
-        <Details data={rooms} />
+        <Details data={rooms} terms={termsText} />
       </div>
     </Section>
   );
 };
 
-const Details = ({ data }) => {
+const Details = ({ data, terms }) => {
   return (
     <div id="contract" className="p-10 flex flex-col gap-5">
       <Top />
       <GuestProfile />
       <StayDetails data={data} />
-      <Terms />
+      <Terms text={terms} />
       <Bottom />
     </div>
   );
@@ -112,26 +129,34 @@ const StayDetails = ({ data }) => {
   );
 };
 
-const Terms = () => {
+const Terms = ({ text }) => {
   return (
     <div className="border-b pb-5">
       <h2 className="font-medium text-xl mb-5">3. TERMS & CONDITIONS</h2>
-      <p>
-        1. I certify that the information provided above (including Visa
-        details) is accurate and true.
-      </p>
-      <p>
-        2. The hotel is NOT responsible for valuables kept outside the in-room
-        safe box.
-      </p>
-      <p>
-        3. Check-out time is 12:00 PM. Late check-out is subject to avilability
-        and extra charge
-      </p>
-      <p>
-        4. I agree to the processing of my personal data for security and
-        registration purposes in accordance with Egyptian laws.
-      </p>
+      <div className="whitespace-pre-wrap">
+        {text ? (
+          text.split("\n").map((line, idx) => <p key={idx}>{line}</p>)
+        ) : (
+          <>
+            <p>
+              1. I certify that the information provided above (including Visa
+              details) is accurate and true.
+            </p>
+            <p>
+              2. The hotel is NOT responsible for valuables kept outside the
+              in-room safe box.
+            </p>
+            <p>
+              3. Check-out time is 12:00 PM. Late check-out is subject to
+              avilability and extra charge
+            </p>
+            <p>
+              4. I agree to the processing of my personal data for security and
+              registration purposes in accordance with Egyptian laws.
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

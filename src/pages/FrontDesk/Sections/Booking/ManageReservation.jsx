@@ -72,65 +72,144 @@ const ManageReservation = () => {
 };
 
 const Filters = ({ setMode, mainFilters, setMainFilters }) => {
-  const [filters, setFilters] = useState(mainFilters);
-  const [travelAgentOptions, setTravelAgentOptions] = useState([]);
-
-  useEffect(() => {
-    const handle = async () => {
-      const { data } = await api.get("travel-agents");
-      setTravelAgentOptions([
-        { id: 0, name: "All", ignore: true },
-        ...data.data,
-      ]);
-    };
-    handle();
-  }, []);
+  const [filters, setFilters] = useState(mainFilters || {});
 
   const saveFilters = () => {
-    console.log(filters);
-    setMainFilters(filters);
+    // 🔥 Clean empty values (important for backend)
+    const cleaned = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([_, v]) => v !== "" && v !== null && v !== undefined
+      )
+    );
+
+    setMainFilters(cleaned);
     setMode(null);
   };
 
   return (
     <Popup title="Filters" setMode={setMode}>
-      <Input
-        title="Confirmation Number"
-        value={filters?.confirmationNumber}
-        setValue={(v) => setFilters((o) => ({ ...o, confirmationNumber: v }))}
-      />
+      {/* Guest Name (MATCHES BACKEND: guest) */}
       <Input
         title="Guest Name"
-        value={filters?.toDate}
-        setValue={(v) => setFilters((o) => ({ ...o, guest: v }))}
+        value={filters?.guest || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, guest: v }))
+        }
       />
+
+      {/* From Date (MATCHES BACKEND: fromDate) */}
+      <Input
+        type="date"
+        title="From Date"
+        value={filters?.fromDate || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, fromDate: v }))
+        }
+      />
+
+      {/* To Date (MATCHES BACKEND: toDate) */}
+      <Input
+        type="date"
+        title="To Date"
+        value={filters?.toDate || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, toDate: v }))
+        }
+      />
+
+      {/* Status Filter */}
       <SelectMenu
-        title="Travel Agent"
-        options={travelAgentOptions}
-        value={travelAgentOptions.find((e) => e._id === filters.travelAgent)}
+        title="Reservation Status"
+        options={[
+          { name: "All", ignore: true },
+          { name: "pending", value: "pending" },
+          { name: "confirmed", value: "confirmed" },
+          { name: "canceled", value: "canceled" },
+          { name: "completed", value: "completed" },
+        ]}
+        value={
+          filters?.status
+            ? { name: filters.status, value: filters.status }
+            : { name: "All", ignore: true }
+        }
         setValue={(v) => {
           if (v.ignore) {
             setFilters((o) => {
-              const { travelAgent, ...rest } = o;
+              const { status, ...rest } = o;
               return rest;
             });
-          } else setFilters((o) => ({ ...o, travelAgent: v._id }));
+          } else {
+            setFilters((o) => ({ ...o, status: v.value }));
+          }
         }}
       />
-      <Input
-        type="date"
-        title="Arrive At"
-        value={filters?.toDate}
-        setValue={(v) => setFilters((o) => ({ ...o, arriveAt: v }))}
+
+      {/* Stay Status */}
+      <SelectMenu
+        title="Stay Status"
+        options={[
+          { name: "All", ignore: true },
+          { name: "reserved", value: "reserved" },
+          { name: "checked-in", value: "checked-in" },
+          { name: "checked-out", value: "checked-out" },
+        ]}
+        value={
+          filters?.stayStatus
+            ? { name: filters.stayStatus, value: filters.stayStatus }
+            : { name: "All", ignore: true }
+        }
+        setValue={(v) => {
+          if (v.ignore) {
+            setFilters((o) => {
+              const { stayStatus, ...rest } = o;
+              return rest;
+            });
+          } else {
+            setFilters((o) => ({ ...o, stayStatus: v.value }));
+          }
+        }}
       />
+
+      {/* Rooms Range */}
       <Input
-        type="date"
-        title="Departure At"
-        value={filters?.toDate}
-        setValue={(v) => setFilters((o) => ({ ...o, departureAt: v }))}
+        type="number"
+        title="Min Rooms"
+        value={filters?.minRooms || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, minRooms: v }))
+        }
       />
+
+      <Input
+        type="number"
+        title="Max Rooms"
+        value={filters?.maxRooms || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, maxRooms: v }))
+        }
+      />
+
+      {/* Nights Range */}
+      <Input
+        type="number"
+        title="Min Nights"
+        value={filters?.minNights || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, minNights: v }))
+        }
+      />
+
+      <Input
+        type="number"
+        title="Max Nights"
+        value={filters?.maxNights || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, maxNights: v }))
+        }
+      />
+
       <Button full onClick={saveFilters}>
-        Filter
+        Apply Filters
       </Button>
     </Popup>
   );

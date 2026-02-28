@@ -36,7 +36,7 @@ const CompanyInfo = ({ companyInfo = [], setCompanyInfo }) => {
   return (
     <div>
       <Card>
-        <h2 className="text-2xl font-medium">Company Info</h2>
+        <h2 className="text-2xl font-medium">A Company Info</h2>
         <div className="flex flex-wrap gap-5 my-5 items-end">
           <Input
             title="First Name"

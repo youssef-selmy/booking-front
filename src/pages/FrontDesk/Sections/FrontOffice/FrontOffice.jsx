@@ -8,6 +8,7 @@ const data = [
   { name: "Departure", link: "departure" },
   { name: "In House", link: "in-house" },
   { name: "No Show", link: "no-show" },
+  { name: "Recommendation", link: "recommendation" },
 ];
 
 const FrontOffice = () => {

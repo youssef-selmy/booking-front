@@ -11,7 +11,7 @@ const useTable = (path) => {
   const [page, setPage] = useState(1);
   const { request, loading, globalErrors } = useApi((payload) =>
     api.get(
-      `${path}?page=${page}${new URLSearchParams(filters).toString()}`,
+      `${path}?page=${page}${new URLSearchParams(filters).toString() ? '&' + new URLSearchParams(filters).toString() : ''}`,
     ),
   );
 
@@ -19,10 +19,20 @@ const useTable = (path) => {
     const handleGet = async () => {
       const { data } = await request();
       setData(data.data);
-      setPaginationData(data.paginationResult);
+      const pagination = data.pagination || data.paginationResult;
+      if (pagination) {
+        setPaginationData({
+          currentPage: pagination.page || pagination.currentPage,
+          numberOfPages: pagination.totalPages || pagination.numberOfPages,
+        });
+      }
     };
     handleGet();
   }, [editItem, filters, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   async function next() {
     if (paginationData.currentPage + 1 <= paginationData.numberOfPages)

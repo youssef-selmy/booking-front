@@ -46,6 +46,7 @@ import Arrival from "./pages/FrontDesk/Sections/FrontOffice/Arrival";
 import Departure from "./pages/FrontDesk/Sections/FrontOffice/Departure";
 import FrontOfficeInHouse from "./pages/FrontDesk/Sections/FrontOffice/InHouse";
 import NoShow from "./pages/FrontDesk/Sections/FrontOffice/NoShow";
+import RecommendationPage from "./pages/FrontDesk/RecommendationPage";
 import OutOfService from "./pages/FrontDesk/Sections/Inventory/OutOfService";
 import HouseKeepingBoard from "./pages/FrontDesk/Sections/Inventory/HouseKeepingBoard";
 import RootLayout from "./pages/RootLayout";
@@ -66,6 +67,8 @@ import ForgetPassword from "./pages/Auth/ForgetPassword";
 import Verify from "./pages/Auth/Verify";
 import Reset from "./pages/Auth/Reset";
 import CurrencyCalculator from "./pages/FrontDesk/Sections/Inventory/CurrencyCalculator";
+import TermsAndConditions from "./pages/Manager/TermsAndConditions/TermsAndConditions";
+import ManagerRecommendationPage from "./pages/Manager/ManagerRecommendationPage";
 
 const router = createBrowserRouter([
   {
@@ -130,6 +133,14 @@ const router = createBrowserRouter([
             ],
           },
           {
+  path: "settings",
+  element: <TermsAndConditions />,
+  children: [
+    { path: "recommendation", element: <ManagerRecommendationPage /> },
+  ],
+},
+          
+          {
             path: "rooms",
             element: <ManagerRooms />,
             children: [
@@ -191,6 +202,10 @@ const router = createBrowserRouter([
               { path: "departure", element: <Departure /> },
               { path: "in-house", element: <FrontOfficeInHouse /> },
               { path: "no-show", element: <NoShow /> },
+              
+              // new recommendation route
+              { path: "recommendation", element: <RecommendationPage /> },
+              
             ],
           },
           {
@@ -212,7 +227,7 @@ const router = createBrowserRouter([
               { index: true, element: <Navigate to="folio-history" replace /> },
               { path: "folio-history", element: <FolioHistory /> },
               { path: "casher", element: <Casher /> },
-              { path: "currency-calulator", element: <CurrencyCalculator /> },
+              { path: "currency-calculator", element: <CurrencyCalculator /> },
             ],
           },
           {

@@ -7,6 +7,7 @@ const pages = [
   { name: "Travel Agents", url: "travel-agents" },
   { name: "Rooms", url: "rooms", isParent: true },
   { name: "Reports", url: "reports" },
+  { name: "Settings", url: "settings" },
 ];
 
 const ManagerNav = () => {
