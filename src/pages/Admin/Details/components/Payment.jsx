@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../../../components/Card";
 import InputContainer from "../../../../components/InputContainer";
 import Input from "../../../../components/Input";
@@ -11,23 +11,55 @@ const stateValues = [
   { name: "Not Active", value: false },
 ];
 
-const Payment = ({ data, id }) => {
+const toDateInput = (value) => {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toISOString().split("T")[0];
+};
+
+const Payment = ({ data, id, onUpdated }) => {
   const [cost, setCost] = useState(data.subscriptionCost);
   const [paid, setPaid] = useState(data.paid);
-  const [start, setStart] = useState(data.startAt);
-  const [end, setEnd] = useState(data.endAt);
+  const [start, setStart] = useState(toDateInput(data.startAt));
+  const [end, setEnd] = useState(toDateInput(data.endAt));
   const [state, setState] = useState(
     stateValues.find((e) => e.value === data.isActiveSubscription),
   );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    setCost(data.subscriptionCost ?? "");
+    setPaid(data.paid ?? "");
+    setStart(toDateInput(data.startAt));
+    setEnd(toDateInput(data.endAt));
+    setState(stateValues.find((e) => e.value === data.isActiveSubscription));
+  }, [data]);
 
   const handleUpdate = async () => {
-    const { data } = await api.put(`hotels/${id}`, {
-      isActiveSubscription: state.value,
-      paid,
-      subscriptionCost: cost,
-      startAt: start,
-      endAt: end,
-    });
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      const payload = {
+        isActiveSubscription: state?.value ?? false,
+        paid: Number(paid),
+        subscriptionCost: Number(cost),
+        startAt: start || null,
+        endAt: end || null,
+      };
+
+      const response = await api.put(`hotels/${id}`, payload);
+      onUpdated?.(response.data?.data ?? { ...data, ...payload });
+      setSuccess("Hotel updated successfully.");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update hotel.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,7 +79,11 @@ const Payment = ({ data, id }) => {
         value={state}
         setValue={setState}
       />
-      <Button onClick={handleUpdate}>Update</Button>
+      {error && <p className="text-red-600">{error}</p>}
+      {success && <p className="text-green-700">{success}</p>}
+      <Button onClick={handleUpdate} disabled={loading}>
+        {loading ? "Updating..." : "Update"}
+      </Button>
     </Card>
   );
 };

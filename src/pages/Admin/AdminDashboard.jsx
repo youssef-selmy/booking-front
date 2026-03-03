@@ -6,7 +6,7 @@ import { IoIosLink } from "react-icons/io";
 import useTable from "../../../hooks/useTable";
 
 const AdminDashboard = () => {
-  const { data, loading, paginationData, next, prev } = useTable("/hotels");
+  const { data, loading, paginationData, next, prev } = useTable("hotels");
   return (
     <main className="p-5">
       <Table
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.hotelName}</TableData>
             <TableData>{ele.location}</TableData>
-            <TableData>{ele.isActiveSubscription.toString()}</TableData>
+            <TableData>{ele.isActiveSubscription ? "Active" : "Not Active"}</TableData>
             <TableLink link={ele._id}>
               <IoIosLink />
             </TableLink>

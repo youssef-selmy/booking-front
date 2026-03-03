@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HotelInfo from "./components/HotelInfo";
 import Licenses from "./components/Licenses";
 import Payment from "./components/Payment";
@@ -9,26 +9,39 @@ const RequestDetails = () => {
   const { id } = useParams();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchHotelDetails = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await api.get(`hotels/${id}`);
+      setData(response.data.data);
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to load hotel details."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
 
   useEffect(() => {
-    const handle = async () => {
-      const { data } = await api.get(`hotels/${id}`);
-      setData(data.data);
-      setLoading(false);
-    };
-    handle();
-  }, []);
+    fetchHotelDetails();
+  }, [fetchHotelDetails]);
 
   return (
     <main className="p-5">
-      {!loading && (
+      {loading && <p>Loading...</p>}
+      {!loading && error && <p className="text-red-600">{error}</p>}
+      {!loading && !error && data && (
         <>
           <div className="flex gap-5 w-fit m-auto mb-5">
             <HotelInfo data={data} />
             <Licenses data={data} />
           </div>
           <div className="flex gap-5 w-fit m-auto">
-            <Payment data={data} id={id} />
+            <Payment data={data} id={id} onUpdated={setData} />
           </div>
         </>
       )}

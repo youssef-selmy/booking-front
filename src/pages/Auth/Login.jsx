@@ -21,7 +21,14 @@ const Login = () => {
       setErrors([]);
       setLoading(true);
       const { data } = await axios.post(`${domain}/auth/login`, creds);
-      login(data.token);
+      const result = await login(data.token);
+      if (result?.inactiveSubscription) {
+        setErrors([
+          "Subscription is not active. PMS access is blocked until subscription activation.",
+        ]);
+      } else if (result && !result.ok) {
+        setErrors([result.error || "Login failed."]);
+      }
     } catch (error) {
       setErrors([error.response.data.message])
     } finally {

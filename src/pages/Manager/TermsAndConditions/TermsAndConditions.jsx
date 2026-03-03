@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import Section from "../../../components/Section";
 import Button from "../../../components/Button";
 import api from "../../../../api/axios";
 
 const TermsAndConditions = () => {
+  const location = useLocation();
   const [printTerms, setPrintTerms] = useState("");
   const [editing, setEditing] = useState(false);
   const [tempTerms, setTempTerms] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const showTermsSection = location.pathname === "/manager/settings";
 
   useEffect(() => {
     fetchTerms();
@@ -104,62 +106,79 @@ const TermsAndConditions = () => {
           >
             AI Recommendation
           </NavLink>
+
+          <NavLink
+            to="logs"
+            className={({ isActive }) =>
+              `pb-2 ${
+                isActive
+                  ? "border-b-2 border-blue-600 text-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`
+            }
+          >
+            Logs
+          </NavLink>
         </div>
 
         {/* ================= Tab Content ================= */}
         <Outlet />
 
-        {/* ================= Terms Content (default) ================= */}
-        <div className="bg-white border border-gray-300 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">
-            Print Page Terms & Conditions
-          </h2>
+        {showTermsSection && (
+          <>
+            {/* ================= Terms Content (default) ================= */}
+            <div className="bg-white border border-gray-300 rounded-lg p-6 mb-6">
+              <h2 className="text-xl font-semibold mb-4">
+                Print Page Terms & Conditions
+              </h2>
 
-          {!editing ? (
-            <div>
-              <div className="bg-gray-50 p-4 rounded mb-4 min-h-[200px] whitespace-pre-wrap border border-gray-200">
-                {printTerms || "No terms and conditions set yet"}
-              </div>
-              <Button onClick={handleEdit} disabled={loading}>
-                Edit
-              </Button>
+              {!editing ? (
+                <div>
+                  <div className="bg-gray-50 p-4 rounded mb-4 min-h-[200px] whitespace-pre-wrap border border-gray-200">
+                    {printTerms || "No terms and conditions set yet"}
+                  </div>
+                  <Button onClick={handleEdit} disabled={loading}>
+                    Edit
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <textarea
+                    className="w-full p-3 border border-gray-300 rounded mb-4 font-sans"
+                    rows="10"
+                    value={tempTerms}
+                    onChange={(e) => setTempTerms(e.target.value)}
+                    placeholder="Enter terms and conditions..."
+                  />
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={handleSave}
+                      disabled={loading}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      {loading ? "Saving..." : "Save"}
+                    </Button>
+                    <Button
+                      onClick={handleCancel}
+                      disabled={loading}
+                      className="bg-gray-500 hover:bg-gray-600"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
-            <div>
-              <textarea
-                className="w-full p-3 border border-gray-300 rounded mb-4 font-sans"
-                rows="10"
-                value={tempTerms}
-                onChange={(e) => setTempTerms(e.target.value)}
-                placeholder="Enter terms and conditions..."
-              />
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleSave}
-                  disabled={loading}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  {loading ? "Saving..." : "Save"}
-                </Button>
-                <Button
-                  onClick={handleCancel}
-                  disabled={loading}
-                  className="bg-gray-500 hover:bg-gray-600"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-blue-900 mb-2">Info</h3>
-          <p className="text-sm text-blue-800">
-            These terms and conditions will be displayed in the guest
-            registration card print page.
-          </p>
-        </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="font-semibold text-blue-900 mb-2">Info</h3>
+              <p className="text-sm text-blue-800">
+                These terms and conditions will be displayed in the guest
+                registration card print page.
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </Section>
   );

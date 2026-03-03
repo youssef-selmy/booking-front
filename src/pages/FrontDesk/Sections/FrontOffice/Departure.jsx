@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
 import TableRow from "../../../../components/Table/TableRow";
 import TableData from "../../../../components/Table/TableData";
-import TableLink from "../../../../components/Table/TableLink";
 import { HiLink } from "react-icons/hi2";
 import ErrorsBlock from "../../../../components/ErrorsBlock";
 import api from "../../../../../api/axios";
+import Popup from "../../../../components/Popup";
+import Input from "../../../../components/Input";
+import Button from "../../../../components/Button";
 
 const Departure = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [mode, setMode] = useState(null);
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     const handle = async () => {
@@ -19,7 +23,7 @@ const Departure = () => {
         const { data } = await api.get(`front-office/departures`);
         setData(data.data);
       } catch (error) {
-        setErrors(error.response.data.message);
+        setErrors([error?.response?.data?.message || "Something went wrong"]);
       } finally {
         setLoading(false);
       }
@@ -27,18 +31,62 @@ const Departure = () => {
     handle();
   }, []);
 
+  const filteredData = useMemo(() => {
+    return data.filter((row) => {
+      const guest = row.mainGuestName?.toLowerCase() || "";
+      const confirmation = `${row.confirmationNumber || ""}`.toLowerCase();
+      const departureDate = row.departureDate?.split("T")[0];
+
+      if (filters.guest && !guest.includes(filters.guest.toLowerCase())) {
+        return false;
+      }
+      if (
+        filters.confirmationNumber &&
+        !confirmation.includes(filters.confirmationNumber.toLowerCase())
+      ) {
+        return false;
+      }
+      if (
+        filters.fromDate &&
+        (!departureDate || departureDate < filters.fromDate)
+      ) {
+        return false;
+      }
+      if (filters.toDate && (!departureDate || departureDate > filters.toDate)) {
+        return false;
+      }
+      if (filters.minRooms && Number(row.roomsCount) < Number(filters.minRooms)) {
+        return false;
+      }
+      if (filters.maxRooms && Number(row.roomsCount) > Number(filters.maxRooms)) {
+        return false;
+      }
+      if (
+        filters.minNights &&
+        Number(row.reservedNights) < Number(filters.minNights)
+      ) {
+        return false;
+      }
+      if (
+        filters.maxNights &&
+        Number(row.reservedNights) > Number(filters.maxNights)
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, [data, filters]);
+
   const handleCheckOut = async (confirmationNumber) => {
-    setErrors([])
+    setErrors([]);
     setLoading(true);
     try {
-      const res = await api.patch(
-        `front-office/${confirmationNumber}/check-out`,
-      );
+      await api.patch(`front-office/${confirmationNumber}/check-out`);
       setData((prev) =>
         prev.filter((e) => e.confirmationNumber !== confirmationNumber),
       );
     } catch (error) {
-      setErrors([error.response.data.message]);
+      setErrors([error?.response?.data?.message || "Something went wrong"]);
     } finally {
       setLoading(false);
     }
@@ -58,8 +106,10 @@ const Departure = () => {
           "Reserved Nights",
           "CheckOut",
         ]}
+        showFilters
+        setMode={setMode}
       >
-        {data.map((ele, idx) => (
+        {filteredData.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
@@ -76,7 +126,94 @@ const Departure = () => {
           </TableRow>
         ))}
       </Table>
+      {mode === "Filters" && (
+        <FiltersPopup
+          setMode={setMode}
+          filters={filters}
+          setFilters={setFilters}
+          dateLabel="Departure Date"
+        />
+      )}
     </Section>
+  );
+};
+
+const FiltersPopup = ({ setMode, filters, setFilters, dateLabel }) => {
+  const [localFilters, setLocalFilters] = useState(filters || {});
+
+  const applyFilters = () => {
+    const cleaned = Object.fromEntries(
+      Object.entries(localFilters).filter(
+        ([key, value]) =>
+          key && value !== "" && value !== null && value !== undefined,
+      ),
+    );
+    setFilters(cleaned);
+    setMode(null);
+  };
+
+  const clearFilters = () => {
+    setFilters({});
+    setMode(null);
+  };
+
+  return (
+    <Popup title="Filters" setMode={setMode}>
+      <Input
+        title="Guest Name"
+        value={localFilters.guest || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, guest: v }))}
+      />
+      <Input
+        title="Confirmation No."
+        value={localFilters.confirmationNumber || ""}
+        setValue={(v) =>
+          setLocalFilters((o) => ({ ...o, confirmationNumber: v }))
+        }
+      />
+      <Input
+        type="date"
+        title={`${dateLabel} From`}
+        value={localFilters.fromDate || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, fromDate: v }))}
+      />
+      <Input
+        type="date"
+        title={`${dateLabel} To`}
+        value={localFilters.toDate || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, toDate: v }))}
+      />
+      <Input
+        type="number"
+        title="Min Rooms"
+        value={localFilters.minRooms || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, minRooms: v }))}
+      />
+      <Input
+        type="number"
+        title="Max Rooms"
+        value={localFilters.maxRooms || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, maxRooms: v }))}
+      />
+      <Input
+        type="number"
+        title="Min Nights"
+        value={localFilters.minNights || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, minNights: v }))}
+      />
+      <Input
+        type="number"
+        title="Max Nights"
+        value={localFilters.maxNights || ""}
+        setValue={(v) => setLocalFilters((o) => ({ ...o, maxNights: v }))}
+      />
+      <Button className="w-[220px]" onClick={applyFilters}>
+        Apply
+      </Button>
+      <Button className="w-[220px]" onClick={clearFilters}>
+        Clear
+      </Button>
+    </Popup>
   );
 };
 

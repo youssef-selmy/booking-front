@@ -69,6 +69,7 @@ import Reset from "./pages/Auth/Reset";
 import CurrencyCalculator from "./pages/FrontDesk/Sections/Inventory/CurrencyCalculator";
 import TermsAndConditions from "./pages/Manager/TermsAndConditions/TermsAndConditions";
 import ManagerRecommendationPage from "./pages/Manager/ManagerRecommendationPage";
+import SettingsLogs from "./pages/Manager/TermsAndConditions/SettingsLogs";
 
 const router = createBrowserRouter([
   {
@@ -137,6 +138,7 @@ const router = createBrowserRouter([
   element: <TermsAndConditions />,
   children: [
     { path: "recommendation", element: <ManagerRecommendationPage /> },
+    { path: "logs", element: <SettingsLogs /> },
   ],
 },
           
@@ -157,7 +159,7 @@ const router = createBrowserRouter([
       {
         path: "/front-desk",
         element: (
-          <AuthLayer roles={["manager", "front desk"]}>
+          <AuthLayer roles={["manager", "front desk", "front_office"]}>
             <FrontDesk />
           </AuthLayer>
         ),

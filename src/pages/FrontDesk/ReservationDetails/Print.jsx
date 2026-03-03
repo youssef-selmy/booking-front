@@ -49,17 +49,17 @@ const Print = () => {
     <Section extraPadding>
       {rooms.length != 0 && <Button onClick={handleSave}>Download</Button>}
       <div className="bg-white mt-5 border w-150 mb-5">
-        <Details data={rooms} terms={termsText} />
+        <Details data={rooms} terms={termsText} guest={data?.mainGuest} />
       </div>
     </Section>
   );
 };
 
-const Details = ({ data, terms }) => {
+const Details = ({ data, terms, guest }) => {
   return (
     <div id="contract" className="p-10 flex flex-col gap-5">
       <Top />
-      <GuestProfile />
+      <GuestProfile guest={guest} />
       <StayDetails data={data} />
       <Terms text={terms} />
       <Bottom />
@@ -83,25 +83,28 @@ const Top = () => {
   );
 };
 
-const GuestProfile = () => {
+const GuestProfile = ({ guest }) => {
+  const guestName = [guest?.firstName, guest?.lastName].filter(Boolean).join(" ");
+  const renderValue = (value) => value || "_____________";
+
   return (
     <div>
       <h2 className="font-medium text-xl">1. GUEST PROFILE</h2>
       <div className="mt-5 ">
         <div className="flex gap-20 justify-start">
           <p className="mb-5 flex flex-col">
-            Name <span>_____________</span>
+            Name <span>{renderValue(guestName)}</span>
           </p>
           <p className="mb-5 flex flex-col">
-            PassportID <span>_____________</span>
+            PassportID <span>{renderValue(guest?.idNumber)}</span>
           </p>
         </div>
         <div className="flex gap-20 justify-start">
           <p className="flex flex-col">
-            Nationality <span>_____________</span>
+            Nationality <span>{renderValue(guest?.nationality)}</span>
           </p>
           <p className="flex flex-col">
-            Age <span>_____________</span>
+            Age <span>{renderValue(guest?.age)}</span>
           </p>
         </div>
       </div>
