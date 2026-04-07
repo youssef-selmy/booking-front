@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#F5F1E8"/>
+  <rect x="80" y="80" width="1440" height="740" rx="28" fill="white" stroke="#D8D0C2" stroke-width="4"/>
+  <rect x="140" y="150" width="280" height="24" rx="12" fill="#D6C2A1"/>
+  <rect x="140" y="206" width="520" height="18" rx="9" fill="#E7E0D4"/>
+  <rect x="140" y="252" width="1220" height="380" rx="24" fill="#F8F6F1" stroke="#E7E0D4" stroke-width="3" stroke-dasharray="14 14"/>
+  <rect x="140" y="680" width="260" height="52" rx="16" fill="#2F3A2F"/>
+  <text x="140" y="120" fill="#2F3A2F" font-family="Arial, sans-serif" font-size="54" font-weight="700">Screenshot Placeholder</text>
+  <text x="140" y="330" fill="#7A746A" font-family="Arial, sans-serif" font-size="38">Replace this image with a real screen capture from the app.</text>
+  <text x="140" y="386" fill="#7A746A" font-family="Arial, sans-serif" font-size="38">Recommended: 1440px width or higher, clean sample data, full visible layout.</text>
+  <text x="184" y="713" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="700">Image Pending</text>
+</svg>
