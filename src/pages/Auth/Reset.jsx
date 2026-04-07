@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../../api/axios";
+import axios from "axios";
+import { domain } from "../../../globals";
 import ErrorsBlock from "../../components/ErrorsBlock";
 import Card from "../../components/Card";
 import Input from "../../components/Input";
@@ -8,6 +9,7 @@ import Button from "../../components/Button";
 
 const Reset = () => {
   const { email } = useParams();
+  const decodedEmail = decodeURIComponent(email || "");
   const [newPassword, setNewPassword] = useState();
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
@@ -16,10 +18,38 @@ const Reset = () => {
     if (!newPassword) return;
     setErrors([]);
     try {
-      const res = await api.post("auth/resetPassword", { newPassword, email });
+      const base = domain.replace(/\/+$/, "");
+      const payload = {
+        newPassword,
+        email: decodedEmail,
+      };
+      const attempts = [
+        { method: "post", url: `${base}/auth/resetPassword` },
+        { method: "post", url: `${base}/auth/reset-password` },
+        { method: "put", url: `${base}/auth/resetPassword` },
+        { method: "put", url: `${base}/auth/resetpassword` },
+      ];
+
+      let lastError;
+      for (const attempt of attempts) {
+        try {
+          await axios({
+            method: attempt.method,
+            url: attempt.url,
+            data: payload,
+          });
+          lastError = null;
+          break;
+        } catch (err) {
+          lastError = err;
+        }
+      }
+
+      if (lastError) throw lastError;
+
       navigate(`/auth/login`);
     } catch (error) {
-      setErrors([error.response.data.message]);
+      setErrors([error.response?.data?.message || "Failed to reset password"]);
     }
   };
   return (
@@ -35,7 +65,7 @@ const Reset = () => {
           setValue={setNewPassword}
         />
         <Button disabled={!newPassword} full onClick={handleSend}>
-          Send Code
+          Reset Password
         </Button>
       </Card>
     </div>

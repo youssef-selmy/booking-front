@@ -5,6 +5,7 @@ const pages = [
   { name: "Dashboard", url: "dashboard" },
   { name: "Users", url: "users" },
   { name: "Travel Agents", url: "travel-agents" },
+  { name: "Channel Management", url: "channel-management" },
   { name: "Rooms", url: "rooms", isParent: true },
   { name: "Reports", url: "reports" },
   { name: "Settings", url: "settings" },

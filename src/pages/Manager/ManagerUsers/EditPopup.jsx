@@ -27,9 +27,10 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
       role: role.name,
     };
     if (email !== editItem.email) {
-      const isValid = validateEmail(email);
+      const normalizedEmail = email?.trim();
+      const isValid = validateEmail(normalizedEmail);
       if (!isValid) return;
-      formData.email = email;
+      formData.email = normalizedEmail;
     }
     if (password !== "") {
       const isValid = validatePassword(password);
@@ -63,6 +64,7 @@ const EditPopup = ({ mode, setMode, editItem, setEditItem }) => {
       <Input title="UserName" value={userName} setValue={setUserName} />
       <Input
         title="Email"
+        type="email"
         value={email}
         setValue={setEmail}
         errorMessage={validationErrors.email}

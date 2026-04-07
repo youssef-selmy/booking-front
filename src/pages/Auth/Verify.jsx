@@ -16,8 +16,8 @@ const Verify = () => {
     if (!resetCode) return;
     setErrors([]);
     try {
-      const res = await api.post("auth/verifyResetCode", { resetCode });
-      navigate(`/auth/reset/email=${email}`);
+      await api.post("auth/verifyResetCode", { resetCode });
+      navigate(`/auth/reset/${encodeURIComponent(email || "")}`);
     } catch (error) {
       setErrors([error.response.data.message]);
     }

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import useTable from "../../../../../hooks/useTable";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
 import api from "../../../../../api/axios";

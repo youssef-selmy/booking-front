@@ -81,6 +81,9 @@ const Head = ({ data }) => {
 };
 
 const Content = ({ data = [] }) => {
+  const normalizeStatus = (status = "") =>
+    status.toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+
   const getStatusColor = (status) => {
     const statusMap = {
       available: "bg-green-500 text-white",
@@ -89,8 +92,9 @@ const Content = ({ data = [] }) => {
       maintenance: "bg-red-500 text-white",
       cleaning: "bg-purple-500 text-white",
       blocked: "bg-gray-600 text-white",
+      "out of service": "bg-orange-600 text-white",
     };
-    return statusMap[status?.toLowerCase()] || "bg-gray-300 text-gray-700";
+    return statusMap[normalizeStatus(status)] || "bg-gray-300 text-gray-700";
   };
 
   return (

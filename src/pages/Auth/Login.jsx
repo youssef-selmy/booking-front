@@ -30,7 +30,11 @@ const Login = () => {
         setErrors([result.error || "Login failed."]);
       }
     } catch (error) {
-      setErrors([error.response.data.message])
+      setErrors([
+        error?.response?.data?.message ||
+          error?.message ||
+          "Login request failed. Please try again.",
+      ]);
     } finally {
       setLoading(false);
     }

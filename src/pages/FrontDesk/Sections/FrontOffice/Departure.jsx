@@ -9,6 +9,7 @@ import api from "../../../../../api/axios";
 import Popup from "../../../../components/Popup";
 import Input from "../../../../components/Input";
 import Button from "../../../../components/Button";
+import { setFolioHistoryAccess } from "../../../../../globals";
 
 const Departure = () => {
   const [data, setData] = useState([]);
@@ -77,14 +78,49 @@ const Departure = () => {
     });
   }, [data, filters]);
 
-  const handleCheckOut = async (confirmationNumber) => {
+  const handleCheckOut = async (row) => {
+    const confirmationNumber = String(row?.confirmationNumber ?? "").trim();
+    const reservationId = String(row?._id ?? row?.id ?? "").trim();
+    const identifiers = [confirmationNumber, reservationId].filter(Boolean);
+
+    if (identifiers.length === 0) {
+      setErrors(["Cannot check out: reservation identifier is missing."]);
+      return;
+    }
+
     setErrors([]);
     setLoading(true);
     try {
-      await api.patch(`front-office/${confirmationNumber}/check-out`);
-      setData((prev) =>
-        prev.filter((e) => e.confirmationNumber !== confirmationNumber),
-      );
+      const endpointAttempts = identifiers.map((identifier) => {
+        const encoded = encodeURIComponent(identifier);
+        return () => api.patch(`front-office/${encoded}/check-out`);
+      });
+
+      let lastError;
+      let success = false;
+
+      for (const attempt of endpointAttempts) {
+        try {
+          await attempt();
+          success = true;
+          break;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      if (!success) throw lastError;
+
+      setFolioHistoryAccess(true);
+
+      setData((prev) => prev.filter((e) => {
+        const current =
+          e?.confirmationNumber === undefined || e?.confirmationNumber === null
+            ? ""
+            : String(e.confirmationNumber).trim();
+        const currentId = String(e?._id ?? e?.id ?? "").trim();
+        return current !== confirmationNumber && currentId !== reservationId;
+      }));
     } catch (error) {
       setErrors([error?.response?.data?.message || "Something went wrong"]);
     } finally {
@@ -118,10 +154,14 @@ const Departure = () => {
             <TableData>{ele.departureDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
             <TableData>
+              {!String(ele.confirmationNumber ?? "").trim() ? (
+                <span className="text-xs text-red-600">No ID</span>
+              ) : (
               <HiLink
-                onClick={() => handleCheckOut(ele.confirmationNumber)}
+                onClick={() => handleCheckOut(ele)}
                 className="w-full cursor-pointer"
               />
+              )}
             </TableData>
           </TableRow>
         ))}

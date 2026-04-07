@@ -1,6 +1,7 @@
 import Table from "../../../components/Table/Table";
 import TableData from "../../../components/Table/TableData";
 import TableRow from "../../../components/Table/TableRow";
+import ErrorsBlock from "../../../components/ErrorsBlock";
 import useTable from "../../../../hooks/useTable";
 
 const formatDateTime = (dateValue) => {
@@ -18,11 +19,13 @@ const formatText = (value) => {
 };
 
 const SettingsLogs = () => {
-  const { data, paginationData, next, prev, loading } = useTable("settings/logs");
+  const { data, paginationData, next, prev, loading, globalErrors } =
+    useTable("settings/logs");
 
   return (
     <div className="mb-6">
       <h2 className="text-xl font-semibold mb-4">Hotel Logs</h2>
+      <ErrorsBlock globalErrors={globalErrors} />
       <Table
         head={["Date", "User", "Action", "Target", "Details"]}
         pagenationData={paginationData}
@@ -56,6 +59,11 @@ const SettingsLogs = () => {
           </TableRow>
         ))}
       </Table>
+      {!loading && !globalErrors.length && data.length === 0 && (
+        <div className="bg-white border border-[#ddd] rounded p-4 text-gray-600">
+          No hotel logs found.
+        </div>
+      )}
     </div>
   );
 };

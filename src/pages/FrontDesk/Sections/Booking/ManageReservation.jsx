@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Section from "../../../../components/Section";
 import Table from "../../../../components/Table/Table";
 import Popup from "../../../../components/Popup";
@@ -9,8 +9,14 @@ import TableLink from "../../../../components/Table/TableLink";
 import { HiLink } from "react-icons/hi2";
 import useTable from "../../../../../hooks/useTable";
 import SelectMenu from "../../../../components/SelectMenu";
-import api from "../../../../../api/axios";
 import Button from "../../../../components/Button";
+
+const normalizeStayStatus = (status = "") =>
+  String(status)
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const ManageReservation = () => {
   const {
@@ -24,6 +30,67 @@ const ManageReservation = () => {
     filters,
     setFilters,
   } = useTable("reservation");
+
+  const filteredData = useMemo(() => {
+    return data.filter((row) => {
+      const guest = row.mainGuestName?.toLowerCase() || "";
+      const confirmation = `${row?.confirmationNumber || ""}`.toLowerCase();
+      const arriveDate = row.arriveDate?.split("T")[0];
+      const reservationStatus = `${row?.status || ""}`.toLowerCase().trim();
+      const stayStatus = normalizeStayStatus(row?.stayStatus);
+
+      if (stayStatus === "checked in" || stayStatus === "in house") {
+        return false;
+      }
+      if (filters.guest && !guest.includes(filters.guest.toLowerCase())) {
+        return false;
+      }
+      if (
+        filters.confirmationNumber &&
+        !confirmation.includes(filters.confirmationNumber.toLowerCase().trim())
+      ) {
+        return false;
+      }
+      if (filters.fromDate && (!arriveDate || arriveDate < filters.fromDate)) {
+        return false;
+      }
+      if (filters.toDate && (!arriveDate || arriveDate > filters.toDate)) {
+        return false;
+      }
+      if (
+        filters.status &&
+        reservationStatus !== filters.status.toLowerCase().trim()
+      ) {
+        return false;
+      }
+      if (
+        filters.stayStatus &&
+        stayStatus !== normalizeStayStatus(filters.stayStatus)
+      ) {
+        return false;
+      }
+      if (filters.minRooms && Number(row.roomsCount) < Number(filters.minRooms)) {
+        return false;
+      }
+      if (filters.maxRooms && Number(row.roomsCount) > Number(filters.maxRooms)) {
+        return false;
+      }
+      if (
+        filters.minNights &&
+        Number(row.reservedNights) < Number(filters.minNights)
+      ) {
+        return false;
+      }
+      if (
+        filters.maxNights &&
+        Number(row.reservedNights) > Number(filters.maxNights)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [data, filters]);
 
   return (
     <Section extraPadding classname="px-5 w-full">
@@ -44,11 +111,11 @@ const ManageReservation = () => {
         showFilters
         setMode={setMode}
       >
-        {data.map((ele, idx) => (
+        {filteredData.map((ele, idx) => (
           <TableRow key={idx} rowNum={idx}>
             <TableData>{ele.confirmationNumber}</TableData>
             <TableData>{ele.mainGuestName}</TableData>
-            <TableData>{ele.travelAgent.name}</TableData>
+            <TableData>{ele.travelAgent?.name}</TableData>
             <TableData>{ele.roomsCount}</TableData>
             <TableData>{ele.arriveDate?.split("T")[0]}</TableData>
             <TableData>{ele.reservedNights}</TableData>
@@ -94,6 +161,14 @@ const Filters = ({ setMode, mainFilters, setMainFilters }) => {
         value={filters?.guest || ""}
         setValue={(v) =>
           setFilters((o) => ({ ...o, guest: v }))
+        }
+      />
+
+      <Input
+        title="Confirmation No."
+        value={filters?.confirmationNumber || ""}
+        setValue={(v) =>
+          setFilters((o) => ({ ...o, confirmationNumber: v }))
         }
       />
 
@@ -150,11 +225,12 @@ const Filters = ({ setMode, mainFilters, setMainFilters }) => {
         options={[
           { name: "All", ignore: true },
           { name: "reserved", value: "reserved" },
-          { name: "checked-in", value: "checked-in" },
           { name: "checked-out", value: "checked-out" },
         ]}
         value={
-          filters?.stayStatus
+          filters?.stayStatus &&
+          normalizeStayStatus(filters.stayStatus) !== "checked in" &&
+          normalizeStayStatus(filters.stayStatus) !== "in house"
             ? { name: filters.stayStatus, value: filters.stayStatus }
             : { name: "All", ignore: true }
         }

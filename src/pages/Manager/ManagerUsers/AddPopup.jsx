@@ -21,13 +21,14 @@ const AddPopup = ({ mode, setMode, setData, dataLength }) => {
 
   const handleCreate = async () => {
     clearErrors();
-    const isValidEmail = validateEmail(email);
+    const normalizedEmail = email?.trim();
+    const isValidEmail = validateEmail(normalizedEmail);
     const isValidPassword = validatePassword(password);
 
     if (!isValidEmail || !isValidPassword) return;
     const { data, ok } = await request({
       userName,
-      email,
+      email: normalizedEmail,
       password,
       role: role.name,
     });
@@ -58,6 +59,7 @@ const AddPopup = ({ mode, setMode, setData, dataLength }) => {
       <Input title="UserName" value={userName} setValue={setUserName} />
       <Input
         title="Email"
+        type="email"
         value={email}
         setValue={setEmail}
         errorMessage={validationErrors.email}

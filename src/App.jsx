@@ -70,6 +70,7 @@ import CurrencyCalculator from "./pages/FrontDesk/Sections/Inventory/CurrencyCal
 import TermsAndConditions from "./pages/Manager/TermsAndConditions/TermsAndConditions";
 import ManagerRecommendationPage from "./pages/Manager/ManagerRecommendationPage";
 import SettingsLogs from "./pages/Manager/TermsAndConditions/SettingsLogs";
+import ChannelManagement from "./pages/Manager/ChannelManagement/ChannelManagement";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,7 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <ManagerDashboard /> },
           { path: "users", element: <ManagerUsers /> },
           { path: "travel-agents", element: <TravelAgents /> },
+          { path: "channel-management", element: <ChannelManagement /> },
           { path: "reports", element: <ManagerReports /> ,
             children: [
               { index: true, element: <ManagerFlash /> },
@@ -226,7 +228,10 @@ const router = createBrowserRouter([
             path: "finance",
             element: <Finance />,
             children: [
-              { index: true, element: <Navigate to="folio-history" replace /> },
+              {
+                index: true,
+                element: <Navigate to="folio-history" replace />,
+              },
               { path: "folio-history", element: <FolioHistory /> },
               { path: "casher", element: <Casher /> },
               { path: "currency-calculator", element: <CurrencyCalculator /> },
