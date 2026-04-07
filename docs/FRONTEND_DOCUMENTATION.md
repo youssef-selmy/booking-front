@@ -2,488 +2,415 @@
 
 ## Why Professional Documentation Matters
 
-Professional frontend documentation reduces onboarding time, lowers operational mistakes, improves support quality, and makes future development safer. In a hotel system, the UI is part of the daily operation itself, so documentation should explain not only what each screen looks like, but what business purpose it serves and how the user is expected to interact with it.
+Professional frontend documentation is not just a reference file. It is an operational asset that helps teams train staff faster, reduce user mistakes, support handover between developers and hotel teams, and make future maintenance safer. A well-structured document with screen-by-screen explanations gives managers, front-desk staff, QA reviewers, and future developers a shared understanding of what each page is for and how the workflow is expected to behave.
 
-Good documentation helps:
+This documentation is designed to serve four goals:
 
-1. Train front-desk and manager users faster.
-2. Give QA and support teams a stable reference.
-3. Help new developers understand the screen map and workflow intent.
-4. Preserve product knowledge when the team changes.
+1. Explain the purpose of every major screen in the frontend.
+2. Show where each screen sits in the user journey.
+3. Help onboarding and day-to-day support.
+4. Provide a structure that is easy to update as the product evolves.
 
-## GitHub Preview Approach
+## Documentation Approach
 
-GitHub cannot render React pages directly inside Markdown as live UI previews.  
-Instead of screenshots, this document uses:
+This document focuses on functional screen documentation without screenshots. Each section describes what the screen is, what it does, and why it matters in the operational workflow.
 
-- `Route` for where the screen lives
-- `Component` for the React file
-- `Layout Preview` for a GitHub-friendly text representation of the page design
-- `Purpose` for the business role of the screen
+## System Areas
 
-This format is better than plain screenshots when you want the documentation to stay readable, searchable, versioned, and easy to maintain in GitHub.
-
----
-
-## Screen Map
-
-### Authentication
-
-| Screen | Route |
-|---|---|
-| Login | `/auth/login` |
-| Register | `/auth/register` |
-| Complete | `/auth/Complete` |
-| Forget Password | `/auth/forget-password` |
-| Verify | `/auth/verify/:email` |
-| Reset | `/auth/reset/:email` |
-
-### Admin
-
-| Screen | Route |
-|---|---|
-| Admin Dashboard | `/admin` |
-| Request Details | `/admin/:id` |
-
-### Manager
-
-| Screen | Route |
-|---|---|
-| Manager Home | `/manager` |
-| Dashboard | `/manager/dashboard` |
-| Users | `/manager/users` |
-| Travel Agents | `/manager/travel-agents` |
-| Channel Management | `/manager/channel-management` |
-| Reports | `/manager/reports/*` |
-| Settings | `/manager/settings/*` |
-| Rooms | `/manager/rooms/*` |
-
-### Front Desk
-
-| Screen | Route |
-|---|---|
-| Booking | `/front-desk/booking/*` |
-| Front Office | `/front-desk/front-office/*` |
-| Inventory | `/front-desk/inventory/*` |
-| Finance | `/front-desk/finance/*` |
-| Reports | `/front-desk/reports/*` |
-| Reservation Details | `/front-desk/reservation/:id/*` |
+- Authentication
+- Admin
+- Manager
+- Front Desk
+- Shared Reservation Details
 
 ---
 
-## 1. Authentication Screens
+## 1. Authentication
 
-### Login
+### 1.1 Login
 
-- `Route`: `/auth/login`
-- `Purpose`: Authenticates users and sends them to the correct area based on role.
+**Purpose**  
+Allows authorized users to access the platform using their credentials.
 
-```text
-+--------------------------------------------------+
-|                   LOGIN PAGE                     |
-|                                                  |
-|   Logo / Brand                                   |
-|   Email Input                                    |
-|   Password Input                                 |
-|   Login Button                                   |
-|   Forgot Password Link                           |
-+--------------------------------------------------+
-```
+**What this screen does**
+- Authenticates the user
+- Redirects the user based on role and access rights
+- Serves as the main entry point to the system
 
-### Register
+### 1.2 Register
 
-- `Route`: `/auth/register`
-- `Purpose`: Creates a new account when registration is enabled.
+**Purpose**  
+Creates a new account when registration is enabled.
 
-### Complete
+**What this screen does**
+- Captures new user information
+- Submits the registration request
+- Starts account onboarding
 
-- `Route`: `/auth/Complete`
-- `Purpose`: Finishes account setup after registration.
+### 1.3 Complete Registration
 
-### Forget Password
+**Purpose**  
+Completes any remaining profile or account setup data after initial registration.
 
-- `Route`: `/auth/forget-password`
-- `Purpose`: Starts password recovery.
+### 1.4 Forget Password
 
-### Verify
+**Purpose**  
+Starts the password recovery flow.
 
-- `Route`: `/auth/verify/:email`
-- `Purpose`: Verifies the password recovery step.
+### 1.5 Verify
 
-### Reset
+**Purpose**  
+Validates a recovery or account verification step.
 
-- `Route`: `/auth/reset/:email`
-- `Purpose`: Sets a new password.
+### 1.6 Reset Password
+
+**Purpose**  
+Allows the user to set a new password securely.
 
 ---
 
 ## 2. Admin Screens
 
-### Admin Dashboard
+### 2.1 Admin Dashboard
 
-- `Route`: `/admin`
-- `Purpose`: High-level platform dashboard for admin users.
+**Purpose**  
+Gives platform-level visibility across requests and administrative operations.
 
-```text
-+---------------------------------------------------------------+
-|                       ADMIN DASHBOARD                         |
-|---------------------------------------------------------------|
-| Summary Cards | Requests Table | Platform Controls            |
-+---------------------------------------------------------------+
-```
+**What this screen does**
+- Lists high-level admin data
+- Helps the admin navigate into specific request details
 
-### Request Details
+### 2.2 Request Details
 
-- `Route`: `/admin/:id`
-- `Purpose`: Opens one admin request with its complete details.
+**Purpose**  
+Displays a single admin request in detail for review and follow-up.
 
 ---
 
 ## 3. Manager Screens
 
-### Manager Top Navigation
+### 3.1 Manager Home
 
-- `Component`: [ManagerNav.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\ManagerNav.jsx)
-- `Purpose`: Main manager navigation across business modules.
+**Purpose**  
+Acts as the landing screen for manager access.
 
-```text
-+--------------------------------------------------------------------------------------+
-| Dashboard | Users | Travel Agents | Channel Management | Rooms | Reports | Settings |
-+--------------------------------------------------------------------------------------+
-```
+### 3.2 Manager Dashboard
 
-### Manager Dashboard
+**Purpose**  
+Shows operational indicators and summary information for the hotel manager.
 
-- `Route`: `/manager/dashboard`
-- `Component`: [ManagerDashboard.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\ManagerDashboard.jsx)
-- `Purpose`: Gives the manager operational visibility over hotel activity.
+**What this screen does**
+- Surfaces current hotel activity
+- Helps managers monitor occupancy and reservation flow
 
-### Travel Agents
+### 3.3 Users
 
-- `Route`: `/manager/travel-agents`
-- `Component`: [TravelAgents.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\TravelAgents\TravelAgents.jsx)
-- `Purpose`: Create, update, and manage travel-agent records used by reservations and reporting.
+**Purpose**  
+Manages hotel users and access.
 
-```text
-+------------------------------------------------------------------+
-|                       TRAVEL AGENTS                              |
-|------------------------------------------------------------------|
-| Search / Filters                                                 |
-|------------------------------------------------------------------|
-| Table of Travel Agents                                           |
-| - Name                                                           |
-| - Contact / Data                                                 |
-| - Actions                                                        |
-+------------------------------------------------------------------+
-```
+### 3.4 Travel Agents
 
-### Channel Management
+**Purpose**  
+Maintains the list of travel agents used in reservations and reporting.
 
-- `Route`: `/manager/channel-management`
-- `Component`: [ChannelManagement.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\ChannelManagement\ChannelManagement.jsx)
-- `Purpose`: Entry point for future OTA and middleware integrations.
-- `Status`: Visible in frontend, currently marked as Coming Soon.
+**What this screen does**
+- Create travel agents
+- Update travel agent profiles
+- Delete inactive or incorrect travel agents
 
-```text
-+------------------------------------------------------------------+
-|                    CHANNEL MANAGEMENT                            |
-|------------------------------------------------------------------|
-| Integrations                                                     |
-| Channel Management                                               |
-| This page is now visible in the system...                        |
-|                                                                  |
-| [ Coming Soon ]                                                  |
-|                                                                  |
-| Provider connection setup                                        |
-| Reservation import and sync                                      |
-| Connection status overview                                       |
-| Field mapping and sync controls                                  |
-+------------------------------------------------------------------+
-```
+### 3.5 Channel Management
 
-### Manager Reports
+**Purpose**  
+Provides the entry point for future OTA and middleware integrations.
 
-- `Route`: `/manager/reports/*`
-- `Component`: [Reports.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\Reports\Reports.jsx)
-- `Purpose`: Groups manager-facing reports.
+**Current status**
+- Visible in the frontend
+- Marked as Coming Soon
 
-Included report screens:
-- `manager-flash`
-- `room-status`
-- `folio-history`
-- `cashier`
+**Planned role**
+- Provider connection setup
+- Reservation import and sync
+- Connection monitoring
+- Field mapping support
 
-### Settings
+### 3.6 Reports Hub
 
-- `Route`: `/manager/settings/*`
-- `Component`: [TermsAndConditions.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\TermsAndConditions\TermsAndConditions.jsx)
-- `Purpose`: Manages terms, recommendations, and hotel logs.
+**Purpose**  
+Groups manager-facing reports in one area.
 
-```text
-+----------------------------------------------------------------------------+
-| Settings                                                                   |
-|----------------------------------------------------------------------------|
-| Terms & Conditions | AI Recommendation | Logs                              |
-|----------------------------------------------------------------------------|
-| Main content area                                                          |
-| - Terms editor or child page content                                       |
-| - Save / Cancel actions                                                    |
-| - Information message box                                                  |
-+----------------------------------------------------------------------------+
-```
+#### 3.6.1 Manager Flash
 
-#### Terms & Conditions
+**Purpose**  
+Provides a quick business snapshot for the selected day.
 
-- `Route`: `/manager/settings`
-- `Purpose`: Stores printable terms for guest registration output.
+#### 3.6.2 Room Status Report
 
-#### AI Recommendation
+**Purpose**  
+Shows room availability and operational status summary.
 
-- `Route`: `/manager/settings/recommendation`
-- `Purpose`: Manager-side recommendation features.
+#### 3.6.3 Folio History Report
 
-#### Hotel Logs
+**Purpose**  
+Displays folio history records, limited by business rules from the backend.
 
-- `Route`: `/manager/settings/logs`
-- `Component`: [SettingsLogs.jsx](e:\work\booking-front\HotelSystem\src\pages\Manager\TermsAndConditions\SettingsLogs.jsx)
-- `Purpose`: Shows operational activity logs for hotel actions.
+#### 3.6.4 Cashier Report
 
-```text
-+----------------------------------------------------------------------------+
-| Hotel Logs                                                                 |
-|----------------------------------------------------------------------------|
-| Date | User | Action | Target | Details                                   |
-|----------------------------------------------------------------------------|
-| Log row                                                                    |
-| Log row                                                                    |
-| Log row                                                                    |
-+----------------------------------------------------------------------------+
-```
+**Purpose**  
+Summarizes payment activity and cashier totals.
 
-### Rooms Module
+### 3.7 Settings
 
-- `Route`: `/manager/rooms/*`
-- `Purpose`: Holds room setup and room-configuration screens.
+**Purpose**  
+Manages hotel settings and internal documentation.
 
-Included screens:
-- `managment`
-- `type`
-- `category`
-- `package`
-- `services`
+#### 3.7.1 Terms and Conditions
+
+**Purpose**  
+Stores and updates printable hotel terms used across the system.
+
+#### 3.7.2 Recommendation
+
+**Purpose**  
+Provides manager-side recommendation content and related settings.
+
+#### 3.7.3 Hotel Logs
+
+**Purpose**  
+Tracks major hotel actions for operational traceability.
+
+**What this screen does**
+- Shows who performed an action
+- Shows what action happened
+- Shows the target area and details
+- Helps managers audit activity
+
+### 3.8 Rooms Module
+
+**Purpose**  
+Groups all room configuration areas.
+
+#### 3.8.1 Room Management
+
+**Purpose**  
+Creates and maintains physical room records.
+
+#### 3.8.2 Room Type
+
+**Purpose**  
+Defines room type classifications used throughout the hotel.
+
+#### 3.8.3 Room Category
+
+**Purpose**  
+Defines business categories for grouping rooms.
+
+#### 3.8.4 Package
+
+**Purpose**  
+Manages room packages and bundled commercial offerings.
+
+#### 3.8.5 Services
+
+**Purpose**  
+Maintains billable or configurable hotel services.
 
 ---
 
-## 4. Front Desk Screens
+## 4. Front Desk Main Areas
 
-### Front Desk Top Navigation
+### 4.1 Booking Module
 
-- `Component`: [FrontDeskNav.jsx](e:\work\booking-front\HotelSystem\src\pages\FrontDesk\FrontDeskNav.jsx)
-- `Purpose`: Main operational navigation for front-desk users.
+**Purpose**  
+Controls reservation creation, search, availability review, and room planning.
 
-```text
-+--------------------------------------------------------------------+
-| Booking | Front Office | Inventory | Finance | Reports | Exit      |
-+--------------------------------------------------------------------+
-```
+#### 4.1.1 Manage Reservation
 
-### Booking Module
+**Purpose**  
+Lists active reservation records for review and access.
 
-- `Route`: `/front-desk/booking/*`
-- `Component`: [Booking.jsx](e:\work\booking-front\HotelSystem\src\pages\FrontDesk\Sections\Booking\Booking.jsx)
-- `Purpose`: Handles reservation planning and booking workflows.
+**What this screen does**
+- Searches reservations
+- Filters by operational criteria
+- Excludes in-house stays based on business rules
+- Opens reservation details
 
-```text
-+--------------------------------------------------------------------------+
-| SIDEBAR                   | MAIN CONTENT                                 |
-|---------------------------|----------------------------------------------|
-| Create Posting            | Active booking child screen                  |
-| Manage Reservation        |                                              |
-| Availability              |                                              |
-| Room Diary                |                                              |
-+--------------------------------------------------------------------------+
-```
+#### 4.1.2 Create Posting
 
-#### Manage Reservation
+**Purpose**  
+Creates a reservation/posting flow with selected dates, rooms, and totals.
 
-- `Route`: `/front-desk/booking/manage-reservation`
-- `Component`: [ManageReservation.jsx](e:\work\booking-front\HotelSystem\src\pages\FrontDesk\Sections\Booking\ManageReservation.jsx)
-- `Purpose`: Lists reservations available for follow-up and detailed access.
+#### 4.1.3 Availability
 
-```text
-+----------------------------------------------------------------------------------+
-| MANAGE RESERVATION                                                               |
-|----------------------------------------------------------------------------------|
-| Filters                                                                          |
-|----------------------------------------------------------------------------------|
-| Confirmation Number | Main Guest | Travel Agent | Rooms | Arrival | Nights | -> |
-| Reservation row                                                                  |
-| Reservation row                                                                  |
-+----------------------------------------------------------------------------------+
-```
+**Purpose**  
+Checks room availability within selected stay dates.
 
-#### Create Posting
+#### 4.1.4 Room Diary
 
-- `Route`: `/front-desk/booking/create-posting`
-- `Purpose`: Builds a reservation with dates, rooms, services, and totals.
+**Purpose**  
+Presents room occupancy visually across dates for planning and control.
 
-#### Availability
+### 4.2 Front Office Module
 
-- `Route`: `/front-desk/booking/availability`
-- `Purpose`: Checks room availability by date range.
+**Purpose**  
+Handles arrival, in-house, departure, and no-show operations.
 
-#### Room Diary
+#### 4.2.1 Arrival
 
-- `Route`: `/front-desk/booking/room-diary`
-- `Purpose`: Shows room occupancy planning on a date-based board.
+**Purpose**  
+Shows today’s arrivals and supports check-in.
 
-### Front Office Module
+#### 4.2.2 Departure
 
-- `Route`: `/front-desk/front-office/*`
-- `Purpose`: Manages arrivals, in-house guests, departures, and no-show handling.
+**Purpose**  
+Shows checked-in guests due to depart and supports check-out.
 
-Included screens:
-- `arrival`
-- `departure`
-- `in-house`
-- `no-show`
-- `recommendation`
+#### 4.2.3 In House
 
-#### Arrival
+**Purpose**  
+Shows current in-house guests with stay information.
 
-- `Route`: `/front-desk/front-office/arrival`
-- `Purpose`: Lists expected arrivals and supports check-in.
+#### 4.2.4 No Show
 
-#### Departure
+**Purpose**  
+Lists reservations that missed arrival and require follow-up.
 
-- `Route`: `/front-desk/front-office/departure`
-- `Purpose`: Lists due departures and supports check-out.
+#### 4.2.5 Recommendation
 
-#### In House
+**Purpose**  
+Provides contextual recommendation support for front-office operations.
 
-- `Route`: `/front-desk/front-office/in-house`
-- `Purpose`: Lists current in-house guests.
+### 4.3 Inventory Module
 
-#### No Show
+**Purpose**  
+Controls room operational inventory conditions.
 
-- `Route`: `/front-desk/front-office/no-show`
-- `Purpose`: Lists reservations that missed arrival.
+#### 4.3.1 Out of Service
 
-### Inventory Module
+**Purpose**  
+Marks and manages rooms that are unavailable for sale.
 
-- `Route`: `/front-desk/inventory/*`
-- `Purpose`: Controls room operational availability.
+#### 4.3.2 House Keeping Board
 
-Included screens:
-- `out-of-service`
-- `house-keeping-board`
+**Purpose**  
+Tracks housekeeping and room readiness flow.
 
-### Finance Module
+### 4.4 Finance Module
 
-- `Route`: `/front-desk/finance/*`
-- `Purpose`: Groups folio, cashier, and utility finance tools.
+**Purpose**  
+Provides folio visibility, cashier summaries, and utility finance tools.
 
-Included screens:
-- `folio-history`
-- `casher`
-- `currency-calculator`
+#### 4.4.1 Folio History
 
-#### Folio History
+**Purpose**  
+Shows folio history records for eligible reservations according to backend rules.
 
-- `Route`: `/front-desk/finance/folio-history`
-- `Component`: [FolioHistory.jsx](e:\work\booking-front\HotelSystem\src\pages\FrontDesk\Sections\Finance\FolioHistory.jsx)
-- `Purpose`: Displays folio records for eligible reservations according to backend business rules.
+#### 4.4.2 Cashier
 
-```text
-+----------------------------------------------------------------------------------+
-| FOLIO HISTORY                                                                    |
-|----------------------------------------------------------------------------------|
-| Confirmation Number | From | To | Travel Agent                                  |
-|----------------------------------------------------------------------------------|
-| Total Paid | Total Remaining | Total Revenue                                     |
-|----------------------------------------------------------------------------------|
-| Confirmation | Guest | Travel Agent | Paid | Remaining | Total                  |
-| Data row                                                                         |
-| Data row                                                                         |
-|                                                                     Download PDF |
-+----------------------------------------------------------------------------------+
-```
+**Purpose**  
+Displays summarized payment information and method totals.
 
-#### Cashier
+#### 4.4.3 Currency Calculator
 
-- `Route`: `/front-desk/finance/casher`
-- `Purpose`: Shows payment summary by method and total cash.
+**Purpose**  
+Helps staff quickly convert currencies during operations.
 
-#### Currency Calculator
+### 4.5 Reports Module
 
-- `Route`: `/front-desk/finance/currency-calculator`
-- `Purpose`: Helps staff with quick currency conversion.
+**Purpose**  
+Provides front-desk operational reports.
 
-### Reports Module
+#### 4.5.1 Expected Arrivals
 
-- `Route`: `/front-desk/reports/*`
-- `Purpose`: Provides operational and compliance reports.
+**Purpose**  
+Shows reservations expected to arrive within the selected period.
 
-Included screens:
-- `expected-arrivals`
-- `in-house`
-- `reservation-ledger`
-- `no-show-cancel`
-- `police`
-- `room-status`
-- `night-audit`
+#### 4.5.2 In-House Guests Report
+
+**Purpose**  
+Lists current in-house guests in report format.
+
+#### 4.5.3 Reservation Ledger
+
+**Purpose**  
+Shows reservation, status, and stay-status reporting in one table.
+
+#### 4.5.4 No Show / Cancel
+
+**Purpose**  
+Summarizes cancellations and no-show reservations.
+
+#### 4.5.5 Police
+
+**Purpose**  
+Shows guest identification and stay records required for compliance workflows.
+
+#### 4.5.6 Room Status
+
+**Purpose**  
+Summarizes room operational status.
+
+#### 4.5.7 Night Audit
+
+**Purpose**  
+Provides daily financial and operational reporting for audit purposes.
 
 ---
 
 ## 5. Reservation Details Flow
 
-### Reservation Details Container
+### 5.1 Reservation Details Container
 
-- `Route`: `/front-desk/reservation/:id/*`
-- `Component`: [ReservationDetails.jsx](e:\work\booking-front\HotelSystem\src\pages\FrontDesk\ReservationDetails\ReservationDetails.jsx)
-- `Purpose`: Central detailed view for one reservation.
+**Purpose**  
+Acts as the central detailed view for a selected reservation.
 
-```text
-+----------------------------------------------------------------------------+
-| SIDEBAR                  | DETAIL CONTENT                                  |
-|--------------------------|-------------------------------------------------|
-| Main Info                | Active reservation tab                          |
-| Rooms                    |                                                 |
-| Services                 |                                                 |
-| Payments                 |                                                 |
-| Alerts                   |                                                 |
-| Print                    |                                                 |
-+----------------------------------------------------------------------------+
-```
+### 5.2 Main Info
 
-Included detail tabs:
-- `main-info`
-- `rooms`
-- `services`
-- `payments`
-- `alerts`
-- `print`
+**Purpose**  
+Shows and edits core reservation data such as guest info and dates.
+
+### 5.3 Rooms
+
+**Purpose**  
+Shows room allocation details linked to the reservation.
+
+### 5.4 Services
+
+**Purpose**  
+Displays services linked to the reservation.
+
+### 5.5 Payments
+
+**Purpose**  
+Displays recorded payments and settlement information.
+
+### 5.6 Alerts
+
+**Purpose**  
+Stores warning notes, flags, or guest-related alerts.
+
+### 5.7 Print
+
+**Purpose**  
+Generates a printable reservation summary.
 
 ---
 
-## 6. Recommended Documentation Practice
+## 6. Documentation Maintenance Guide
 
-If you want this to remain professional in GitHub:
+To keep this documentation professional over time:
 
-1. Keep this Markdown as the source of truth.
-2. Add route and component references whenever a screen changes.
-3. Update layout previews when page structure changes.
-4. Add real screenshots later only as a supplement, not as the main documentation format.
+1. Update the purpose text whenever business rules change.
+2. Review the document after every major release.
+3. Keep naming consistent with the visible labels in the application.
+4. Add route references later if you want a more technical version.
+5. Review the document with both a business user and a developer.
 
-## 7. Why This GitHub Style Is Professional
+## 7. Recommended Documentation Workflow
 
-This documentation style is professional because it is:
+For future releases, the best professional workflow is:
 
-- version-controlled
-- readable in pull requests
-- searchable by route and component name
-- maintainable without design tools
-- useful for both technical and non-technical readers
-
-Screenshots become outdated quickly.  
-Code-based layout documentation stays closer to the real product structure and is easier to update during active development.
+1. Freeze the release scope.
+2. Review all visible screens after QA approval.
+3. Update documentation text based on final behavior.
+4. Review with one business user and one developer.
+5. Export the document to PDF for hotel operations teams if needed.
